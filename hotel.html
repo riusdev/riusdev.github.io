@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Timor Inn Hotel — Kupang NTT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#06060e;--bg2:#0c0c18;--bg3:#101020;--gold:#c9a96e;--gold2:#e8c98a;--text:#f0eef8;--dim:#9090b0;--r:20px;--t:0.5s cubic-bezier(0.16,1,0.3,1);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+    ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:99px;}
+
+    .back-btn{position:fixed;top:20px;left:20px;z-index:200;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(6,6,14,0.85);border:1px solid rgba(201,169,110,0.3);border-radius:99px;color:var(--gold);text-decoration:none;font-size:0.82rem;font-weight:500;backdrop-filter:blur(12px);transition:var(--t);letter-spacing:0.04em;}
+    .back-btn:hover{background:rgba(201,169,110,0.1);transform:translateX(-3px);}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 6vw;background:rgba(6,6,14,0.8);backdrop-filter:blur(24px);border-bottom:1px solid rgba(201,169,110,0.1);}
+    .logo{font-family:'Tenor Sans',serif;font-size:1.2rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);text-decoration:none;}
+    .nav-links{display:flex;gap:32px;list-style:none;}
+    .nav-links a{color:var(--dim);text-decoration:none;font-size:0.82rem;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;transition:color var(--t);}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-reserve{padding:11px 24px;border:1px solid rgba(201,169,110,0.5);color:var(--gold);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border-radius:99px;text-decoration:none;transition:var(--t);}
+    .nav-reserve:hover{background:var(--gold);color:#06060e;transform:translateY(-2px);}
+
+    /* HERO */
+    .hero{height:100vh;min-height:600px;position:relative;display:flex;align-items:center;overflow:hidden;}
+    .hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.35);}
+    .hero-gradient{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,6,14,0.2) 0%,rgba(6,6,14,0.7) 60%,rgba(6,6,14,1) 100%);}
+    .hero-content{position:relative;z-index:1;padding:0 6vw;width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:80px;}
+    .hero-badge{display:inline-flex;align-items:center;gap:16px;margin-bottom:28px;}
+    .hero-badge::before,.hero-badge::after{content:'';width:50px;height:1px;background:rgba(201,169,110,0.5);}
+    .hero-badge span{font-size:0.7rem;font-weight:500;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;}
+    .hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,9vw,7.5rem);font-weight:400;line-height:0.95;letter-spacing:0.02em;margin-bottom:14px;}
+    .hero-h1 em{font-style:italic;color:var(--gold);}
+    .hero-h2{font-family:'Tenor Sans',serif;font-size:clamp(1rem,2vw,1.4rem);letter-spacing:0.3em;text-transform:uppercase;color:var(--dim);margin-bottom:36px;}
+    .hero-sub{font-size:1rem;color:var(--dim);max-width:520px;line-height:1.75;margin-bottom:48px;font-weight:300;}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+    .btn-luxury{display:inline-flex;align-items:center;gap:10px;padding:16px 40px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#06060e;font-size:0.82rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;border-radius:99px;text-decoration:none;transition:var(--t);box-shadow:0 4px 30px rgba(201,169,110,0.35);}
+    .btn-luxury:hover{transform:translateY(-3px);box-shadow:0 10px 50px rgba(201,169,110,0.5);}
+    .btn-outline-lux{display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border:1px solid rgba(201,169,110,0.4);color:var(--gold);font-size:0.82rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border-radius:99px;text-decoration:none;transition:var(--t);}
+    .btn-outline-lux:hover{background:rgba(201,169,110,0.1);transform:translateY(-3px);}
+    /* scroll indicator */
+    .scroll-ind{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--dim);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;}
+    .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--gold));animation:scrollLine 2s ease-in-out infinite;}
+    @keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+    /* DIVIDER */
+    .ornament-divider{display:flex;align-items:center;gap:16px;padding:0 6vw;margin:0;}
+    .ornament-divider::before,.ornament-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,0.3));}
+    .ornament-divider span{color:var(--gold);font-size:1rem;}
+
+    /* SECTIONS */
+    section{padding:90px 6vw;position:relative;}
+    .sec-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+    .sec-eyebrow span{font-size:0.7rem;font-weight:500;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;}
+    .sec-eyebrow::before{content:'';width:30px;height:1px;background:var(--gold);}
+    .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:500;letter-spacing:0.01em;line-height:1.15;margin-bottom:14px;}
+    .sec-sub{font-size:0.93rem;color:var(--dim);max-width:480px;line-height:1.75;font-weight:300;}
+
+    /* KAMAR */
+    #kamar{background:var(--bg2);}
+    .kamar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-top:56px;}
+    .kamar-card{background:var(--bg3);border:1px solid rgba(201,169,110,0.1);border-radius:var(--r);overflow:hidden;transition:var(--t);}
+    .kamar-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(0,0,0,0.6);border-color:rgba(201,169,110,0.3);}
+    .kamar-img{height:230px;overflow:hidden;position:relative;}
+    .kamar-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s;}
+    .kamar-card:hover .kamar-img img{transform:scale(1.06);}
+    .kamar-badge{position:absolute;top:16px;right:16px;padding:5px 14px;background:rgba(6,6,14,0.8);border:1px solid rgba(201,169,110,0.3);border-radius:99px;font-size:0.72rem;color:var(--gold);font-weight:500;letter-spacing:0.06em;backdrop-filter:blur(8px);}
+    .kamar-body{padding:26px;}
+    .kamar-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin-bottom:6px;}
+    .kamar-desc{font-size:0.85rem;color:var(--dim);line-height:1.65;margin-bottom:18px;}
+    .kamar-amenities{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+    .amenity{padding:4px 12px;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.15);border-radius:99px;font-size:0.73rem;color:var(--gold);letter-spacing:0.04em;}
+    .kamar-footer{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid rgba(201,169,110,0.1);}
+    .kamar-price{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold);}
+    .kamar-price span{font-size:0.75rem;color:var(--dim);font-family:'DM Sans',sans-serif;font-weight:300;}
+    .btn-book-sm{padding:10px 22px;border:1px solid rgba(201,169,110,0.4);color:var(--gold);font-size:0.78rem;border-radius:99px;text-decoration:none;transition:var(--t);font-weight:500;}
+    .btn-book-sm:hover{background:var(--gold);color:#06060e;}
+
+    /* FASILITAS */
+    #fasilitas{}
+    .fas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;margin-top:56px;}
+    .fas-item{text-align:center;padding:32px 20px;background:var(--bg2);border:1px solid rgba(201,169,110,0.08);border-radius:var(--r);transition:var(--t);}
+    .fas-item:hover{border-color:rgba(201,169,110,0.25);transform:translateY(-4px);}
+    .fas-ico{font-size:2rem;margin-bottom:14px;}
+    .fas-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;margin-bottom:6px;}
+    .fas-desc{font-size:0.78rem;color:var(--dim);line-height:1.5;}
+
+    /* GALERI */
+    #galeri{background:var(--bg2);}
+    .gal-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:280px 280px;gap:12px;margin-top:48px;}
+    .gal-item{border-radius:16px;overflow:hidden;}
+    .gal-item:first-child{grid-row:span 2;}
+    .gal-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s,filter 0.3s;}
+    .gal-item:hover img{transform:scale(1.06);filter:brightness(0.8);}
+
+    /* RESERVASI */
+    #reservasi{}
+    .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:56px;}
+    .res-info-card{background:var(--bg2);border:1px solid rgba(201,169,110,0.12);border-radius:var(--r);padding:36px;}
+    .res-info-card h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold);margin-bottom:24px;}
+    .res-row{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid rgba(201,169,110,0.08);}
+    .res-row:last-child{border-bottom:none;}
+    .res-ico{font-size:1.2rem;}
+    .res-text strong{display:block;font-size:0.88rem;color:var(--text);margin-bottom:4px;}
+    .res-text span{font-size:0.82rem;color:var(--dim);}
+
+    /* CTA */
+    #cta{text-align:center;background:linear-gradient(to bottom,var(--bg2),var(--bg));}
+    #cta .sec-title{font-size:clamp(2rem,5vw,3.5rem);}
+    #cta .sec-sub{margin:0 auto 40px;}
+
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity 0.8s ease,transform 0.8s ease;}
+    .reveal.vis{opacity:1;transform:translateY(0);}
+    .rd1{transition-delay:0.1s;} .rd2{transition-delay:0.2s;} .rd3{transition-delay:0.3s;}
+
+    @media(max-width:768px){
+      .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+      .gal-item:first-child{grid-row:span 1;grid-column:span 2;}
+      .res-grid{grid-template-columns:1fr;}
+      .nav-links,.nav-reserve{display:none;}
+    }
+  </style>
+</head>
+<body>
+<a href="../index.html" class="back-btn">← Portfolio</a>
+
+<nav>
+  <a href="#home" class="logo">Timor Inn</a>
+  <ul class="nav-links">
+    <li><a href="#kamar">Kamar</a></li>
+    <li><a href="#fasilitas">Fasilitas</a></li>
+    <li><a href="#galeri">Galeri</a></li>
+    <li><a href="#reservasi">Reservasi</a></li>
+  </ul>
+  <a href="#reservasi" class="nav-reserve">Reservasi</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&q=85&auto=format&fit=crop" alt="Timor Inn Hotel"/></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span>Luxury Hotel — Kupang NTT</span></div>
+    <h1 class="hero-h1">Timor <em>Inn</em></h1>
+    <div class="hero-h2">Hotel & Resort</div>
+    <p class="hero-sub">Pengalaman menginap mewah di jantung Kota Kupang. Kamar elegan, pemandangan laut yang memukau, dan layanan bintang lima untuk setiap tamu.</p>
+    <div class="hero-btns">
+      <a href="#reservasi" class="btn-luxury">Reservasi Sekarang</a>
+      <a href="#kamar" class="btn-outline-lux">Lihat Kamar</a>
+    </div>
+  </div>
+  <div class="scroll-ind"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<div class="ornament-divider"><span>✦</span></div>
+
+<!-- KAMAR -->
+<section id="kamar">
+  <div class="reveal" style="text-align:center;max-width:560px;margin:0 auto 56px;">
+    <div class="sec-eyebrow" style="justify-content:center;"><span>Pilihan Kamar</span></div>
+    <h2 class="sec-title">Kenyamanan di Setiap<br><em>Detail</em></h2>
+    <p class="sec-sub" style="margin:0 auto;">Setiap kamar dirancang dengan sentuhan lokal NTT dan fasilitas modern bintang lima.</p>
+  </div>
+  <div class="kamar-grid">
+    <div class="kamar-card reveal">
+      <div class="kamar-img"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80&auto=format&fit=crop" alt="Deluxe Room"/><span class="kamar-badge">Tersedia</span></div>
+      <div class="kamar-body"><div class="kamar-name">Deluxe Room</div><div class="kamar-desc">Kamar deluxe yang luas dengan pemandangan kota Kupang yang indah. Tersedia untuk 2 tamu.</div><div class="kamar-amenities"><span class="amenity">King Bed</span><span class="amenity">AC</span><span class="amenity">WiFi</span><span class="amenity">TV 43"</span><span class="amenity">Bathtub</span></div><div class="kamar-footer"><div class="kamar-price">Rp 450.000<span>/malam</span></div><a href="#reservasi" class="btn-book-sm">Pesan</a></div></div>
+    </div>
+    <div class="kamar-card reveal rd1">
+      <div class="kamar-img"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80&auto=format&fit=crop" alt="Ocean View Room"/><span class="kamar-badge">Favorit</span></div>
+      <div class="kamar-body"><div class="kamar-name">Ocean View Suite</div><div class="kamar-desc">Suite premium dengan jendela panoramik menghadap Teluk Kupang. Pemandangan matahari terbenam yang tak tertandingi.</div><div class="kamar-amenities"><span class="amenity">King Bed</span><span class="amenity">Balkon</span><span class="amenity">Jacuzzi</span><span class="amenity">Minibar</span><span class="amenity">Lounge Area</span></div><div class="kamar-footer"><div class="kamar-price">Rp 850.000<span>/malam</span></div><a href="#reservasi" class="btn-book-sm">Pesan</a></div></div>
+    </div>
+    <div class="kamar-card reveal rd2">
+      <div class="kamar-img"><img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=700&q=80&auto=format&fit=crop" alt="Presidential Suite"/><span class="kamar-badge">Eksklusif</span></div>
+      <div class="kamar-body"><div class="kamar-name">Presidential Suite</div><div class="kamar-desc">Kemewahan tertinggi dengan ruang tamu terpisah, kamar mandi marble, dan butler service 24 jam khusus.</div><div class="kamar-amenities"><span class="amenity">2 Kamar</span><span class="amenity">Private Pool</span><span class="amenity">Butler</span><span class="amenity">Kitchen</span><span class="amenity">Sea View</span></div><div class="kamar-footer"><div class="kamar-price">Rp 2.500.000<span>/malam</span></div><a href="#reservasi" class="btn-book-sm">Pesan</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FASILITAS -->
+<section id="fasilitas">
+  <div class="reveal" style="text-align:center;max-width:500px;margin:0 auto;">
+    <div class="sec-eyebrow" style="justify-content:center;"><span>Fasilitas Hotel</span></div>
+    <h2 class="sec-title">Semua yang Anda<br><em>Butuhkan</em></h2>
+  </div>
+  <div class="fas-grid">
+    <div class="fas-item reveal"><div class="fas-ico">🏊</div><div class="fas-name">Kolam Renang</div><div class="fas-desc">Infinity pool dengan pemandangan teluk Kupang</div></div>
+    <div class="fas-item reveal rd1"><div class="fas-ico">🍳</div><div class="fas-name">Restaurant</div><div class="fas-desc">Restoran all-day dining dengan masakan lokal & internasional</div></div>
+    <div class="fas-item reveal rd2"><div class="fas-ico">💆</div><div class="fas-name">Spa & Wellness</div><div class="fas-desc">Spa tradisional NTT dan modern wellness center</div></div>
+    <div class="fas-item reveal rd3"><div class="fas-ico">🏋️</div><div class="fas-name">Gym 24 Jam</div><div class="fas-desc">Peralatan fitness modern tersedia kapan saja</div></div>
+    <div class="fas-item reveal"><div class="fas-ico">🤝</div><div class="fas-name">Meeting Room</div><div class="fas-desc">Ruang rapat kapasitas 10-200 orang dengan AV lengkap</div></div>
+    <div class="fas-item reveal rd1"><div class="fas-ico">🅿️</div><div class="fas-name">Valet Parking</div><div class="fas-desc">Layanan parkir valet 24 jam gratis untuk tamu hotel</div></div>
+    <div class="fas-item reveal rd2"><div class="fas-ico">🍸</div><div class="fas-name">Rooftop Bar</div><div class="fas-desc">Bar di lantai tertinggi dengan pemandangan kota malam</div></div>
+    <div class="fas-item reveal rd3"><div class="fas-ico">🛎️</div><div class="fas-name">Room Service</div><div class="fas-desc">Layanan kamar 24 jam untuk makanan dan kebutuhan tamu</div></div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section id="galeri">
+  <div class="reveal">
+    <div class="sec-eyebrow"><span>Foto & Suasana</span></div>
+    <h2 class="sec-title">Galeri Hotel</h2>
+    <p class="sec-sub">Setiap sudut Timor Inn dirancang untuk memberikan pengalaman yang tak terlupakan.</p>
+  </div>
+  <div class="gal-grid">
+    <div class="gal-item reveal"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=80&auto=format&fit=crop" alt="Pool"/></div>
+    <div class="gal-item reveal rd1"><img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500&q=80&auto=format&fit=crop" alt="Room"/></div>
+    <div class="gal-item reveal rd2"><img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=500&q=80&auto=format&fit=crop" alt="Lobby"/></div>
+    <div class="gal-item reveal rd1"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=80&auto=format&fit=crop" alt="Restaurant"/></div>
+    <div class="gal-item reveal rd2"><img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80&auto=format&fit=crop" alt="Spa"/></div>
+  </div>
+</section>
+
+<!-- RESERVASI -->
+<section id="reservasi">
+  <div class="reveal">
+    <div class="sec-eyebrow"><span>Pesan Kamar</span></div>
+    <h2 class="sec-title">Reservasi Mudah<br><em>via WhatsApp</em></h2>
+  </div>
+  <div class="res-grid">
+    <div class="res-info-card reveal">
+      <h3>📍 Informasi Hotel</h3>
+      <div class="res-row"><div class="res-ico">🗺️</div><div class="res-text"><strong>Alamat</strong><span>Jl. Jend. Soeharto No. 1, Oeba, Kota Kupang, NTT 85228</span></div></div>
+      <div class="res-row"><div class="res-ico">📱</div><div class="res-text"><strong>WhatsApp Reservasi</strong><span>+62 851-XXXX-XXXX (24 jam)</span></div></div>
+      <div class="res-row"><div class="res-ico">📧</div><div class="res-text"><strong>Email</strong><span>reservasi@timorinn.com</span></div></div>
+      <div class="res-row"><div class="res-ico">🕐</div><div class="res-text"><strong>Check-in / Check-out</strong><span>Check-in: 14.00 WITA<br>Check-out: 12.00 WITA</span></div></div>
+    </div>
+    <div class="reveal rd1" style="background:var(--bg2);border:1px solid rgba(201,169,110,0.12);border-radius:var(--r);padding:40px;">
+      <div class="sec-eyebrow"><span>Pesan Sekarang</span></div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;margin-bottom:20px;">Reservasi via WhatsApp</h3>
+      <p style="font-size:0.88rem;color:var(--dim);line-height:1.7;margin-bottom:32px;">Hubungi kami via WhatsApp dengan menyebutkan <strong style="color:var(--text);">tanggal check-in, check-out, jenis kamar, dan jumlah tamu</strong>. Tim kami akan merespons dalam 10 menit dan membantu proses reservasi Anda.</p>
+      <a href="https://wa.me/6285XXXXXXXX?text=Halo%20Timor%20Inn%2C%20saya%20ingin%20reservasi%20kamar" class="btn-luxury" target="_blank" style="width:100%;justify-content:center;">🏨 Reservasi via WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div style="max-width:600px;margin:0 auto;" class="reveal">
+    <div class="sec-eyebrow" style="justify-content:center;"><span>Pengalaman Mewah</span></div>
+    <h2 class="sec-title">Menginap di Timor Inn,<br><em>Kenangan Seumur Hidup</em></h2>
+    <p class="sec-sub" style="margin:0 auto 44px;">Pesan sekarang dan dapatkan sarapan gratis untuk 2 tamu. Promo terbatas!</p>
+    <a href="https://wa.me/6285XXXXXXXX" class="btn-luxury" target="_blank" style="font-size:0.88rem;padding:18px 48px;">🏨 Reservasi Sekarang</a>
+  </div>
+</section>
+
+<script>
+  const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target);}}),{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
