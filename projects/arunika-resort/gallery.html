@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Galeri — Arunika Resort & Spa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a08;--charcoal:#111110;--gold:#c9a84c;--gold-light:#e8c97a;--cream:#f5f0e8;--cream-dim:rgba(245,240,232,0.55);--border:rgba(201,168,76,0.2)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',sans-serif;background:var(--black);color:var(--cream);overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform .12s ease,width .3s,height .3s}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.8}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;background:rgba(10,10,8,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:4px;color:var(--gold-light);text-decoration:none;text-transform:uppercase}
+.nav-logo span{font-style:italic;color:var(--cream)}
+.nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--cream-dim);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-book{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;padding:12px 28px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;transition:all .3s}
+.nav-book:hover{background:var(--gold);color:var(--black)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1px;background:var(--cream)}
+.mobile-menu{position:fixed;inset:0;background:rgba(10,10,8,0.98);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--cream);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--gold)}
+.mobile-close{position:absolute;top:28px;right:28px;background:none;border:none;color:var(--cream);font-size:1.5rem;cursor:none}
+
+.page-hero{height:55vh;min-height:420px;position:relative;display:flex;align-items:flex-end;padding:0 60px 70px;overflow:hidden}
+.page-hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1600&q=85') center/cover;animation:heroZoom 18s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1.04)}to{transform:scale(1.1)}}
+.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,8,.95) 0%,rgba(10,10,8,.3) 100%)}
+.page-hero-content{position:relative;z-index:2}
+.page-breadcrumb{font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.page-breadcrumb a{color:var(--cream-dim);text-decoration:none;transition:color .3s}
+.page-breadcrumb a:hover{color:var(--gold)}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;color:var(--cream)}
+.page-title em{font-style:italic;color:var(--gold-light)}
+
+/* FILTER TABS */
+.gallery-section{padding:80px 60px 120px;background:var(--black)}
+.filter-wrap{
+  display:flex;gap:4px;margin-bottom:60px;
+  flex-wrap:wrap;
+}
+.filter-btn{
+  font-size:.6rem;letter-spacing:3px;text-transform:uppercase;
+  padding:12px 24px;border:1px solid var(--border);
+  color:var(--cream-dim);background:none;cursor:none;
+  transition:all .3s;
+}
+.filter-btn:hover,.filter-btn.active{
+  background:var(--gold);color:var(--black);border-color:var(--gold);
+}
+
+/* MASONRY GRID */
+.gallery-grid{
+  columns:3;column-gap:3px;
+}
+.gallery-item{
+  break-inside:avoid;margin-bottom:3px;
+  position:relative;overflow:hidden;
+  cursor:none;
+}
+.gallery-item img{
+  width:100%;display:block;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94);
+}
+.gallery-item:hover img{transform:scale(1.06)}
+.gallery-item-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,10,8,.8) 0%,transparent 50%);
+  opacity:0;transition:opacity .4s;
+  display:flex;align-items:flex-end;padding:20px;
+}
+.gallery-item:hover .gallery-item-overlay{opacity:1}
+.gallery-item-label{
+  font-size:.6rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);
+}
+
+/* LIGHTBOX */
+.lightbox{
+  position:fixed;inset:0;
+  background:rgba(10,10,8,0.97);
+  z-index:10000;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .4s;
+}
+.lightbox.open{opacity:1;pointer-events:all}
+.lightbox img{
+  max-width:90vw;max-height:85vh;
+  object-fit:contain;
+  transform:scale(0.94);transition:transform .4s;
+}
+.lightbox.open img{transform:scale(1)}
+.lightbox-close{
+  position:absolute;top:28px;right:36px;
+  font-size:1.8rem;color:var(--cream-dim);
+  background:none;border:none;cursor:none;
+  transition:color .3s;
+}
+.lightbox-close:hover{color:var(--gold)}
+.lightbox-prev,.lightbox-next{
+  position:absolute;top:50%;transform:translateY(-50%);
+  font-size:1.5rem;color:var(--cream-dim);
+  background:none;border:none;cursor:none;
+  padding:16px;transition:color .3s;
+}
+.lightbox-prev{left:24px}
+.lightbox-next{right:24px}
+.lightbox-prev:hover,.lightbox-next:hover{color:var(--gold)}
+.lightbox-counter{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  font-size:.6rem;letter-spacing:3px;color:var(--cream-dim);
+}
+
+/* CTA */
+.gallery-cta{
+  text-align:center;margin-top:80px;
+  padding-top:60px;border-top:1px solid var(--border);
+}
+.section-eyebrow{display:flex;align-items:center;justify-content:center;gap:14px;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;color:var(--cream);margin-bottom:32px}
+.cta-title em{font-style:italic;color:var(--gold-light)}
+.btn-primary{display:inline-block;padding:16px 40px;background:var(--gold);color:var(--black);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.btn-primary::before{content:'';position:absolute;inset:0;background:var(--black);transform:translateX(-101%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.btn-primary:hover{color:var(--gold)}
+.btn-primary:hover::before{transform:translateX(0)}
+.btn-primary span{position:relative;z-index:1}
+
+footer{background:var(--charcoal);border-top:1px solid var(--border);padding:60px 60px 36px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--gold-light);letter-spacing:3px;margin-bottom:8px}
+.footer-copy{font-size:.7rem;color:rgba(245,240,232,0.25);font-weight:300}
+.footer-credit{font-size:.7rem;color:var(--cream-dim)}
+.footer-credit a{color:var(--gold);text-decoration:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:1024px){nav{padding:18px 32px}.gallery-section{padding:60px 32px 80px}.page-hero{padding:0 32px 50px}.gallery-grid{columns:2}}
+@media(max-width:768px){nav{padding:16px 24px}.nav-links,.nav-book{display:none}.nav-hamburger{display:flex}.page-hero{padding:0 24px 40px}.gallery-section{padding:50px 24px 70px}.gallery-grid{columns:1}.filter-wrap{gap:4px}.footer-bottom{flex-direction:column;text-align:center}footer{padding:50px 24px 32px}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="rooms.html">Kamar</a>
+  <a href="facilities.html">Fasilitas</a>
+  <a href="gallery.html">Galeri</a>
+  <a href="contact.html">Kontak</a>
+</div>
+<nav>
+  <a class="nav-logo" href="index.html">Arunika <span>Resort</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="rooms.html">Kamar</a></li>
+    <li><a href="facilities.html">Fasilitas</a></li>
+    <li><a href="gallery.html" class="active">Galeri</a></li>
+    <li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <a class="nav-book" href="contact.html">Reservasi</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="page-breadcrumb"><a href="index.html">Home</a> → Galeri</div>
+    <h1 class="page-title">Galeri <em>Arunika</em></h1>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">✕</button>
+  <button class="lightbox-prev" id="lbPrev">‹</button>
+  <img src="" id="lbImg" alt="">
+  <button class="lightbox-next" id="lbNext">›</button>
+  <div class="lightbox-counter" id="lbCounter"></div>
+</div>
+
+<section class="gallery-section">
+  <div class="filter-wrap reveal">
+    <button class="filter-btn active" data-filter="all">Semua</button>
+    <button class="filter-btn" data-filter="kamar">Kamar & Villa</button>
+    <button class="filter-btn" data-filter="fasilitas">Fasilitas</button>
+    <button class="filter-btn" data-filter="kuliner">Kuliner</button>
+    <button class="filter-btn" data-filter="alam">Alam & Budaya</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item reveal" data-cat="kamar">
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=85" alt="Presidential Villa">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Presidential Villa</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="alam">
+      <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&q=85" alt="Bali Culture">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Budaya Bali</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="fasilitas">
+      <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=700&q=85" alt="Spa">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Jungle Spa</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="fasilitas">
+      <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=700&q=85" alt="Pool">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Infinity Pool</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="kamar">
+      <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=700&q=85" alt="Jungle Villa">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Jungle Pool Villa</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="kuliner">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=85" alt="Fine Dining">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Fine Dining</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="alam">
+      <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=700&q=85" alt="Landscape">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Pemandangan Ubud</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="kamar">
+      <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=700&q=85" alt="Terrace Suite">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Terrace Suite</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="fasilitas">
+      <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=85" alt="Yoga">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Yoga & Wellness</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="kuliner">
+      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=700&q=85" alt="Food">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Masakan Bali</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="kamar">
+      <img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?w=700&q=85" alt="Garden Villa">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Garden Retreat</span></div>
+    </div>
+    <div class="gallery-item reveal" data-cat="alam">
+      <img src="https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=700&q=85" alt="Resort">
+      <div class="gallery-item-overlay"><span class="gallery-item-label">Arunika Resort</span></div>
+    </div>
+  </div>
+
+  <div class="gallery-cta reveal">
+    <div class="section-eyebrow">Siap Berlibur?</div>
+    <h2 class="cta-title">Wujudkan liburan <em>impian</em> Anda<br>bersama kami</h2>
+    <a class="btn-primary" href="contact.html"><span>Reservasi Sekarang →</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom">
+    <div>
+      <div class="footer-brand">Arunika Resort</div>
+      <p class="footer-copy">© 2026 Arunika Resort & Spa. All rights reserved.</p>
+    </div>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+
+// Nav
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+
+// Reveal
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.08});
+reveals.forEach(el=>obs.observe(el));
+
+// Filter
+const filterBtns=document.querySelectorAll('.filter-btn');
+const items=document.querySelectorAll('.gallery-item');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter=btn.dataset.filter;
+    items.forEach(item=>{
+      const show=filter==='all'||item.dataset.cat===filter;
+      item.style.opacity=show?'1':'0.15';
+      item.style.transform=show?'scale(1)':'scale(0.97)';
+      item.style.transition='opacity .4s,transform .4s';
+    });
+  });
+});
+
+// Lightbox
+const imgs=Array.from(document.querySelectorAll('.gallery-item img'));
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+const lbCounter=document.getElementById('lbCounter');
+let currentIdx=0;
+
+function openLb(idx){
+  currentIdx=idx;
+  lbImg.src=imgs[idx].src;
+  lbCounter.textContent=(idx+1)+' / '+imgs.length;
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){lb.classList.remove('open');document.body.style.overflow=''}
+
+imgs.forEach((img,i)=>img.parentElement.addEventListener('click',()=>openLb(i)));
+document.getElementById('lbClose').addEventListener('click',closeLb);
+document.getElementById('lbPrev').addEventListener('click',()=>openLb((currentIdx-1+imgs.length)%imgs.length));
+document.getElementById('lbNext').addEventListener('click',()=>openLb((currentIdx+1)%imgs.length));
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowLeft')document.getElementById('lbPrev').click();
+  if(e.key==='ArrowRight')document.getElementById('lbNext').click();
+});
+lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
+</script>
+</body>
+</html>
