@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Arunika Resort & Spa — Ubud, Bali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a08;
+  --charcoal: #111110;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.15);
+  --cream: #f5f0e8;
+  --cream-dim: rgba(245,240,232,0.55);
+  --cream-faint: rgba(245,240,232,0.08);
+  --border: rgba(201,168,76,0.2);
+  --white: #ffffff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Montserrat',sans-serif;
+  background:var(--black);
+  color:var(--cream);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+  position:fixed;width:8px;height:8px;
+  background:var(--gold);border-radius:50%;
+  pointer-events:none;z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:width .3s,height .3s,background .3s;
+}
+.cursor-ring{
+  position:fixed;width:36px;height:36px;
+  border:1px solid rgba(201,168,76,0.5);border-radius:50%;
+  pointer-events:none;z-index:99998;
+  transform:translate(-50%,-50%);
+  transition:transform .12s ease,width .3s,height .3s,opacity .3s;
+}
+body:hover .cursor{opacity:1}
+
+/* NOISE */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9998;opacity:.8;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 60px;
+  transition:padding .5s,background .5s,border-color .5s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  padding:18px 60px;
+  background:rgba(10,10,8,0.96);
+  backdrop-filter:blur(16px);
+  border-color:var(--border);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:300;letter-spacing:4px;
+  color:var(--gold-light);text-decoration:none;
+  text-transform:uppercase;
+}
+.nav-logo span{font-style:italic;color:var(--cream)}
+.nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+.nav-links a{
+  font-size:.65rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--cream-dim);text-decoration:none;
+  transition:color .3s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--gold);
+  transition:width .3s;
+}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-book{
+  font-size:.62rem;letter-spacing:3px;text-transform:uppercase;
+  padding:12px 28px;border:1px solid var(--gold);
+  color:var(--gold);text-decoration:none;
+  transition:all .3s;
+}
+.nav-book:hover{background:var(--gold);color:var(--black)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1px;background:var(--cream);transition:all .3s}
+
+/* HERO */
+.hero{
+  position:relative;height:100vh;min-height:700px;
+  display:flex;align-items:flex-end;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1800&q=85') center/cover no-repeat;
+  transform:scale(1.08);
+  animation:heroZoom 18s ease-in-out infinite alternate;
+}
+@keyframes heroZoom{from{transform:scale(1.08)}to{transform:scale(1.14)}}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(10,10,8,0.95) 0%,
+    rgba(10,10,8,0.4) 50%,
+    rgba(10,10,8,0.2) 100%
+  );
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:0 60px 80px;
+  max-width:900px;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:.6rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:24px;
+  opacity:0;animation:fadeUp .8s .2s forwards;
+}
+.hero-tag::before{content:'';display:block;width:30px;height:1px;background:var(--gold)}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,8vw,7rem);
+  font-weight:300;line-height:1;
+  letter-spacing:-1px;color:var(--cream);
+  margin-bottom:8px;
+  opacity:0;animation:fadeUp .9s .4s forwards;
+}
+.hero h1 em{
+  font-style:italic;color:var(--gold-light);
+  display:block;
+}
+.hero-sub{
+  font-size:.8rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--cream-dim);margin-bottom:40px;
+  opacity:0;animation:fadeUp .9s .6s forwards;
+}
+.hero-actions{
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .9s .8s forwards;
+}
+.btn-primary{
+  display:inline-block;
+  padding:16px 40px;
+  background:var(--gold);color:var(--black);
+  font-size:.65rem;letter-spacing:3px;text-transform:uppercase;
+  font-weight:600;text-decoration:none;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:var(--black);transform:translateX(-101%);
+  transition:transform .4s cubic-bezier(.77,0,.18,1);
+}
+.btn-primary:hover{color:var(--gold)}
+.btn-primary:hover::before{transform:translateX(0)}
+.btn-primary span{position:relative;z-index:1}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.65rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--cream-dim);text-decoration:none;
+  transition:color .3s;
+}
+.btn-ghost:hover{color:var(--gold)}
+.btn-ghost svg{transition:transform .3s}
+.btn-ghost:hover svg{transform:translateX(4px)}
+
+/* HERO SCROLL */
+.hero-scroll{
+  position:absolute;bottom:40px;right:60px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-size:.55rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--cream-dim);
+  opacity:0;animation:fadeIn 1s 1.2s forwards;
+}
+.hero-scroll-line{
+  width:1px;height:60px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollLine 2s 1.5s infinite;
+}
+@keyframes scrollLine{
+  0%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+  51%{transform:scaleY(1);transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+
+/* MARQUEE */
+.marquee-wrap{
+  background:var(--gold);
+  overflow:hidden;padding:14px 0;
+}
+.marquee-track{
+  display:flex;gap:60px;
+  animation:marquee 20s linear infinite;
+  white-space:nowrap;
+}
+.marquee-track span{
+  font-size:.6rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--black);font-weight:600;
+  display:flex;align-items:center;gap:16px;
+}
+.marquee-track span::after{content:'✦';opacity:.5}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION BASE */
+section{padding:120px 60px}
+.section-eyebrow{
+  display:flex;align-items:center;gap:14px;
+  font-size:.58rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:20px;
+}
+.section-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold)}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,5vw,4rem);
+  font-weight:300;line-height:1.15;
+  color:var(--cream);margin-bottom:20px;
+}
+.section-title em{font-style:italic;color:var(--gold-light)}
+.section-desc{
+  font-size:.85rem;line-height:1.9;
+  color:var(--cream-dim);font-weight:300;
+  max-width:520px;
+}
+
+/* ABOUT */
+.about{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:100px;align-items:center;
+  background:var(--charcoal);
+}
+.about-images{
+  position:relative;height:600px;
+}
+.about-img-main{
+  position:absolute;top:0;left:0;
+  width:75%;height:80%;
+  object-fit:cover;
+}
+.about-img-accent{
+  position:absolute;bottom:0;right:0;
+  width:55%;height:55%;
+  object-fit:cover;
+  border:6px solid var(--charcoal);
+}
+.about-award{
+  position:absolute;bottom:40px;left:0;
+  background:var(--gold);
+  padding:20px 24px;
+  font-size:.58rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--black);font-weight:600;line-height:1.8;
+}
+.about-stats{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:32px;margin-top:48px;
+}
+.stat-item{padding-top:20px;border-top:1px solid var(--border)}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:300;
+  color:var(--gold-light);line-height:1;
+}
+.stat-label{
+  font-size:.6rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--cream-dim);margin-top:6px;
+}
+
+/* ROOMS */
+.rooms{background:var(--black)}
+.rooms-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:60px;
+}
+.rooms-grid{
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:2px;
+}
+.room-card{position:relative;overflow:hidden;cursor:none}
+.room-card:first-child{grid-row:span 2}
+.room-card img{
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+  transition:transform .8s cubic-bezier(.25,.46,.45,.94);
+  min-height:320px;
+}
+.room-card:first-child img{min-height:660px}
+.room-card:hover img{transform:scale(1.06)}
+.room-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,10,8,.9) 0%,transparent 60%);
+  transition:opacity .4s;
+}
+.room-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px;
+  transform:translateY(8px);
+  transition:transform .4s;
+}
+.room-card:hover .room-info{transform:translateY(0)}
+.room-type{
+  font-size:.55rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px;
+}
+.room-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:300;
+  color:var(--cream);margin-bottom:6px;
+}
+.room-card:first-child .room-name{font-size:2.2rem}
+.room-price{
+  font-size:.72rem;color:var(--cream-dim);
+  display:flex;align-items:center;gap:8px;
+}
+.room-price strong{color:var(--gold-light);font-weight:400}
+
+/* FACILITIES */
+.facilities{
+  background:var(--charcoal);
+}
+.facilities-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);margin-top:70px;
+}
+.facility-item{
+  background:var(--charcoal);
+  padding:48px 40px;
+  transition:background .3s;
+  position:relative;overflow:hidden;
+}
+.facility-item::before{
+  content:'';position:absolute;bottom:0;left:0;
+  height:2px;width:0;background:var(--gold);
+  transition:width .4s;
+}
+.facility-item:hover{background:rgba(201,168,76,0.04)}
+.facility-item:hover::before{width:100%}
+.facility-icon{
+  font-size:2rem;margin-bottom:20px;
+  display:block;
+}
+.facility-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:300;
+  color:var(--cream);margin-bottom:10px;
+}
+.facility-desc{
+  font-size:.78rem;line-height:1.8;
+  color:var(--cream-dim);font-weight:300;
+}
+
+/* GALLERY */
+.gallery{background:var(--black);padding:120px 0}
+.gallery-header{padding:0 60px;margin-bottom:50px}
+.gallery-strip{
+  display:flex;gap:3px;overflow-x:auto;
+  padding:0 60px;scrollbar-width:none;
+}
+.gallery-strip::-webkit-scrollbar{display:none}
+.gallery-item{
+  flex-shrink:0;width:340px;height:460px;
+  overflow:hidden;position:relative;
+}
+.gallery-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94);
+}
+.gallery-item:hover img{transform:scale(1.07)}
+
+/* TESTIMONIAL */
+.testimonial{
+  background:var(--charcoal);
+  text-align:center;
+  padding:140px 60px;
+  position:relative;overflow:hidden;
+}
+.testimonial::before{
+  content:'"';
+  font-family:'Cormorant Garamond',serif;
+  font-size:30rem;font-weight:300;
+  color:rgba(201,168,76,0.04);
+  position:absolute;top:-100px;left:50%;
+  transform:translateX(-50%);
+  line-height:1;pointer-events:none;
+  user-select:none;
+}
+.testi-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.5rem,3vw,2.4rem);
+  font-weight:300;font-style:italic;
+  line-height:1.6;color:var(--cream);
+  max-width:820px;margin:0 auto 40px;
+  position:relative;z-index:1;
+}
+.testi-author{
+  font-size:.6rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);position:relative;z-index:1;
+}
+.testi-stars{color:var(--gold);font-size:.8rem;letter-spacing:4px;margin-bottom:24px}
+.testi-dots{
+  display:flex;gap:8px;justify-content:center;margin-top:40px;
+}
+.testi-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--border);cursor:none;
+  transition:background .3s,transform .3s;
+}
+.testi-dot.active{background:var(--gold);transform:scale(1.4)}
+
+/* CTA BOOKING */
+.cta-booking{
+  background:var(--black);
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:600px;
+}
+.cta-img{
+  position:relative;overflow:hidden;
+}
+.cta-img img{width:100%;height:100%;object-fit:cover;display:block}
+.cta-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right,transparent,var(--black));
+}
+.cta-content{
+  padding:80px 70px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.cta-form{margin-top:40px;display:flex;flex-direction:column;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group label{
+  font-size:.58rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);
+}
+.form-group input,.form-group select{
+  background:transparent;
+  border:none;border-bottom:1px solid var(--border);
+  padding:12px 0;color:var(--cream);
+  font-family:'Montserrat',sans-serif;font-size:.85rem;
+  outline:none;transition:border-color .3s;
+  cursor:none;
+}
+.form-group input::placeholder{color:rgba(245,240,232,0.3)}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group select option{background:var(--charcoal);color:var(--cream)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cta-note{
+  font-size:.7rem;color:var(--cream-dim);margin-top:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.cta-note::before{content:'✓';color:var(--gold)}
+
+/* FOOTER */
+footer{
+  background:var(--charcoal);
+  border-top:1px solid var(--border);
+  padding:80px 60px 40px;
+}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:60px;margin-bottom:60px;
+}
+.footer-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:300;
+  color:var(--gold-light);letter-spacing:3px;
+  margin-bottom:16px;
+}
+.footer-tagline{
+  font-size:.75rem;line-height:1.8;
+  color:var(--cream-dim);font-weight:300;
+  margin-bottom:28px;max-width:280px;
+}
+.footer-social{display:flex;gap:14px}
+.footer-social a{
+  width:38px;height:38px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--cream-dim);font-size:.7rem;
+  text-decoration:none;transition:all .3s;
+}
+.footer-social a:hover{border-color:var(--gold);color:var(--gold)}
+.footer-col h4{
+  font-size:.58rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:24px;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-col a{
+  font-size:.8rem;color:var(--cream-dim);text-decoration:none;
+  transition:color .3s;font-weight:300;
+}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{
+  border-top:1px solid var(--border);
+  padding-top:32px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-copy{font-size:.7rem;color:rgba(245,240,232,0.25);font-weight:300}
+.footer-credit{
+  font-size:.7rem;color:var(--cream-dim);
+  display:flex;align-items:center;gap:8px;
+}
+.footer-credit a{color:var(--gold);text-decoration:none}
+
+/* REVEAL ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+.reveal-d4{transition-delay:.4s}
+.reveal-d5{transition-delay:.5s}
+
+/* MOBILE NAV OVERLAY */
+.mobile-menu{
+  position:fixed;inset:0;
+  background:rgba(10,10,8,0.98);
+  z-index:999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;
+  opacity:0;pointer-events:none;transition:opacity .4s;
+}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;font-weight:300;
+  color:var(--cream);text-decoration:none;letter-spacing:2px;
+  transition:color .3s;
+}
+.mobile-menu a:hover{color:var(--gold)}
+.mobile-close{
+  position:absolute;top:28px;right:28px;
+  background:none;border:none;color:var(--cream);
+  font-size:1.5rem;cursor:none;
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:22px 32px}
+  nav.scrolled{padding:16px 32px}
+  section{padding:90px 32px}
+  .hero-content{padding:0 32px 60px}
+  .hero-scroll{right:32px}
+  .about{grid-template-columns:1fr;gap:50px}
+  .about-images{height:400px}
+  .rooms-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .room-card:first-child{grid-row:span 1}
+  .room-card:first-child img{min-height:320px}
+  .facilities-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+  .cta-booking{grid-template-columns:1fr}
+  .cta-img{height:400px}
+  .cta-content{padding:60px 40px}
+}
+@media(max-width:768px){
+  nav{padding:20px 24px}
+  nav.scrolled{padding:14px 24px}
+  .nav-links,.nav-book{display:none}
+  .nav-hamburger{display:flex}
+  section{padding:70px 24px}
+  .hero-content{padding:0 24px 50px}
+  .hero-scroll{display:none}
+  .rooms-grid{grid-template-columns:1fr}
+  .rooms-header{flex-direction:column;align-items:flex-start;gap:20px}
+  .facilities-grid{grid-template-columns:1fr}
+  .gallery-header{padding:0 24px}
+  .gallery-strip{padding:0 24px}
+  .gallery-item{width:260px;height:340px}
+  .testimonial{padding:90px 24px}
+  .cta-content{padding:50px 24px}
+  .form-row{grid-template-columns:1fr}
+  footer{padding:60px 24px 32px}
+  .footer-top{grid-template-columns:1fr;gap:36px}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .about-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="rooms.html">Kamar</a>
+  <a href="facilities.html">Fasilitas</a>
+  <a href="gallery.html">Galeri</a>
+  <a href="contact.html">Kontak</a>
+  <a href="contact.html" style="color:var(--gold);font-size:1.2rem;letter-spacing:3px">Reservasi →</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">Arunika <span>Resort</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="rooms.html">Kamar</a></li>
+    <li><a href="facilities.html">Fasilitas</a></li>
+    <li><a href="gallery.html">Galeri</a></li>
+    <li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <a class="nav-book" href="contact.html">Reservasi</a>
+  <button class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Ubud, Bali — Indonesia</div>
+    <h1>Arunika<em>Resort & Spa</em></h1>
+    <p class="hero-sub">Where luxury meets the soul of Bali</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="rooms.html"><span>Lihat Kamar</span></a>
+      <a class="btn-ghost" href="contact.html">
+        Buat Reservasi
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Luxury Villas</span>
+    <span>Private Pool</span>
+    <span>Jungle Spa</span>
+    <span>Fine Dining</span>
+    <span>Rice Terrace View</span>
+    <span>Yoga & Wellness</span>
+    <span>Butler Service</span>
+    <span>Luxury Villas</span>
+    <span>Private Pool</span>
+    <span>Jungle Spa</span>
+    <span>Fine Dining</span>
+    <span>Rice Terrace View</span>
+    <span>Yoga & Wellness</span>
+    <span>Butler Service</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="about-images reveal">
+    <img class="about-img-main" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=85" alt="Arunika Resort">
+    <img class="about-img-accent" src="https://images.unsplash.com/photo-1540541338537-1220059af4dc?w=600&q=85" alt="Spa">
+    <div class="about-award">✦ LUXURY RESORT<br>BALI 2025</div>
+  </div>
+  <div class="about-text">
+    <p class="section-eyebrow reveal">Tentang Kami</p>
+    <h2 class="section-title reveal reveal-d1">Surga tersembunyi<br>di jantung <em>Ubud</em></h2>
+    <p class="section-desc reveal reveal-d2">Arunika Resort & Spa hadir sebagai pelarian sempurna dari hiruk pikuk dunia modern. Berdiri di atas hamparan sawah Ubud yang menakjubkan, kami menawarkan pengalaman menginap yang memadukan kemewahan kontemporer dengan kearifan budaya Bali.</p>
+    <div class="about-stats">
+      <div class="stat-item reveal reveal-d2">
+        <div class="stat-num">24</div>
+        <div class="stat-label">Villa Mewah</div>
+      </div>
+      <div class="stat-item reveal reveal-d3">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Tahun Berpengalaman</div>
+      </div>
+      <div class="stat-item reveal reveal-d3">
+        <div class="stat-num">4.9</div>
+        <div class="stat-label">Rating Tamu</div>
+      </div>
+      <div class="stat-item reveal reveal-d4">
+        <div class="stat-num">5★</div>
+        <div class="stat-label">Luxury Resort</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section class="rooms">
+  <div class="rooms-header">
+    <div>
+      <p class="section-eyebrow reveal">Akomodasi</p>
+      <h2 class="section-title reveal reveal-d1">Kamar & <em>Villa</em></h2>
+    </div>
+    <a class="btn-ghost reveal reveal-d2" href="rooms.html">
+      Lihat Semua Kamar
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="rooms-grid">
+    <div class="room-card reveal">
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=85" alt="Presidential Villa">
+      <div class="room-overlay"></div>
+      <div class="room-info">
+        <div class="room-type">Suite Utama</div>
+        <div class="room-name">Presidential<br>Villa</div>
+        <div class="room-price">Mulai <strong>Rp 4.500.000</strong> / malam</div>
+      </div>
+    </div>
+    <div class="room-card reveal reveal-d1">
+      <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=700&q=85" alt="Jungle Pool Villa">
+      <div class="room-overlay"></div>
+      <div class="room-info">
+        <div class="room-type">Villa Premium</div>
+        <div class="room-name">Jungle Pool Villa</div>
+        <div class="room-price">Mulai <strong>Rp 2.800.000</strong> / malam</div>
+      </div>
+    </div>
+    <div class="room-card reveal reveal-d2">
+      <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=700&q=85" alt="Deluxe Suite">
+      <div class="room-overlay"></div>
+      <div class="room-info">
+        <div class="room-type">Suite Deluxe</div>
+        <div class="room-name">Terrace Suite</div>
+        <div class="room-price">Mulai <strong>Rp 1.800.000</strong> / malam</div>
+      </div>
+    </div>
+    <div class="room-card reveal reveal-d1">
+      <img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?w=700&q=85" alt="Garden Villa">
+      <div class="room-overlay"></div>
+      <div class="room-info">
+        <div class="room-type">Villa Garden</div>
+        <div class="room-name">Garden Retreat</div>
+        <div class="room-price">Mulai <strong>Rp 1.400.000</strong> / malam</div>
+      </div>
+    </div>
+    <div class="room-card reveal reveal-d2">
+      <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=700&q=85" alt="Superior Room">
+      <div class="room-overlay"></div>
+      <div class="room-info">
+        <div class="room-type">Superior</div>
+        <div class="room-name">Forest View Room</div>
+        <div class="room-price">Mulai <strong>Rp 950.000</strong> / malam</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACILITIES -->
+<section class="facilities">
+  <p class="section-eyebrow reveal">Fasilitas</p>
+  <h2 class="section-title reveal reveal-d1">Semua yang Anda<br>butuhkan, <em>tersedia</em></h2>
+  <div class="facilities-grid">
+    <div class="facility-item reveal">
+      <span class="facility-icon">♨️</span>
+      <div class="facility-name">Jungle Spa</div>
+      <p class="facility-desc">Rasakan terapi Bali tradisional di tengah kerimbunan hutan tropis. Tersedia massage, scrub, dan aromatherapy.</p>
+    </div>
+    <div class="facility-item reveal reveal-d1">
+      <span class="facility-icon">🏊</span>
+      <div class="facility-name">Infinity Pool</div>
+      <p class="facility-desc">Berenang di kolam renang tak berbatas dengan pemandangan sawah Ubud yang memukau di cakrawala.</p>
+    </div>
+    <div class="facility-item reveal reveal-d2">
+      <span class="facility-icon">🍽️</span>
+      <div class="facility-name">Fine Dining</div>
+      <p class="facility-desc">Restoran Warung Arunika menyajikan masakan Bali autentik dan masakan internasional dari chef berpengalaman.</p>
+    </div>
+    <div class="facility-item reveal reveal-d3">
+      <span class="facility-icon">🧘</span>
+      <div class="facility-name">Yoga & Wellness</div>
+      <p class="facility-desc">Sesi yoga pagi hari di pavilion terbuka dengan instruktur bersertifikat internasional.</p>
+    </div>
+    <div class="facility-item reveal reveal-d1">
+      <span class="facility-icon">🌿</span>
+      <div class="facility-name">Rice Terrace Tour</div>
+      <p class="facility-desc">Jelajahi keindahan sawah Tegallalang yang ikonik bersama pemandu lokal kami yang berpengetahuan luas.</p>
+    </div>
+    <div class="facility-item reveal reveal-d2">
+      <span class="facility-icon">🛎️</span>
+      <div class="facility-name">Butler Service</div>
+      <p class="facility-desc">Layanan butler personal 24 jam siap memenuhi setiap kebutuhan Anda selama menginap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="gallery-header">
+    <p class="section-eyebrow reveal">Galeri</p>
+    <h2 class="section-title reveal reveal-d1">Sekilas <em>Arunika</em></h2>
+  </div>
+  <div class="gallery-strip">
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=600&q=85" alt="Resort view">
+    </div>
+    <div class="gallery-item reveal reveal-d1">
+      <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=85" alt="Bali culture">
+    </div>
+    <div class="gallery-item reveal reveal-d2">
+      <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=85" alt="Spa treatment">
+    </div>
+    <div class="gallery-item reveal reveal-d3">
+      <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&q=85" alt="Pool">
+    </div>
+    <div class="gallery-item reveal reveal-d4">
+      <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=85" alt="Landscape">
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="testi-stars">★★★★★</div>
+  <p class="testi-text reveal" id="testiText">
+    "Pengalaman menginap yang benar-benar mengubah perspektif saya tentang kemewahan. Setiap sudut resort ini terasa seperti karya seni. Staff yang luar biasa, makanan yang memukau, dan pemandangan yang tidak akan pernah saya lupakan."
+  </p>
+  <div class="testi-author reveal reveal-d1" id="testiAuthor">— Sari Dewi, Jakarta · Presidential Villa</div>
+  <div class="testi-dots">
+    <div class="testi-dot active" onclick="changeTesti(0)"></div>
+    <div class="testi-dot" onclick="changeTesti(1)"></div>
+    <div class="testi-dot" onclick="changeTesti(2)"></div>
+  </div>
+</section>
+
+<!-- CTA BOOKING -->
+<section class="cta-booking">
+  <div class="cta-img reveal">
+    <img src="https://images.unsplash.com/photo-1561501900-3701fa6a0864?w=800&q=85" alt="Book now">
+  </div>
+  <div class="cta-content">
+    <p class="section-eyebrow reveal">Reservasi</p>
+    <h2 class="section-title reveal reveal-d1">Rencanakan<br>liburan <em>impian</em> Anda</h2>
+    <form class="cta-form" onsubmit="submitBooking(event)">
+      <div class="form-row">
+        <div class="form-group reveal reveal-d2">
+          <label>Check In</label>
+          <input type="date" id="checkin">
+        </div>
+        <div class="form-group reveal reveal-d2">
+          <label>Check Out</label>
+          <input type="date" id="checkout">
+        </div>
+      </div>
+      <div class="form-group reveal reveal-d3">
+        <label>Tipe Kamar</label>
+        <select id="roomType">
+          <option value="">Pilih tipe kamar</option>
+          <option>Presidential Villa</option>
+          <option>Jungle Pool Villa</option>
+          <option>Terrace Suite</option>
+          <option>Garden Retreat</option>
+          <option>Forest View Room</option>
+        </select>
+      </div>
+      <div class="form-group reveal reveal-d3">
+        <label>Nama Lengkap</label>
+        <input type="text" placeholder="Nama Anda">
+      </div>
+      <button type="submit" class="btn-primary reveal reveal-d4" style="border:none;cursor:none;margin-top:8px">
+        <span>Kirim via WhatsApp →</span>
+      </button>
+      <p class="cta-note reveal reveal-d4">Konfirmasi dalam 1×24 jam</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Arunika Resort</div>
+      <p class="footer-tagline">Pengalaman menginap mewah di jantung Ubud, Bali. Di mana tradisi bertemu dengan kenyamanan modern.</p>
+      <div class="footer-social">
+        <a href="#">ig</a>
+        <a href="#">fb</a>
+        <a href="https://wa.me/6281338693093">wa</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Akomodasi</h4>
+      <ul>
+        <li><a href="rooms.html">Presidential Villa</a></li>
+        <li><a href="rooms.html">Jungle Pool Villa</a></li>
+        <li><a href="rooms.html">Terrace Suite</a></li>
+        <li><a href="rooms.html">Garden Retreat</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Fasilitas</h4>
+      <ul>
+        <li><a href="facilities.html">Jungle Spa</a></li>
+        <li><a href="facilities.html">Infinity Pool</a></li>
+        <li><a href="facilities.html">Fine Dining</a></li>
+        <li><a href="facilities.html">Yoga & Wellness</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontak</h4>
+      <ul>
+        <li><a href="tel:+6281338693093">+62 813-3869-3093</a></li>
+        <li><a href="https://wa.me/6281338693093">WhatsApp</a></li>
+        <li><a href="#"><span class="__cf_email__" data-cfemail="234a4d454c634251564d4a48425146504c51570d404c4e">[email&#160;protected]</span></a></li>
+        <li><a href="#">Jl. Raya Ubud, Bali</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Arunika Resort & Spa. All rights reserved.</p>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}animRing();
+document.querySelectorAll('a,button,[onclick]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cursor.style.width='14px';cursor.style.height='14px';
+    ring.style.width='52px';ring.style.height='52px';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cursor.style.width='8px';cursor.style.height='8px';
+    ring.style.width='36px';ring.style.height='36px';
+  });
+});
+
+// Sticky nav
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>80)});
+
+// Mobile menu
+document.getElementById('hamburger').addEventListener('click',()=>{
+  document.getElementById('mobileMenu').classList.add('open');
+});
+document.getElementById('mobileClose').addEventListener('click',()=>{
+  document.getElementById('mobileMenu').classList.remove('open');
+});
+
+// Scroll reveal
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:.12});
+reveals.forEach(el=>obs.observe(el));
+
+// Testimonials
+const testis=[
+  {text:'"Pengalaman menginap yang benar-benar mengubah perspektif saya tentang kemewahan. Setiap sudut resort ini terasa seperti karya seni. Staff yang luar biasa, makanan yang memukau, dan pemandangan yang tidak akan pernah saya lupakan."',author:'— Sari Dewi, Jakarta · Presidential Villa'},
+  {text:'"Jungle Spa di sini adalah yang terbaik yang pernah saya coba. Suasananya sangat autentik Bali, dan terapis mereka sangat profesional. Infinity pool dengan view sawah... tidak ada duanya di Indonesia."',author:'— Budi Santoso, Surabaya · Jungle Pool Villa'},
+  {text:'"Kami merayakan anniversary di sini dan itu menjadi momen tak terlupakan. Butler service yang sangat personal, fine dining yang luar biasa, dan villa yang sangat romantis. Kami pasti akan kembali!"',author:'— Rina & Hendra, Bandung · Garden Retreat'}
+];
+let current=0;
+function changeTesti(i){
+  current=i;
+  document.getElementById('testiText').textContent=testis[i].text;
+  document.getElementById('testiAuthor').textContent=testis[i].author;
+  document.querySelectorAll('.testi-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+setInterval(()=>changeTesti((current+1)%3),5000);
+
+// Booking WhatsApp
+function submitBooking(e){
+  e.preventDefault();
+  const checkin=document.getElementById('checkin').value;
+  const checkout=document.getElementById('checkout').value;
+  const room=document.getElementById('roomType').value;
+  const msg=`Halo Arunika Resort! Saya ingin reservasi:\n\nTipe Kamar: ${room||'-'}\nChec
