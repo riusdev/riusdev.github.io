@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Reservasi — Nusantara Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f7f3ec;--ivory-dark:#ede7dc;--terracotta:#c4622d;--terra-light:#e8845a;--forest:#2c4a3e;--charcoal:#1e1e1a;--warm-gray:#6b6560;--border:rgba(196,98,45,0.18)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ivory);color:var(--charcoal);overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:10px;height:10px;background:var(--terracotta);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
+.cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(196,98,45,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.9}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(247,243,236,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-main{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--charcoal);line-height:1}
+.nav-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--warm-gray);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--terracotta);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--terracotta)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-reserve{padding:12px 26px;background:var(--terracotta);color:#fff;font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;font-weight:500}
+.nav-reserve:hover{background:var(--forest)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--charcoal)}
+.mobile-menu{position:fixed;inset:0;background:var(--ivory);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--charcoal);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--terracotta)}
+.mobile-close{position:absolute;top:28px;right:28px;background:none;border:none;font-size:1.5rem;cursor:none;color:var(--charcoal)}
+
+.page-hero{padding:140px 60px 80px;background:var(--forest)}
+.page-breadcrumb{font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:rgba(247,243,236,0.5);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.page-breadcrumb a{color:rgba(247,243,236,0.4);text-decoration:none;transition:color .3s}
+.page-breadcrumb a:hover{color:var(--terra-light)}
+.page-title{font-family:'DM Serif Display',serif;font-size:clamp(3rem,7vw,6rem);color:var(--ivory);line-height:1;margin-bottom:16px}
+.page-title em{font-style:italic;color:var(--terra-light)}
+.page-sub{font-size:.88rem;color:rgba(247,243,236,0.55);font-weight:300}
+
+.contact-wrap{display:grid;grid-template-columns:1fr 1.4fr;min-height:700px}
+.contact-info{padding:80px 60px;background:var(--ivory-dark)}
+.section-eyebrow{display:flex;align-items:center;gap:12px;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px}
+.section-eyebrow::before{content:'';width:22px;height:1px;background:var(--terracotta)}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);color:var(--charcoal);margin-bottom:36px;line-height:1.2}
+.section-title em{font-style:italic;color:var(--terracotta)}
+.info-list{display:flex;flex-direction:column;gap:28px;margin-bottom:44px}
+.info-item{display:flex;gap:18px;align-items:flex-start}
+.info-icon{width:42px;height:42px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.info-label{font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px}
+.info-value{font-size:.83rem;color:var(--warm-gray);line-height:1.7;font-weight:300}
+.info-value a{color:var(--warm-gray);text-decoration:none;transition:color .3s}
+.info-value a:hover{color:var(--terracotta)}
+.wa-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 28px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);color:#27a85f;font-size:.63rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s;margin-bottom:24px}
+.wa-btn:hover{background:rgba(37,211,102,0.18)}
+.hours-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:24px;background:var(--ivory);border:1px solid var(--border)}
+.hours-label{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--terracotta);margin-bottom:4px}
+.hours-val{font-size:.82rem;color:var(--charcoal);font-weight:300}
+
+.contact-form-wrap{padding:80px 60px;background:var(--ivory)}
+.form{display:flex;flex-direction:column;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group label{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--terracotta)}
+.form-group input,.form-group select,.form-group textarea{background:transparent;border:none;border-bottom:1.5px solid rgba(196,98,45,0.2);padding:12px 0;color:var(--charcoal);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;transition:border-color .3s;cursor:none;resize:none;font-weight:300}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(107,101,96,0.45)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--terracotta)}
+.form-group select option{background:var(--ivory);color:var(--charcoal)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.btn-submit{display:block;width:100%;padding:18px;background:var(--terracotta);color:#fff;font-size:.65rem;letter-spacing:3px;text-transform:uppercase;font-weight:500;border:none;cursor:none;transition:all .3s;margin-top:8px;position:relative;overflow:hidden}
+.btn-submit::before{content:'';position:absolute;inset:0;background:var(--forest);transform:translateX(-101%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.btn-submit:hover::before{transform:translateX(0)}
+.btn-submit span{position:relative;z-index:1}
+.form-note{font-size:.7rem;color:var(--warm-gray);display:flex;align-items:center;gap:8px;font-weight:300}
+.form-note::before{content:'✓';color:var(--terracotta)}
+
+footer{background:var(--charcoal);padding:60px 60px 36px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-logo-main{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--ivory);margin-bottom:6px}
+.footer-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta)}
+.footer-copy{font-size:.7rem;color:rgba(247,243,236,0.2)}
+.footer-credit{font-size:.7rem;color:rgba(247,243,236,0.35)}
+.footer-credit a{color:var(--terracotta);text-decoration:none}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}
+
+@media(max-width:1024px){nav{padding:18px 32px}.page-hero{padding:120px 32px 60px}.contact-wrap{grid-template-columns:1fr}.contact-info,.contact-form-wrap{padding:60px 40px}footer{padding:50px 32px 32px}}
+@media(max-width:768px){nav{padding:16px 24px}.nav-links,.nav-reserve{display:none}.nav-hamburger{display:flex}.page-hero{padding:110px 24px 50px}.contact-info,.contact-form-wrap{padding:50px 24px}.form-row{grid-template-columns:1fr}.hours-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}footer{padding:50px 24px 32px}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="story.html">Our Story</a>
+  <a href="contact.html">Reservasi</a>
+</div>
+<nav>
+  <a class="nav-logo" href="index.html">
+    <span class="nav-logo-main">Nusantara Kitchen</span>
+    <span class="nav-logo-sub">Fine Dining · Jakarta</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="story.html">Our Story</a></li>
+    <li><a href="contact.html" class="active">Kontak</a></li>
+  </ul>
+  <a class="nav-reserve" href="contact.html">Reservasi</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-breadcrumb"><a href="index.html">Home</a> → Reservasi</div>
+  <h1 class="page-title">Reservasi & <em>Kontak</em></h1>
+  <p class="page-sub">Kami siap menyambut Anda · Jam buka 11:00 – 22:00 setiap hari</p>
+</div>
+
+<div class="contact-wrap">
+  <div class="contact-info">
+    <p class="section-eyebrow reveal">Informasi</p>
+    <h2 class="section-title reveal reveal-d1">Temukan &<br><em>hubungi kami</em></h2>
+    <div class="info-list">
+      <div class="info-item reveal">
+        <div class="info-icon">📍</div>
+        <div><div class="info-label">Alamat</div><div class="info-value">Jl. Jend. Sudirman Kav. 52<br>Jakarta Selatan, DKI Jakarta 12190</div></div>
+      </div>
+      <div class="info-item reveal reveal-d1">
+        <div class="info-icon">📞</div>
+        <div><div class="info-label">Telepon</div><div class="info-value"><a href="tel:+6281338693093">+62 813-3869-3093</a></div></div>
+      </div>
+      <div class="info-item reveal reveal-d1">
+        <div class="info-icon">✉️</div>
+        <div><div class="info-label">Email</div><div class="info-value"><a href="#">reservasi@nusantarakitchen.id</a></div></div>
+      </div>
+    </div>
+    <a class="wa-btn reveal" href="https://wa.me/6281338693093?text=Halo%20Nusantara%20Kitchen%2C%20saya%20ingin%20reservasi" target="_blank">
+      💬 Chat Langsung via WhatsApp
+    </a>
+    <div class="hours-grid reveal">
+      <div><div class="hours-label">Senin – Jumat</div><div class="hours-val">11:00 – 22:00</div></div>
+      <div><div class="hours-label">Sabtu – Minggu</div><div class="hours-val">10:00 – 23:00</div></div>
+      <div><div class="hours-label">Happy Hour</div><div class="hours-val">15:00 – 17:00</div></div>
+      <div><div class="hours-label">Last Order</div><div class="hours-val">21:30 WIB</div></div>
+    </div>
+  </div>
+
+  <div class="contact-form-wrap">
+    <p class="section-eyebrow reveal">Form Reservasi</p>
+    <h2 class="section-title reveal reveal-d1">Pesan meja<br><em>Anda sekarang</em></h2>
+    <form class="form" onsubmit="submitForm(event)">
+      <div class="form-row">
+        <div class="form-group reveal"><label>Nama Lengkap</label><input type="text" id="name" placeholder="Nama Anda" required></div>
+        <div class="form-group reveal reveal-d1"><label>Nomor WhatsApp</label><input type="tel" id="phone" placeholder="08xxxxxxxxxx" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group reveal"><label>Tanggal</label><input type="date" id="date" required></div>
+        <div class="form-group reveal reveal-d1"><label>Jam</label>
+          <select id="time">
+            <option>11:00 WIB</option><option>12:00 WIB</option><option>13:00 WIB</option>
+            <option>18:00 WIB</option><option>19:00 WIB</option><option>20:00 WIB</option><option>21:00 WIB</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group reveal"><label>Jumlah Tamu</label>
+          <select id="guests">
+            <option>1 Orang</option><option>2 Orang</option><option>3-4 Orang</option>
+            <option>5-6 Orang</option><option>7-10 Orang</option><option>10+ Orang</option>
+          </select>
+        </div>
+        <div class="form-group reveal reveal-d1"><label>Jenis Acara</label>
+          <select id="occasion">
+            <option>Makan Biasa</option><option>Ulang Tahun</option><option>Anniversary</option>
+            <option>Business Dinner</option><option>Private Dining</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group reveal"><label>Permintaan Khusus</label><textarea id="notes" rows="3" placeholder="Alergi makanan, dekorasi spesial, preferensi meja, dll..."></textarea></div>
+      <button type="submit" class="btn-submit reveal"><span>Kirim Reservasi via WhatsApp →</span></button>
+      <p class="form-note reveal">Konfirmasi dalam 1×2 jam di hari kerja</p>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <div>
+      <div class="footer-logo-main">Nusantara Kitchen</div>
+      <div class="footer-logo-sub">Fine Dining · Jakarta</div>
+    </div>
+    <p class="footer-copy">© 2026 Nusantara Kitchen. All rights reserved.</p>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
+reveals.forEach(el=>obs.observe(el));
+function submitForm(e){
+  e.preventDefault();
+  const name=document.getElementById('name').value;
+  const phone=document.getElementById('phone').value;
+  const date=document.getElementById('date').value;
+  const time=document.getElementById('time').value;
+  const guests=document.getElementById('guests').value;
+  const occasion=document.getElementById('occasion').value;
+  const notes=document.getElementById('notes').value;
+  const msg=`Halo Nusantara Kitchen! 🍽️\n\nSaya ingin reservasi meja:\n\n👤 Nama: ${name}\n📱 WA: ${phone}\n📅 Tanggal: ${date||'-'}\n🕐 Jam: ${time}\n👥 Tamu: ${guests}\n🎉 Acara: ${occasion}${notes?'\n📝 Catatan: '+notes:''}\n\nMohon konfirmasinya. Terima kasih!`;
+  window.open('https://wa.me/6281338693093?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body>
+</html>

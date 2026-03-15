@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Menu — Nusantara Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f7f3ec;--ivory-dark:#ede7dc;--terracotta:#c4622d;--terra-light:#e8845a;--terra-dim:rgba(196,98,45,0.12);--forest:#2c4a3e;--charcoal:#1e1e1a;--warm-gray:#6b6560;--border:rgba(196,98,45,0.18);--border-dark:rgba(44,74,62,0.15)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ivory);color:var(--charcoal);overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:10px;height:10px;background:var(--terracotta);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(196,98,45,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.9}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(247,243,236,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-main{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--charcoal);letter-spacing:.5px;line-height:1}
+.nav-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--warm-gray);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--terracotta);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--terracotta)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-reserve{padding:12px 26px;background:var(--terracotta);color:#fff;font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;font-weight:500}
+.nav-reserve:hover{background:var(--forest)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--charcoal)}
+.mobile-menu{position:fixed;inset:0;background:var(--ivory);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--charcoal);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--terracotta)}
+.mobile-close{position:absolute;top:28px;right:28px;background:none;border:none;font-size:1.5rem;cursor:none;color:var(--charcoal)}
+
+.page-hero{padding:140px 60px 80px;background:var(--ivory-dark);border-bottom:1px solid var(--border);text-align:center}
+.page-breadcrumb{font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:10px}
+.page-breadcrumb a{color:var(--warm-gray);text-decoration:none;transition:color .3s}
+.page-breadcrumb a:hover{color:var(--terracotta)}
+.page-title{font-family:'DM Serif Display',serif;font-size:clamp(3rem,7vw,6rem);color:var(--charcoal);line-height:1;margin-bottom:16px}
+.page-title em{font-style:italic;color:var(--terracotta)}
+.page-sub{font-size:.88rem;color:var(--warm-gray);font-weight:300;letter-spacing:.5px}
+
+/* MENU SECTIONS */
+.menu-section{padding:100px 60px;background:var(--ivory)}
+.menu-section:nth-child(even){background:var(--ivory-dark)}
+.menu-section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:50px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.menu-section-num{font-family:'DM Serif Display',serif;font-size:5rem;font-weight:400;color:rgba(196,98,45,0.08);line-height:1;margin-right:24px}
+.menu-section-title-wrap{display:flex;align-items:flex-end;gap:0}
+.menu-section-cat{font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px}
+.menu-section-name{font-family:'DM Serif Display',serif;font-size:clamp(2rem,3.5vw,3rem);color:var(--charcoal);line-height:1}
+.menu-section-name em{font-style:italic;color:var(--terracotta)}
+.menu-section-desc{font-size:.8rem;color:var(--warm-gray);text-align:right;max-width:300px;line-height:1.7;font-weight:300}
+
+.menu-items-list{display:flex;flex-direction:column;gap:0}
+.menu-list-item{
+  display:grid;grid-template-columns:80px 1fr auto;gap:24px;
+  align-items:center;padding:24px 0;
+  border-bottom:1px solid rgba(196,98,45,0.1);
+  transition:background .3s;position:relative;
+}
+.menu-list-item:last-child{border-bottom:none}
+.menu-list-item::before{content:'';position:absolute;left:-60px;right:-60px;top:0;bottom:0;background:var(--terra-dim);opacity:0;transition:opacity .3s;z-index:0}
+.menu-list-item:hover::before{opacity:1}
+.menu-list-img{width:80px;height:80px;object-fit:cover;flex-shrink:0;position:relative;z-index:1}
+.menu-list-info{position:relative;z-index:1}
+.menu-list-badges{display:flex;gap:6px;margin-bottom:6px}
+.menu-badge{font-size:.5rem;letter-spacing:2px;text-transform:uppercase;padding:4px 8px;background:var(--terra-dim);color:var(--terracotta)}
+.menu-badge.veg{background:rgba(44,74,62,0.1);color:var(--forest)}
+.menu-list-name{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--charcoal);margin-bottom:4px}
+.menu-list-desc{font-size:.77rem;color:var(--warm-gray);line-height:1.6;font-weight:300}
+.menu-list-price{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--terracotta);white-space:nowrap;position:relative;z-index:1}
+
+/* PRIVATE DINING CTA */
+.private-cta{background:var(--forest);padding:100px 60px;text-align:center}
+.private-cta h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.5rem);color:var(--ivory);margin-bottom:16px;line-height:1.2}
+.private-cta h2 em{font-style:italic;color:var(--terra-light)}
+.private-cta p{font-size:.88rem;color:rgba(247,243,236,0.6);font-weight:300;margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.8}
+.btn-terra{display:inline-block;padding:16px 36px;background:var(--terracotta);color:#fff;font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s}
+.btn-terra:hover{background:var(--ivory);color:var(--terracotta)}
+
+footer{background:var(--charcoal);padding:60px 60px 36px;border-top:1px solid rgba(247,243,236,0.06)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-logo-main{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--ivory);margin-bottom:6px}
+.footer-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta)}
+.footer-copy{font-size:.7rem;color:rgba(247,243,236,0.2)}
+.footer-credit{font-size:.7rem;color:rgba(247,243,236,0.35)}
+.footer-credit a{color:var(--terracotta);text-decoration:none}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}
+
+@media(max-width:1024px){nav{padding:18px 32px}.menu-section{padding:70px 32px}.page-hero{padding:120px 32px 60px}.private-cta{padding:70px 32px}footer{padding:50px 32px 32px}}
+@media(max-width:768px){nav{padding:16px 24px}.nav-links,.nav-reserve{display:none}.nav-hamburger{display:flex}.page-hero{padding:110px 24px 50px}.menu-section{padding:60px 24px}.menu-section-header{flex-direction:column;align-items:flex-start;gap:12px}.menu-section-desc{text-align:left}.menu-list-item{grid-template-columns:60px 1fr auto;gap:14px;padding:18px 0}.menu-list-img{width:60px;height:60px}.menu-list-item::before{left:-24px;right:-24px}.private-cta{padding:60px 24px}footer{padding:50px 24px 32px}.footer-bottom{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="story.html">Our Story</a>
+  <a href="contact.html">Reservasi</a>
+</div>
+<nav>
+  <a class="nav-logo" href="index.html">
+    <span class="nav-logo-main">Nusantara Kitchen</span>
+    <span class="nav-logo-sub">Fine Dining · Jakarta</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html" class="active">Menu</a></li>
+    <li><a href="story.html">Our Story</a></li>
+    <li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <a class="nav-reserve" href="contact.html">Reservasi</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-breadcrumb"><a href="index.html">Home</a> → Menu</div>
+  <h1 class="page-title">Menu <em>Kami</em></h1>
+  <p class="page-sub">Diracik dari rempah Nusantara pilihan · Disajikan dengan penuh cinta</p>
+</div>
+
+<!-- PEMBUKA -->
+<section class="menu-section">
+  <div class="menu-section-header reveal">
+    <div class="menu-section-title-wrap">
+      <div class="menu-section-num">01</div>
+      <div>
+        <div class="menu-section-cat">Appetizer</div>
+        <h2 class="menu-section-name">Hidangan <em>Pembuka</em></h2>
+      </div>
+    </div>
+    <p class="menu-section-desc">Membuka selera dengan cita rasa autentik Nusantara yang telah direfinement oleh tangan chef kami.</p>
+  </div>
+  <div class="menu-items-list">
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1607877742574-a7d9a7449af3?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Chef's Pick</span></div><div class="menu-list-name">Kerupuk Artisan Nusantara</div><div class="menu-list-desc">Kerupuk pilihan dari berbagai daerah, disajikan dengan trio sambal — sambal hijau, sambal matah, dan sambal bawang.</div></div><div class="menu-list-price">Rp 75.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge veg">Vegetarian</span></div><div class="menu-list-name">Siomay Refined</div><div class="menu-list-desc">Siomay ikan tenggiri premium dengan tahu, kentang, dan telur. Disajikan dengan saus kacang homemade yang kaya rasa.</div></div><div class="menu-list-price">Rp 85.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"></div><div class="menu-list-name">Lumpia Semarang Heritage</div><div class="menu-list-desc">Lumpia basah dan goreng khas Semarang dengan isian rebung segar, udang, dan telur puyuh.</div></div><div class="menu-list-price">Rp 90.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge veg">Vegetarian</span><span class="menu-badge">Bestseller</span></div><div class="menu-list-name">Gado-Gado Refined</div><div class="menu-list-desc">Sayuran segar pilihan dengan saus kacang premium dan kerupuk artisan. Versi fine dining dari klassik Indonesia.</div></div><div class="menu-list-price">Rp 105.000</div></div>
+  </div>
+</section>
+
+<!-- UTAMA -->
+<section class="menu-section">
+  <div class="menu-section-header reveal">
+    <div class="menu-section-title-wrap">
+      <div class="menu-section-num">02</div>
+      <div>
+        <div class="menu-section-cat">Main Course</div>
+        <h2 class="menu-section-name">Hidangan <em>Utama</em></h2>
+      </div>
+    </div>
+    <p class="menu-section-desc">Puncak perjalanan kuliner Nusantara — setiap hidangan adalah perwakilan terbaik dari kekayaan masakan Indonesia.</p>
+  </div>
+  <div class="menu-items-list">
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Signature</span></div><div class="menu-list-name">Rendang Wagyu Premium</div><div class="menu-list-desc">Daging wagyu grade A dimasak 8 jam dengan 42 rempah pilihan Minangkabau. Disajikan dengan nasi lemak pandan dan acar kuning.</div></div><div class="menu-list-price">Rp 285.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Bestseller</span></div><div class="menu-list-name">Soto Betawi Royal</div><div class="menu-list-desc">Kuah santan kental dengan daging sapi pilihan, jeroan premium, dan emping goreng. Dilengkapi sambal rawit segar.</div></div><div class="menu-list-price">Rp 145.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Chef's Pick</span></div><div class="menu-list-name">Nasi Goreng Istimewa</div><div class="menu-list-desc">Nasi goreng kampung dengan udang jumbo, foie gras, dan taburan truffle oil. Disajikan dengan acar dan kerupuk udang.</div></div><div class="menu-list-price">Rp 195.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"></div><div class="menu-list-name">Bebek Betutu Bali</div><div class="menu-list-desc">Bebek utuh dibungkus daun pisang, dimasak slow-cook 12 jam dengan bumbu betutu khas Bali yang kaya rempah.</div></div><div class="menu-list-price">Rp 235.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge veg">Vegetarian</span></div><div class="menu-list-name">Rawon Jamur Hitam</div><div class="menu-list-desc">Versi vegetarian dari rawon legendaris Surabaya dengan jamur hitam premium dan kuah kluwek yang pekat dan kaya.</div></div><div class="menu-list-price">Rp 135.000</div></div>
+  </div>
+</section>
+
+<!-- DESSERT -->
+<section class="menu-section">
+  <div class="menu-section-header reveal">
+    <div class="menu-section-title-wrap">
+      <div class="menu-section-num">03</div>
+      <div>
+        <div class="menu-section-cat">Dessert</div>
+        <h2 class="menu-section-name">Hidangan <em>Penutup</em></h2>
+      </div>
+    </div>
+    <p class="menu-section-desc">Mengakhiri perjalanan kuliner dengan manisnya warisan kue dan dessert tradisional Indonesia.</p>
+  </div>
+  <div class="menu-items-list">
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Chef's Pick</span></div><div class="menu-list-name">Klepon Truffle</div><div class="menu-list-desc">Klepon pandan premium dengan isian gula jawa dan taburan truffle parut. Disajikan di atas daun pandan segar.</div></div><div class="menu-list-price">Rp 95.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Bestseller</span></div><div class="menu-list-name">Es Campur Artisan</div><div class="menu-list-desc">Es campur dengan es serut pandan segar, santan kelapa muda, dawet, dan buah nangka premium.</div></div><div class="menu-list-price">Rp 85.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"></div><div class="menu-list-name">Kue Lapis Refined</div><div class="menu-list-desc">Kue lapis tradisional 20 lapisan dengan sentuhan modern. Tersedia rasa pandan, coklat, dan original.</div></div><div class="menu-list-price">Rp 75.000</div></div>
+  </div>
+</section>
+
+<!-- MINUMAN -->
+<section class="menu-section">
+  <div class="menu-section-header reveal">
+    <div class="menu-section-title-wrap">
+      <div class="menu-section-num">04</div>
+      <div>
+        <div class="menu-section-cat">Beverages</div>
+        <h2 class="menu-section-name">Minuman <em>Nusantara</em></h2>
+      </div>
+    </div>
+    <p class="menu-section-desc">Dari jamu tradisional hingga teh lokal premium, melengkapi perjalanan kuliner Anda.</p>
+  </div>
+  <div class="menu-items-list">
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Signature</span></div><div class="menu-list-name">Jamu Signature</div><div class="menu-list-desc">Jamu tradisional dengan sentuhan modern. Tersedia kunyit asam, beras kencur, dan jahe sereh.</div></div><div class="menu-list-price">Rp 65.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1497534446932-c925b458314e?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"></div><div class="menu-list-name">Es Teh Premium Nusantara</div><div class="menu-list-desc">Teh lokal pilihan dari kebun terbaik Jawa, Sumatra, dan Flores. Disajikan panas atau dingin.</div></div><div class="menu-list-price">Rp 55.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1470158499416-75be9aa0c4db?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"><span class="menu-badge">Chef's Pick</span></div><div class="menu-list-name">Mocktail Rempah</div><div class="menu-list-desc">Mocktail segar dengan perpaduan jahe, pandan, serai, dan buah naga atau mangga tropis.</div></div><div class="menu-list-price">Rp 75.000</div></div>
+    <div class="menu-list-item reveal"><img class="menu-list-img" src="https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=200&q=80" alt=""><div class="menu-list-info"><div class="menu-list-badges"></div><div class="menu-list-name">Kopi Nusantara</div><div class="menu-list-desc">Kopi single origin terbaik dari Aceh Gayo, Flores, Toraja, dan Kintamani Bali.</div></div><div class="menu-list-price">Rp 65.000</div></div>
+  </div>
+</section>
+
+<div class="private-cta">
+  <p style="font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:rgba(247,243,236,0.5);margin-bottom:14px">Private Dining</p>
+  <h2>Rayakan momen spesial<br>dengan <em>nuansa eksklusif</em></h2>
+  <p>Private dining room kami tersedia untuk ulang tahun, anniversary, business dinner, dan acara spesial lainnya. Kapasitas hingga 20 orang dengan menu set khusus.</p>
+  <a class="btn-terra" href="contact.html">Hubungi Kami →</a>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <div>
+      <div class="footer-logo-main">Nusantara Kitchen</div>
+      <div class="footer-logo-sub">Fine Dining · Jakarta</div>
+    </div>
+    <p class="footer-copy">© 2026 Nusantara Kitchen. All rights reserved.</p>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.08});
+reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

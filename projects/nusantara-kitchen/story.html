@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Our Story — Nusantara Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f7f3ec;--ivory-dark:#ede7dc;--terracotta:#c4622d;--terra-light:#e8845a;--forest:#2c4a3e;--charcoal:#1e1e1a;--warm-gray:#6b6560;--border:rgba(196,98,45,0.18)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ivory);color:var(--charcoal);overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:10px;height:10px;background:var(--terracotta);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
+.cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(196,98,45,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.9}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(247,243,236,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-main{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--charcoal);line-height:1}
+.nav-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--warm-gray);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--terracotta);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--terracotta)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-reserve{padding:12px 26px;background:var(--terracotta);color:#fff;font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;font-weight:500}
+.nav-reserve:hover{background:var(--forest)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--charcoal)}
+.mobile-menu{position:fixed;inset:0;background:var(--ivory);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--charcoal);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--terracotta)}
+.mobile-close{position:absolute;top:28px;right:28px;background:none;border:none;font-size:1.5rem;cursor:none;color:var(--charcoal)}
+
+/* STORY HERO */
+.story-hero{padding:140px 60px 0;background:var(--ivory);overflow:hidden}
+.story-hero-content{max-width:760px;margin-bottom:70px}
+.story-eyebrow{font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.story-eyebrow::before{content:'';width:22px;height:1px;background:var(--terracotta)}
+.story-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,6vw,5.5rem);color:var(--charcoal);line-height:1.05;margin-bottom:28px;opacity:0;animation:fadeUp .9s .3s forwards}
+.story-hero h1 em{font-style:italic;color:var(--terracotta)}
+.story-hero-lead{font-size:1.1rem;line-height:1.8;color:var(--warm-gray);font-weight:300;max-width:600px;opacity:0;animation:fadeUp .9s .5s forwards}
+.story-hero-img{width:100%;height:60vh;min-height:400px;object-fit:cover;display:block;opacity:0;animation:fadeIn .9s .7s forwards}
+
+/* STORY BODY */
+.story-body{padding:100px 60px}
+.story-chapter{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:100px}
+.story-chapter:nth-child(even){direction:rtl}
+.story-chapter:nth-child(even) .story-chapter-text{direction:ltr}
+.story-chapter-img{position:relative;overflow:hidden}
+.story-chapter-img img{width:100%;height:480px;object-fit:cover;display:block;transition:transform .7s}
+.story-chapter:hover .story-chapter-img img{transform:scale(1.04)}
+.story-chapter-year{position:absolute;top:24px;left:24px;background:var(--terracotta);color:#fff;padding:10px 18px;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;font-weight:500}
+.story-chapter-text{direction:ltr}
+.story-chapter-num{font-family:'DM Serif Display',serif;font-size:4rem;color:rgba(196,98,45,0.08);line-height:1;margin-bottom:-8px}
+.story-chapter-eyebrow{font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-bottom:14px}
+.story-chapter-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--charcoal);line-height:1.2;margin-bottom:20px}
+.story-chapter-title em{font-style:italic;color:var(--terracotta)}
+.story-chapter-text p{font-size:.87rem;line-height:1.9;color:var(--warm-gray);font-weight:300;margin-bottom:16px}
+
+/* CHEF */
+.chef-section{background:var(--forest);padding:100px 60px}
+.chef-inner{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:center}
+.chef-img-wrap{position:relative}
+.chef-img-wrap img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.chef-tag{position:absolute;bottom:-20px;right:-20px;background:var(--terracotta);padding:20px 24px;font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:#fff;line-height:2}
+.chef-eyebrow{font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:rgba(247,243,236,0.5);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.chef-eyebrow::before{content:'';width:22px;height:1px;background:rgba(247,243,236,0.3)}
+.chef-name{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.5rem);color:var(--ivory);margin-bottom:8px;line-height:1.1}
+.chef-name em{font-style:italic;color:var(--terra-light)}
+.chef-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,236,0.5);margin-bottom:28px}
+.chef-bio{font-size:.87rem;line-height:1.9;color:rgba(247,243,236,0.65);font-weight:300;margin-bottom:36px}
+.chef-credentials{display:flex;flex-wrap:wrap;gap:10px}
+.credential{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(247,243,236,0.15);color:rgba(247,243,236,0.55)}
+
+/* VALUES */
+.values-section{padding:100px 60px;background:var(--ivory-dark)}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:60px}
+.value-item{background:var(--ivory-dark);padding:48px 36px;transition:background .3s}
+.value-item:hover{background:var(--ivory)}
+.value-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:rgba(196,98,45,0.1);line-height:1;margin-bottom:0}
+.value-icon{font-size:1.8rem;margin-bottom:16px}
+.value-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--charcoal);margin-bottom:12px}
+.value-desc{font-size:.8rem;line-height:1.8;color:var(--warm-gray);font-weight:300}
+
+/* CTA */
+.story-cta{background:var(--terracotta);padding:100px 60px;text-align:center}
+.story-cta h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.5rem);color:#fff;margin-bottom:16px;line-height:1.2}
+.story-cta h2 em{font-style:italic}
+.story-cta p{font-size:.88rem;color:rgba(255,255,255,0.7);max-width:480px;margin:0 auto 36px;line-height:1.8;font-weight:300}
+.btn-white{display:inline-block;padding:16px 36px;background:#fff;color:var(--terracotta);font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;text-decoration:none;transition:all .3s}
+.btn-white:hover{background:var(--charcoal);color:#fff}
+
+.section-eyebrow{display:flex;align-items:center;gap:12px;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px}
+.section-eyebrow::before{content:'';width:22px;height:1px;background:var(--terracotta)}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);color:var(--charcoal);line-height:1.15}
+.section-title em{font-style:italic;color:var(--terracotta)}
+
+footer{background:var(--charcoal);padding:60px 60px 36px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-logo-main{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--ivory);margin-bottom:6px}
+.footer-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta)}
+.footer-copy{font-size:.7rem;color:rgba(247,243,236,0.2)}
+.footer-credit{font-size:.7rem;color:rgba(247,243,236,0.35)}
+.footer-credit a{color:var(--terracotta);text-decoration:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.15s}.reveal-d2{transition-delay:.3s}
+
+@media(max-width:1024px){nav{padding:18px 32px}.story-hero{padding:120px 32px 0}.story-body{padding:70px 32px}.chef-section{padding:70px 32px}.values-section{padding:70px 32px}.story-cta{padding:70px 32px}.chef-inner{grid-template-columns:1fr;gap:50px}.story-chapter{grid-template-columns:1fr;gap:40px}.story-chapter:nth-child(even){direction:ltr}.values-grid{grid-template-columns:1fr 1fr}footer{padding:50px 32px 32px}}
+@media(max-width:768px){nav{padding:16px 24px}.nav-links,.nav-reserve{display:none}.nav-hamburger{display:flex}.story-hero{padding:110px 24px 0}.story-body{padding:60px 24px}.chef-section,.values-section,.story-cta{padding:60px 24px}.story-chapter-img img{height:320px}.values-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}footer{padding:50px 24px 32px}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="story.html">Our Story</a>
+  <a href="contact.html">Reservasi</a>
+</div>
+<nav>
+  <a class="nav-logo" href="index.html">
+    <span class="nav-logo-main">Nusantara Kitchen</span>
+    <span class="nav-logo-sub">Fine Dining · Jakarta</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="story.html" class="active">Our Story</a></li>
+    <li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <a class="nav-reserve" href="contact.html">Reservasi</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="story-hero">
+  <div class="story-hero-content">
+    <div class="story-eyebrow">Our Story</div>
+    <h1>Dari dapur nenek,<br>ke panggung <em>dunia</em></h1>
+    <p class="story-hero-lead">Nusantara Kitchen adalah kisah tentang kecintaan yang mendalam — pada rempah, pada tradisi, pada jutaan ibu dan nenek yang telah menjaga warisan kuliner Indonesia selama berabad-abad.</p>
+  </div>
+  <img class="story-hero-img" src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=1600&q=85" alt="Nusantara Kitchen Story">
+</div>
+
+<section class="story-body">
+  <div class="story-chapter reveal">
+    <div class="story-chapter-img">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=85" alt="Awal mula">
+      <div class="story-chapter-year">2016</div>
+    </div>
+    <div class="story-chapter-text">
+      <div class="story-chapter-num">01</div>
+      <div class="story-chapter-eyebrow">Awal Mula</div>
+      <h3 class="story-chapter-title">Sebuah mimpi di <em>dapur kecil</em> Jakarta</h3>
+      <p>Segalanya dimulai dari dapur kecil di kawasan Kebayoran Baru. Chef Arif Wibowo, setelah satu dekade memasak di Paris dan Tokyo, pulang ke Indonesia dengan satu pertanyaan yang terus menghantuinya: mengapa masakan Indonesia yang begitu kaya belum mendapat tempat di meja fine dining dunia?</p>
+      <p>Dengan modal nekat dan resep-resep tua dari sang nenek di Padang, ia mulai bereksperimen — mempertemukan teknik memasak internasional dengan kearifan lokal yang telah teruji ribuan tahun.</p>
+    </div>
+  </div>
+
+  <div class="story-chapter reveal">
+    <div class="story-chapter-img">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85" alt="Pembukaan">
+      <div class="story-chapter-year">2019</div>
+    </div>
+    <div class="story-chapter-text">
+      <div class="story-chapter-num">02</div>
+      <div class="story-chapter-eyebrow">Lahirnya Nusantara Kitchen</div>
+      <h3 class="story-chapter-title">Membuka pintu dengan <em>penuh keyakinan</em></h3>
+      <p>Nusantara Kitchen resmi dibuka di kawasan SCBD, Jakarta Selatan. Tidak ada yang menyangka antusiasme publik akan sebesar ini — dalam minggu pertama, reservasi sudah penuh hingga sebulan ke depan.</p>
+      <p>Media kuliner nasional dan internasional meliput. Bukan karena sensasi, tetapi karena satu hal sederhana: makanan yang jujur, autentik, dan dimasak dengan cinta yang sesungguhnya.</p>
+    </div>
+  </div>
+
+  <div class="story-chapter reveal">
+    <div class="story-chapter-img">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=85" alt="Penghargaan">
+      <div class="story-chapter-year">2023</div>
+    </div>
+    <div class="story-chapter-text">
+      <div class="story-chapter-num">03</div>
+      <div class="story-chapter-eyebrow">Pengakuan Dunia</div>
+      <h3 class="story-chapter-title">Indonesia di <em>peta kuliner global</em></h3>
+      <p>Nusantara Kitchen masuk dalam daftar 50 Best Restaurants Asia dan meraih penghargaan "Best Indonesian Restaurant" dari Asia's 50 Best. Sebuah pencapaian yang tidak pernah terbayangkan saat pertama kali membuka pintu.</p>
+      <p>Ini bukan sekadar penghargaan untuk kami — ini adalah pengakuan untuk seluruh tradisi kuliner Indonesia dan para ibu, nenek, dan leluhur yang telah menjaga warisan ini.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHEF -->
+<section class="chef-section">
+  <div class="chef-inner">
+    <div class="chef-img-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=85" alt="Chef Arif">
+      <div class="chef-tag">Head Chef<br>& Founder</div>
+    </div>
+    <div class="reveal reveal-d1">
+      <div class="chef-eyebrow">Chef & Founder</div>
+      <h2 class="chef-name">Chef Arif <em>Wibowo</em></h2>
+      <p class="chef-title">Executive Chef · Co-Founder · Nusantara Kitchen</p>
+      <p class="chef-bio">Lahir dan besar di Padang, Sumatera Barat, Chef Arif tumbuh dalam keluarga yang sangat mencintai masak-memasak. Ibunya adalah seorang juru masak legendaris di kampung, dan dari beliaulah Chef Arif belajar bahwa memasak adalah bentuk cinta yang paling tulus.</p>
+      <p class="chef-bio">Setelah menyelesaikan pendidikan di Le Cordon Bleu Paris dan magang di beberapa restoran berbintang Michelin di Jepang dan Prancis, ia memutuskan untuk pulang dan mendedikasikan hidupnya untuk mengangkat kuliner Indonesia ke panggung yang seharusnya.</p>
+      <div class="chef-credentials">
+        <span class="credential">Le Cordon Bleu Paris</span>
+        <span class="credential">Nobu Tokyo · Alumni</span>
+        <span class="credential">Asia's 50 Best 2023</span>
+        <span class="credential">15+ Tahun Pengalaman</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+  <p class="section-eyebrow reveal">Nilai Kami</p>
+  <h2 class="section-title reveal reveal-d1">Prinsip yang memandu<br>setiap <em>hidangan kami</em></h2>
+  <div class="values-grid">
+    <div class="value-item reveal">
+      <div class="value-icon">🌿</div>
+      <div class="value-title">Farm to Table</div>
+      <p class="value-desc">Kami bermitra langsung dengan petani lokal di Jawa, Bali, dan Sumatra. Setiap bahan dipilih segar setiap pagi dari sumber terpercaya.</p>
+    </div>
+    <div class="value-item reveal reveal-d1">
+      <div class="value-icon">🏺</div>
+      <div class="value-title">Resep Warisan</div>
+      <p class="value-desc">Setiap hidangan berbasis pada resep autentik yang telah diwariskan turun-temurun, diperbarui dengan teknik modern tanpa kehilangan jiwa aslinya.</p>
+    </div>
+    <div class="value-item reveal reveal-d2">
+      <div class="value-icon">♻️</div>
+      <div class="value-title">Zero Waste Kitchen</div>
+      <p class="value-desc">Kami berkomitmen pada dapur yang berkelanjutan. Limbah makanan didaur ulang menjadi kompos untuk kebun herbal kami sendiri.</p>
+    </div>
+  </div>
+</section>
+
+<div class="story-cta reveal">
+  <p style="font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:14px">Bergabunglah Bersama Kami</p>
+  <h2>Jadilah bagian dari <em>cerita</em> ini</h2>
+  <p>Setiap meja yang Anda duduki adalah bagian dari perjalanan kami. Kami tidak sekadar menyajikan makanan — kami mengundang Anda untuk merasakan jiwa Nusantara.</p>
+  <a class="btn-white" href="contact.html">Reservasi Meja Anda →</a>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <div>
+      <div class="footer-logo-main">Nusantara Kitchen</div>
+      <div class="footer-logo-sub">Fine Dining · Jakarta</div>
+    </div>
+    <p class="footer-copy">© 2026 Nusantara Kitchen. All rights reserved.</p>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
+reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
