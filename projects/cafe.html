@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kopi Timur Cafe — Kupang NTT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#0d0a07;--bg2:#16110b;--brown:#8b5e3c;--cream:#f5e6d3;--gold:#d4a853;--dim:#8a7060;--text:#f0e8de;--r:16px;--t:0.4s cubic-bezier(0.16,1,0.3,1);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+    ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-thumb{background:var(--brown);border-radius:99px;}
+
+    .back-btn{position:fixed;top:20px;left:20px;z-index:200;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(13,10,7,0.85);border:1px solid rgba(212,168,83,0.3);border-radius:99px;color:var(--gold);text-decoration:none;font-size:0.82rem;font-weight:600;backdrop-filter:blur(12px);transition:var(--t);}
+    .back-btn:hover{background:rgba(212,168,83,0.12);transform:translateX(-3px);}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 6vw;background:rgba(13,10,7,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,168,83,0.1);}
+    .logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--gold);letter-spacing:0.02em;text-decoration:none;}
+    .nav-links{display:flex;gap:28px;list-style:none;}
+    .nav-links a{color:var(--dim);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color var(--t);}
+    .nav-links a:hover{color:var(--text);}
+    .nav-order{padding:10px 22px;background:var(--gold);color:#0d0a07;font-size:0.82rem;font-weight:700;border-radius:99px;text-decoration:none;transition:var(--t);}
+    .nav-order:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(212,168,83,0.45);}
+
+    /* HERO */
+    .hero{height:100vh;min-height:600px;position:relative;display:flex;align-items:center;overflow:hidden;}
+    .hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.4);}
+    .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(13,10,7,0.9) 50%,transparent 100%);}
+    .hero-content{position:relative;z-index:1;padding:0 6vw;max-width:700px;}
+    .hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+    .hero-eyebrow span{font-size:0.72rem;font-weight:600;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;}
+    .hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--gold);}
+    .hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,8vw,6rem);font-weight:700;line-height:1.0;letter-spacing:-0.02em;margin-bottom:24px;}
+    .hero-h1 em{color:var(--gold);font-style:italic;}
+    .hero-sub{color:var(--dim);font-size:1rem;max-width:440px;line-height:1.75;margin-bottom:40px;font-weight:300;}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+    .btn-coffee{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:linear-gradient(135deg,var(--gold),var(--brown));color:#fff;font-size:0.9rem;font-weight:600;border-radius:var(--r);text-decoration:none;transition:var(--t);box-shadow:0 4px 28px rgba(212,168,83,0.35);}
+    .btn-coffee:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(212,168,83,0.5);}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:16px 28px;border:1px solid rgba(212,168,83,0.3);color:var(--gold);font-size:0.9rem;border-radius:var(--r);text-decoration:none;transition:var(--t);}
+    .btn-ghost:hover{background:rgba(212,168,83,0.1);transform:translateY(-3px);}
+
+    /* DIVIDER */
+    .divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,83,0.3),transparent);margin:0;}
+
+    /* SECTIONS */
+    section{padding:90px 6vw;position:relative;}
+    .sec-label{display:flex;align-items:center;gap:12px;font-size:0.72rem;font-weight:700;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px;}
+    .sec-label::before{content:'';width:32px;height:1px;background:var(--gold);}
+    .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;letter-spacing:-0.01em;line-height:1.15;margin-bottom:14px;}
+    .sec-sub{font-size:0.93rem;color:var(--dim);max-width:480px;line-height:1.7;}
+
+    /* MENU KOPI */
+    #menu{background:var(--bg2);}
+    .menu-intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:60px;}
+    .menu-intro-img{border-radius:20px;overflow:hidden;aspect-ratio:4/3;}
+    .menu-intro-img img{width:100%;height:100%;object-fit:cover;}
+    .coffee-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+    .coffee-card{background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,83,0.12);border-radius:20px;overflow:hidden;transition:var(--t);}
+    .coffee-card:hover{transform:translateY(-6px);border-color:rgba(212,168,83,0.35);}
+    .coffee-img{height:170px;overflow:hidden;}
+    .coffee-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
+    .coffee-card:hover .coffee-img img{transform:scale(1.08);}
+    .coffee-body{padding:18px;}
+    .coffee-tag{display:inline-block;padding:3px 10px;background:rgba(212,168,83,0.12);border-radius:99px;font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;}
+    .coffee-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;margin-bottom:6px;}
+    .coffee-desc{font-size:0.8rem;color:var(--dim);line-height:1.6;margin-bottom:12px;}
+    .coffee-price{font-weight:700;color:var(--gold);font-size:1rem;}
+
+    /* GALERI CAFE */
+    #galeri{}
+    .gal-masonry{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto;gap:14px;margin-top:48px;}
+    .gal-item{border-radius:16px;overflow:hidden;position:relative;}
+    .gal-item:nth-child(1){grid-row:span 2;}
+    .gal-item:nth-child(4){grid-row:span 2;}
+    .gal-item img{width:100%;height:100%;min-height:180px;object-fit:cover;display:block;transition:transform 0.5s,filter 0.3s;}
+    .gal-item:hover img{transform:scale(1.06);filter:brightness(0.75);}
+
+    /* FASILITAS */
+    #fasilitas{background:var(--bg2);}
+    .fas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:48px;}
+    .fas-item{background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,83,0.1);border-radius:16px;padding:28px 24px;transition:var(--t);}
+    .fas-item:hover{border-color:rgba(212,168,83,0.3);transform:translateY(-4px);}
+    .fas-ico{font-size:2rem;margin-bottom:14px;}
+    .fas-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;margin-bottom:6px;}
+    .fas-desc{font-size:0.82rem;color:var(--dim);line-height:1.6;}
+
+    /* LOKASI */
+    #lokasi{}
+    .lokasi-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-top:48px;}
+    .lokasi-info{background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,83,0.12);border-radius:20px;padding:32px;}
+    .info-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid rgba(212,168,83,0.1);}
+    .info-item:last-child{border-bottom:none;}
+    .info-ico{font-size:1.3rem;flex-shrink:0;}
+    .info-txt strong{display:block;font-size:0.9rem;color:var(--text);margin-bottom:4px;}
+    .info-txt span{font-size:0.85rem;color:var(--dim);}
+    .lokasi-map{background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,83,0.12);border-radius:20px;overflow:hidden;height:300px;display:flex;align-items:center;justify-content:center;position:relative;}
+    .lokasi-map img{width:100%;height:100%;object-fit:cover;filter:sepia(30%) brightness(0.8);}
+    .map-pin{position:absolute;background:var(--gold);color:#0d0a07;padding:10px 20px;border-radius:99px;font-size:0.85rem;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+
+    /* CTA */
+    #cta{text-align:center;background:linear-gradient(to bottom,var(--bg),var(--bg2));}
+    #cta .sec-sub{margin:0 auto 40px;}
+
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity 0.7s ease,transform 0.7s ease;}
+    .reveal.vis{opacity:1;transform:translateY(0);}
+    .rd1{transition-delay:0.1s;} .rd2{transition-delay:0.2s;} .rd3{transition-delay:0.3s;}
+
+    @media(max-width:768px){
+      .menu-intro,.lokasi-grid{grid-template-columns:1fr;}
+      .gal-masonry{grid-template-columns:1fr 1fr;}
+      .gal-item:nth-child(1),.gal-item:nth-child(4){grid-row:span 1;}
+      .nav-links,.nav-order{display:none;}
+    }
+  </style>
+</head>
+<body>
+<a href="../index.html" class="back-btn">← Kembali ke Portfolio</a>
+
+<nav>
+  <a href="#home" class="logo">☕ Kopi Timur</a>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#galeri">Galeri</a></li>
+    <li><a href="#fasilitas">Fasilitas</a></li>
+    <li><a href="#lokasi">Lokasi</a></li>
+  </ul>
+  <a href="https://wa.me/6285XXXXXXXX" class="nav-order" target="_blank">Order Sekarang</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1400&q=85&auto=format&fit=crop" alt="Kopi Timur"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(13,10,7,0.92) 45%,transparent 100%);z-index:1;"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span>Cafe Premium Kupang NTT</span></div>
+    <h1 class="hero-h1">Kopi <em>Timur</em><br>Cafe</h1>
+    <p class="hero-sub">Temukan ketenangan dalam secangkir kopi terbaik dari biji pilihan Flores dan Toraja. Tempat nongkrong favorit Kupang dengan suasana yang hangat dan nyaman.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-coffee">☕ Lihat Menu</a>
+      <a href="https://wa.me/6285XXXXXXXX" class="btn-ghost" target="_blank">Reservasi Meja</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-intro">
+    <div class="reveal">
+      <span class="sec-label">Pilihan Kami</span>
+      <h2 class="sec-title">Menu Kopi &<br>Makanan Ringan</h2>
+      <p class="sec-sub">Setiap kopi kami diseduh dengan metode terbaik oleh barista berpengalaman menggunakan biji kopi pilihan dari Nusa Tenggara dan Sulawesi.</p>
+      <a href="https://wa.me/6285XXXXXXXX" class="btn-coffee" style="margin-top:32px;display:inline-flex;" target="_blank">Order via WhatsApp</a>
+    </div>
+    <div class="menu-intro-img reveal rd1">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80&auto=format&fit=crop" alt="Barista"/>
+    </div>
+  </div>
+  <div class="coffee-grid">
+    <div class="coffee-card reveal">
+      <div class="coffee-img"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=80&auto=format&fit=crop" alt="Espresso"/></div>
+      <div class="coffee-body"><span class="coffee-tag">Espresso</span><div class="coffee-name">Kopi Flores Espresso</div><div class="coffee-desc">Biji kopi Arabika Flores single origin dengan profil rasa cokelat gelap dan fruity yang kompleks.</div><div class="coffee-price">Rp 28.000</div></div>
+    </div>
+    <div class="coffee-card reveal rd1">
+      <div class="coffee-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80&auto=format&fit=crop" alt="Latte"/></div>
+      <div class="coffee-body"><span class="coffee-tag">Latte</span><div class="coffee-name">Caramel Latte Art</div><div class="coffee-desc">Espresso double shot dengan susu steamed creamy dan sirup karamel. Dihias latte art cantik.</div><div class="coffee-price">Rp 38.000</div></div>
+    </div>
+    <div class="coffee-card reveal rd2">
+      <div class="coffee-img"><img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500&q=80&auto=format&fit=crop" alt="Matcha"/></div>
+      <div class="coffee-body"><span class="coffee-tag">Non-Coffee</span><div class="coffee-name">Matcha Latte Premium</div><div class="coffee-desc">Matcha grade ceremonial Jepang dengan susu oat hangat. Pilihan terbaik untuk non-coffee lovers.</div><div class="coffee-price">Rp 42.000</div></div>
+    </div>
+    <div class="coffee-card reveal">
+      <div class="coffee-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80&auto=format&fit=crop" alt="Croissant"/></div>
+      <div class="coffee-body"><span class="coffee-tag">Makanan</span><div class="coffee-name">Croissant Butter</div><div class="coffee-desc">Croissant renyah berlapis mentega Prancis, disajikan hangat dengan selai stroberi homemade.</div><div class="coffee-price">Rp 32.000</div></div>
+    </div>
+    <div class="coffee-card reveal rd1">
+      <div class="coffee-img"><img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=500&q=80&auto=format&fit=crop" alt="Pasta"/></div>
+      <div class="coffee-body"><span class="coffee-tag">Makanan</span><div class="coffee-name">Pasta Carbonara</div><div class="coffee-desc">Pasta al dente dengan saus carbonara creamy, bacon crispy, dan taburan parmesan. Comfort food terbaik!</div><div class="coffee-price">Rp 55.000</div></div>
+    </div>
+    <div class="coffee-card reveal rd2">
+      <div class="coffee-img"><img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&q=80&auto=format&fit=crop" alt="Smoothie"/></div>
+      <div class="coffee-body"><span class="coffee-tag">Minuman</span><div class="coffee-name">Mixed Berry Smoothie</div><div class="coffee-desc">Blend buah berry segar, yogurt Yunani, dan madu alami. Segar, sehat, dan Instagram-worthy!</div><div class="coffee-price">Rp 35.000</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section id="galeri">
+  <div class="reveal">
+    <span class="sec-label">Suasana Cafe</span>
+    <h2 class="sec-title">Galeri & Atmosfer</h2>
+    <p class="sec-sub">Desain interior hangat dan estetik — tempat yang tepat untuk bekerja, bersantai, dan berfoto.</p>
+  </div>
+  <div class="gal-masonry">
+    <div class="gal-item reveal"><img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=500&q=80&auto=format&fit=crop" alt="Interior"/></div>
+    <div class="gal-item reveal rd1"><img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=500&q=80&auto=format&fit=crop" alt="Kopi"/></div>
+    <div class="gal-item reveal rd2"><img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=500&q=80&auto=format&fit=crop" alt="Barista"/></div>
+    <div class="gal-item reveal rd3"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=500&q=80&auto=format&fit=crop" alt="Cozy"/></div>
+    <div class="gal-item reveal rd1"><img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=500&q=80&auto=format&fit=crop" alt="Late"/></div>
+    <div class="gal-item reveal rd2"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=500&q=80&auto=format&fit=crop" alt="Detail"/></div>
+  </div>
+</section>
+
+<!-- FASILITAS -->
+<section id="fasilitas">
+  <div class="reveal">
+    <span class="sec-label">Yang Kami Sediakan</span>
+    <h2 class="sec-title">Fasilitas Cafe</h2>
+    <p class="sec-sub">Kami menyediakan berbagai fasilitas untuk kenyamanan Anda selama di Kopi Timur.</p>
+  </div>
+  <div class="fas-grid">
+    <div class="fas-item reveal"><div class="fas-ico">📶</div><div class="fas-name">WiFi Kencang</div><div class="fas-desc">Internet cepat tersedia gratis untuk semua pelanggan. Cocok untuk WFH dan meeting online.</div></div>
+    <div class="fas-item reveal rd1"><div class="fas-ico">🎵</div><div class="fas-name">Live Music</div><div class="fas-desc">Pertunjukan musik live setiap Jumat & Sabtu malam. Suasana makin meriah!</div></div>
+    <div class="fas-item reveal rd2"><div class="fas-ico">🔌</div><div class="fas-name">Colokan & Meja Kerja</div><div class="fas-desc">Area khusus work zone dengan meja yang luas, kursi ergonomis, dan banyak colokan listrik.</div></div>
+    <div class="fas-item reveal rd3"><div class="fas-ico">🅿️</div><div class="fas-name">Parkir Luas</div><div class="fas-desc">Area parkir gratis yang luas untuk kendaraan roda dua dan roda empat.</div></div>
+    <div class="fas-item reveal"><div class="fas-ico">❄️</div><div class="fas-name">Full AC</div><div class="fas-desc">Ruangan ber-AC sejuk di semua area. Tetap segar meski cuaca Kupang sedang panas terik.</div></div>
+    <div class="fas-item reveal rd1"><div class="fas-ico">📸</div><div class="fas-name">Photo Corner</div><div class="fas-desc">Pojok foto estetik khusus yang didekorasi ulang setiap bulan. Wajib foto di sini!</div></div>
+  </div>
+</section>
+
+<!-- LOKASI -->
+<section id="lokasi">
+  <div class="reveal">
+    <span class="sec-label">Temukan Kami</span>
+    <h2 class="sec-title">Lokasi & Jam Buka</h2>
+  </div>
+  <div class="lokasi-grid">
+    <div class="lokasi-info reveal">
+      <div class="info-item"><div class="info-ico">📍</div><div class="info-txt"><strong>Alamat</strong><span>Jl. W.J. Lalamentik No. 45, Oebobo, Kota Kupang, NTT 85111</span></div></div>
+      <div class="info-item"><div class="info-ico">🕐</div><div class="info-txt"><strong>Jam Buka</strong><span>Senin-Kamis: 08.00–23.00 WITA<br>Jumat-Minggu: 08.00–01.00 WITA</span></div></div>
+      <div class="info-item"><div class="info-ico">📱</div><div class="info-txt"><strong>WhatsApp & Telepon</strong><span>+62 851-XXXX-XXXX</span></div></div>
+      <div class="info-item"><div class="info-ico">📸</div><div class="info-txt"><strong>Instagram</strong><span>@kopitimur.cafe</span></div></div>
+    </div>
+    <div class="lokasi-map reveal rd1">
+      <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&q=80&auto=format&fit=crop" alt="Map"/>
+      <div class="map-pin">📍 Kopi Timur Cafe</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div style="max-width:600px;margin:0 auto;" class="reveal">
+    <span class="sec-label">Kunjungi Kami</span>
+    <h2 class="sec-title" style="font-family:'Cormorant Garamond',serif;">Yuk, Ngopi Bareng<br>di Kopi Timur! ☕</h2>
+    <p class="sec-sub">Reservasi meja atau tanya menu via WhatsApp. Kami siap menyambut Anda!</p>
+    <a href="https://wa.me/6285XXXXXXXX?text=Halo%20Kopi%20Timur%2C%20saya%20mau%20reservasi%20meja" class="btn-coffee" target="_blank" style="font-size:1rem;padding:18px 40px;margin-top:40px;">💬 Reservasi WhatsApp</a>
+  </div>
+</section>
+
+<script>
+  const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target);}}),{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
