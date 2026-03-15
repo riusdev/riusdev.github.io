@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RiusDev — Web Developer · Kupang NTT</title>
+<meta name="description" content="RiusDev — Jasa pembuatan website & landing page profesional untuk bisnis Anda. Berbasis di Kupang NTT, melayani seluruh Indonesia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#080810;
+  --dark:#0e0e18;
+  --dark2:#13131f;
+  --dark3:#1a1a28;
+  --cyan:#00d4ff;
+  --cyan-dim:rgba(0,212,255,0.1);
+  --cyan-faint:rgba(0,212,255,0.05);
+  --cyan-glow:rgba(0,212,255,0.25);
+  --violet:#7c3aed;
+  --violet-dim:rgba(124,58,237,0.15);
+  --white:#f0f0ff;
+  --white-dim:rgba(240,240,255,0.55);
+  --white-faint:rgba(240,240,255,0.07);
+  --border:rgba(0,212,255,0.12);
+  --border-soft:rgba(240,240,255,0.06);
+  --steel:#5a5a7a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cabinet Grotesk',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor{position:fixed;width:10px;height:10px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .25s,height .25s;box-shadow:0 0 12px var(--cyan-glow)}
+.cursor-ring{position:fixed;width:38px;height:38px;border:1px solid rgba(0,212,255,0.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+
+/* NOISE */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.9}
+
+/* GRID BG */
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:24px 56px;transition:all .4s}
+nav.scrolled{background:rgba(8,8,16,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:16px 56px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;color:var(--black);letter-spacing:0}
+.nav-logo-text{font-size:1.1rem;font-weight:800;color:var(--white);letter-spacing:1px}
+.nav-logo-text span{color:var(--cyan)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--white-dim);text-decoration:none;transition:color .3s;font-weight:500}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta{padding:11px 24px;border:1px solid var(--cyan);color:var(--cyan);font-size:.62rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.nav-cta::before{content:'';position:absolute;inset:0;background:var(--cyan);transform:translateX(-101%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.nav-cta:hover{color:var(--black)}
+.nav-cta:hover::before{transform:translateX(0)}
+.nav-cta span{position:relative;z-index:1}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--white);transition:all .3s}
+.mobile-menu{position:fixed;inset:0;background:rgba(8,8,16,0.99);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;opacity:0;pointer-events:none;transition:opacity .4s;border:6px solid rgba(0,212,255,0.15)}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-size:2.8rem;font-weight:900;color:var(--white);text-decoration:none;letter-spacing:2px;transition:color .3s}
+.mobile-menu a:hover{color:var(--cyan)}
+.mobile-close{position:absolute;top:24px;right:28px;background:none;border:none;color:var(--white-dim);font-size:1.3rem;cursor:none}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 56px 100px;position:relative;overflow:hidden;z-index:1}
+.hero-glow{position:absolute;top:-200px;left:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 65%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,0.07) 0%,transparent 65%);pointer-events:none}
+.hero-tag{display:flex;align-items:center;gap:10px;margin-bottom:32px;opacity:0;animation:fadeUp .7s .2s forwards}
+.hero-tag-dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,0.4)}50%{box-shadow:0 0 0 10px rgba(0,212,255,0)}}
+.hero-tag-text{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan)}
+.hero h1{font-size:clamp(3.5rem,9vw,10rem);font-weight:900;line-height:.92;letter-spacing:-2px;margin-bottom:0;opacity:0;animation:fadeUp .9s .4s forwards}
+.hero h1 .name{display:block;background:linear-gradient(135deg,var(--white) 0%,rgba(240,240,255,0.7) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero h1 .role{display:block;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:.6em;letter-spacing:0;background:linear-gradient(135deg,var(--cyan),#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-top:40px;opacity:0;animation:fadeUp .9s .65s forwards;flex-wrap:wrap}
+.hero-desc{font-size:1rem;line-height:1.8;color:var(--white-dim);max-width:480px;font-weight:400}
+.hero-desc strong{color:var(--white);font-weight:700}
+.hero-actions{display:flex;gap:12px;flex-shrink:0;align-items:center;flex-wrap:wrap}
+.btn-cyan{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;background:var(--cyan);color:var(--black);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:800;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.btn-cyan::before{content:'';position:absolute;inset:0;background:var(--violet);transform:translateX(-101%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.btn-cyan:hover::before{transform:translateX(0)}
+.btn-cyan:hover{color:var(--white)}
+.btn-cyan span{position:relative;z-index:1}
+.btn-ghost-cyan{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border:1px solid var(--border);color:var(--white-dim);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;text-decoration:none;transition:all .3s}
+.btn-ghost-cyan:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero-stats{display:flex;gap:0;margin-top:60px;border:1px solid var(--border);opacity:0;animation:fadeUp .9s .9s forwards;align-self:flex-start}
+.hero-stat{padding:20px 32px;border-right:1px solid var(--border);text-align:center}
+.hero-stat:last-child{border-right:none}
+.hero-stat-num{font-size:2rem;font-weight:900;color:var(--cyan);line-height:1}
+.hero-stat-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:3px;text-transform:uppercase;color:var(--steel);margin-top:4px}
+.hero-scroll{position:absolute;bottom:40px;right:56px;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:3px;text-transform:uppercase;color:var(--steel);opacity:0;animation:fadeIn 1s 1.2s forwards}
+.hero-scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollAnim 2s 1.5s infinite}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* TICKER */
+.ticker{background:var(--dark2);overflow:hidden;padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1}
+.ticker-track{display:flex;gap:48px;animation:ticker 20s linear infinite;white-space:nowrap}
+.ticker-track span{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--steel);display:flex;align-items:center;gap:16px}
+.ticker-track span::after{content:'//';color:var(--cyan);opacity:.5}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ABOUT */
+.about{padding:120px 56px;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;position:relative;z-index:1}
+.about-left{}
+.about-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.about-eyebrow::before{content:'//'}
+.section-title{font-size:clamp(2.2rem,4vw,3.5rem);font-weight:900;line-height:1.05;color:var(--white);margin-bottom:20px;letter-spacing:-1px}
+.section-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--cyan)}
+.about-text{font-size:.9rem;line-height:1.9;color:var(--white-dim);font-weight:400;margin-bottom:36px;max-width:500px}
+.about-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px}
+.skill-tag{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:2px;padding:7px 14px;border:1px solid var(--border);color:var(--steel);transition:all .3s}
+.skill-tag:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-faint)}
+.about-right{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.about-card{background:var(--dark);padding:36px 28px;transition:background .3s;position:relative;overflow:hidden}
+.about-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--cyan),var(--violet));transform:scaleX(0);transition:transform .5s}
+.about-card:hover{background:var(--dark2)}
+.about-card:hover::before{transform:scaleX(1)}
+.about-card-icon{font-size:1.8rem;margin-bottom:14px;display:block}
+.about-card-title{font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:8px}
+.about-card-desc{font-size:.76rem;line-height:1.7;color:var(--white-dim);font-weight:400}
+
+/* PROJECTS */
+.projects{padding:120px 56px;position:relative;z-index:1;border-top:1px solid var(--border-soft)}
+.projects-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:70px}
+.projects-title-wrap{}
+.proj-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.proj-eyebrow::before{content:'//'}
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-soft)}
+
+/* PROJECT CARD — seluruh card bisa diklik, tombol selalu terlihat */
+.project-card{background:var(--dark);position:relative;overflow:hidden;cursor:pointer;display:block;text-decoration:none;transition:background .3s}
+.project-card:hover{background:var(--dark2)}
+.project-card-img{position:relative;overflow:hidden;aspect-ratio:16/10}
+.project-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .5s;filter:saturate(.7) brightness(.85)}
+.project-card:hover .project-card-img img{transform:scale(1.07);filter:saturate(1) brightness(1)}
+.project-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,16,.95) 0%,rgba(8,8,16,.3) 60%,transparent 100%)}
+.project-card-body{padding:20px 22px 22px}
+.project-card-type{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+.project-card-name{font-size:1.15rem;font-weight:800;color:var(--white);margin-bottom:6px;letter-spacing:-.5px}
+.project-card-desc{font-size:.75rem;color:var(--white-dim);line-height:1.5;font-weight:400;margin-bottom:14px}
+.project-card-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.project-card-tech{display:flex;gap:6px;flex-wrap:wrap}
+.tech-badge{font-family:'JetBrains Mono',monospace;font-size:.45rem;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--cyan)}
+/* Tombol lihat project — selalu terlihat */
+.project-card-link{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:6px;transition:gap .3s;font-weight:600}
+.project-card-link::after{content:'↗';font-size:.8rem}
+.project-card:hover .project-card-link{gap:10px}
+/* Badge nomor */
+.project-card-num{position:absolute;top:12px;left:12px;font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:2px;color:rgba(0,212,255,0.5);background:rgba(8,8,16,0.75);padding:4px 8px;border:1px solid rgba(0,212,255,0.15)}
+
+/* PROCESS */
+.process{padding:120px 56px;background:var(--dark);border-top:1px solid var(--border-soft);position:relative;z-index:1;overflow:hidden}
+.process::before{content:'HOW';position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-size:22vw;font-weight:900;color:rgba(0,212,255,0.02);pointer-events:none;letter-spacing:-5px}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border-soft);margin-top:60px}
+.process-item{padding:48px 36px;background:var(--dark);transition:background .3s;position:relative;overflow:hidden}
+.process-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--cyan),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.process-item:hover{background:var(--dark2)}
+.process-item:hover::after{transform:scaleX(1)}
+.process-num{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:400;color:rgba(0,212,255,0.05);line-height:1;margin-bottom:-8px}
+.process-icon{font-size:2rem;margin-bottom:16px;display:block}
+.process-title{font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:10px;letter-spacing:-.3px}
+.process-desc{font-size:.78rem;line-height:1.8;color:var(--white-dim);font-weight:400}
+
+/* PRICING */
+.pricing{padding:120px 56px;position:relative;z-index:1;border-top:1px solid var(--border-soft)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-soft);margin-top:60px}
+.price-card{background:var(--dark);padding:48px 36px;position:relative;overflow:hidden;transition:background .3s;cursor:none}
+.price-card.featured{background:linear-gradient(135deg,var(--dark2),var(--dark3));border:1px solid var(--cyan);margin:-1px}
+.price-card:not(.featured):hover{background:var(--dark2)}
+.price-glow{position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,212,255,0.08) 0%,transparent 70%)}
+.price-label{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.price-badge{position:absolute;top:20px;right:20px;font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;background:var(--cyan);color:var(--black);font-weight:700}
+.price-name{font-size:1.6rem;font-weight:900;color:var(--white);margin-bottom:8px;letter-spacing:-.5px}
+.price-desc{font-size:.78rem;line-height:1.7;color:var(--white-dim);font-weight:400;margin-bottom:28px}
+.price-amount{font-size:2.8rem;font-weight:900;color:var(--cyan);line-height:1;margin-bottom:6px;letter-spacing:-1px}
+.price-note{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:2px;color:var(--steel);margin-bottom:28px}
+.price-includes{list-style:none;display:flex;flex-direction:column;gap:10px;padding:20px 0;border-top:1px solid var(--border-soft);margin-bottom:28px}
+.price-includes li{font-size:.8rem;color:var(--white-dim);display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.price-includes li::before{content:'→';color:var(--cyan);flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:.6rem;margin-top:2px}
+.btn-price{display:block;text-align:center;padding:14px;background:transparent;color:var(--cyan);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;text-decoration:none;border:1px solid var(--border);transition:all .3s}
+.btn-price:hover{background:var(--cyan);color:var(--black);border-color:var(--cyan)}
+.price-card.featured .btn-price{background:var(--cyan);color:var(--black);border-color:var(--cyan)}
+.price-card.featured .btn-price:hover{background:var(--violet);border-color:var(--violet);color:var(--white)}
+
+/* TESTIMONIALS */
+.testimonials{padding:120px 56px;background:var(--dark);border-top:1px solid var(--border-soft);position:relative;z-index:1}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-soft);margin-top:60px}
+.testi-card{background:var(--dark);padding:36px 28px;transition:background .3s;border-bottom:2px solid transparent;transition:border-color .3s,background .3s}
+.testi-card:hover{background:var(--dark2);border-bottom-color:var(--cyan)}
+.testi-stars{color:var(--cyan);font-size:.7rem;letter-spacing:3px;margin-bottom:16px}
+.testi-text{font-size:.85rem;line-height:1.8;color:var(--white-dim);font-style:italic;font-weight:400;margin-bottom:20px}
+.testi-line{width:24px;height:1px;background:var(--cyan);margin-bottom:14px}
+.testi-name{font-size:.88rem;font-weight:700;color:var(--white)}
+.testi-info{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:2px;color:var(--steel);margin-top:4px}
+
+/* CTA */
+.cta-section{padding:120px 56px;position:relative;z-index:1;overflow:hidden;text-align:center}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(0,212,255,0.06) 0%,transparent 65%);pointer-events:none}
+.cta-section h2{font-size:clamp(3rem,7vw,7rem);font-weight:900;line-height:.92;letter-spacing:-2px;margin-bottom:24px;position:relative;z-index:1}
+.cta-section h2 .grad{background:linear-gradient(135deg,var(--white),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cta-section h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cta-desc{font-size:1rem;line-height:1.8;color:var(--white-dim);max-width:560px;margin:0 auto 48px;font-weight:400;position:relative;z-index:1}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:48px}
+.cta-contact{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.cta-contact-item{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--steel)}
+.cta-contact-item a{color:var(--white-dim);text-decoration:none;transition:color .3s}
+.cta-contact-item a:hover{color:var(--cyan)}
+.cta-contact-item::before{content:'//';color:var(--cyan);opacity:.4}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid var(--border-soft);padding:70px 56px 36px;position:relative;z-index:1}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:50px}
+.footer-brand-wrap{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.footer-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:900;color:var(--black)}
+.footer-brand{font-size:1.3rem;font-weight:900;color:var(--white);letter-spacing:1px}
+.footer-brand span{color:var(--cyan)}
+.footer-tagline{font-size:.78rem;line-height:1.8;color:var(--steel);font-weight:400;max-width:280px;margin-bottom:24px}
+.footer-social{display:flex;gap:8px}
+.footer-social a{width:36px;height:36px;border:1px solid var(--border-soft);display:flex;align-items:center;justify-content:center;color:var(--steel);font-size:.62rem;text-decoration:none;transition:all .3s;font-family:'JetBrains Mono',monospace;font-weight:700}
+.footer-social a:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-faint)}
+.footer-col h4{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col a{font-size:.8rem;color:var(--steel);text-decoration:none;transition:color .3s;font-weight:400}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid var(--border-soft);padding-top:28px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:2px;color:var(--steel);text-transform:uppercase}
+.footer-copy span{color:var(--cyan)}
+.footer-made{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:2px;color:var(--steel);text-transform:uppercase}
+.footer-made span{color:var(--cyan)}
+
+/* STATUS INDICATOR */
+.status-bar{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--steel);margin-bottom:0}
+.status-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:statusPulse 2s infinite}
+@keyframes statusPulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}50%{box-shadow:0 0 0 8px rgba(34,197,94,0)}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}.reveal-d5{transition-delay:.5s}
+
+@media(max-width:1100px){
+  nav{padding:20px 32px}nav.scrolled{padding:14px 32px}
+  .hero{padding:110px 32px 80px}
+  .about{grid-template-columns:1fr;gap:50px;padding:80px 32px}
+  .projects{padding:80px 32px}.projects-grid{grid-template-columns:1fr 1fr}.projects-header{flex-direction:column;align-items:flex-start;gap:20px}
+  .process{padding:80px 32px}.process-grid{grid-template-columns:1fr 1fr}
+  .pricing{padding:80px 32px}.pricing-grid{grid-template-columns:1fr}
+  .testimonials{padding:80px 32px}.testi-grid{grid-template-columns:1fr}
+  .cta-section{padding:80px 32px}
+  footer{padding:60px 32px 32px}.footer-top{grid-template-columns:1fr 1fr;gap:40px}
+}
+@media(max-width:768px){
+  nav{padding:16px 24px}nav.scrolled{padding:12px 24px}
+  .nav-links,.nav-cta{display:none}.nav-hamburger{display:flex}
+  .hero{padding:100px 24px 70px}.hero-sub{flex-direction:column;align-items:flex-start;gap:24px}.hero-scroll{display:none}
+  .hero-stats{flex-wrap:wrap}.hero-stat{flex:1;min-width:100px}
+  .about{padding:60px 24px}.about-right{grid-template-columns:1fr}
+  .projects{padding:60px 24px}.projects-grid{grid-template-columns:1fr}
+  .process{padding:60px 24px}.process-grid{grid-template-columns:1fr}
+  .pricing{padding:60px 24px}
+  .testimonials{padding:60px 24px}
+  .cta-section{padding:70px 24px}
+  footer{padding:50px 24px 32px}.footer-top{grid-template-columns:1fr;gap:36px}
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="grid-bg"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">R</div>
+    <span class="nav-logo-text">Rius<span>Dev</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="https://wa.me/6281338693093"><span>Hire Me</span></a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-tag">
+    <div class="hero-tag-dot"></div>
+    <span class="hero-tag-text">Available for projects · Kupang, NTT</span>
+  </div>
+  <h1>
+    <span class="name">Rius</span>
+    <span class="role">Web Developer</span>
+  </h1>
+  <div class="hero-sub">
+    <p class="hero-desc">Saya membantu bisnis Anda tumbuh dengan <strong>website & landing page profesional</strong> yang modern, cepat, dan menghasilkan pelanggan. Melayani seluruh Indonesia.</p>
+    <div class="hero-actions">
+      <a class="btn-cyan" href="#projects"><span>Lihat Portfolio →</span></a>
+      <a class="btn-ghost-cyan" href="https://wa.me/6281338693093" target="_blank">Hubungi Saya</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">6+</div>
+      <div class="hero-stat-label">Projects</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Responsive</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2026</div>
+      <div class="hero-stat-label">Modern Design</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">Fast</div>
+      <div class="hero-stat-label">Delivery</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Landing Page</span><span>Website Bisnis</span><span>Company Profile</span><span>Toko Online</span><span>Hotel & Resort</span><span>Restoran</span><span>Cafe</span><span>Salon & Barbershop</span><span>Responsive Mobile</span><span>Modern Design</span>
+    <span>Landing Page</span><span>Website Bisnis</span><span>Company Profile</span><span>Toko Online</span><span>Hotel & Resort</span><span>Restoran</span><span>Cafe</span><span>Salon & Barbershop</span><span>Responsive Mobile</span><span>Modern Design</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left">
+    <div class="about-eyebrow reveal">About Me</div>
+    <h2 class="section-title reveal reveal-d1">Saya <em>Rius</em>,<br>Web Developer<br>dari Kupang</h2>
+    <p class="about-text reveal reveal-d2">Saya adalah web developer yang berfokus pada pembuatan website dan landing page modern untuk bisnis lokal Indonesia. Setiap project yang saya buat dirancang untuk tidak hanya terlihat bagus — tetapi juga bekerja keras untuk bisnis Anda dengan tampilan yang menarik klien dan mudah ditemukan.</p>
+    <div class="about-skills reveal reveal-d3">
+      <span class="skill-tag">HTML / CSS</span>
+      <span class="skill-tag">JavaScript</span>
+      <span class="skill-tag">Responsive Design</span>
+      <span class="skill-tag">UI / UX</span>
+      <span class="skill-tag">Landing Page</span>
+      <span class="skill-tag">Website Bisnis</span>
+      <span class="skill-tag">Mobile First</span>
+      <span class="skill-tag">SEO Friendly</span>
+    </div>
+    <div class="status-bar reveal reveal-d4">
+      <div class="status-dot"></div>
+      <span>Tersedia untuk project baru</span>
+    </div>
+  </div>
+  <div class="about-right reveal reveal-d2">
+    <div class="about-card">
+      <span class="about-card-icon">⚡</span>
+      <div class="about-card-title">Fast Delivery</div>
+      <div class="about-card-desc">Landing page selesai dalam 3-5 hari kerja. Website multi-page dalam 7-14 hari.</div>
+    </div>
+    <div class="about-card">
+      <span class="about-card-icon">📱</span>
+      <div class="about-card-title">Mobile Friendly</div>
+      <div class="about-card-desc">Semua website tampil sempurna di HP, tablet, dan desktop. Dijamin 100%.</div>
+    </div>
+    <div class="about-card">
+      <span class="about-card-icon">🎨</span>
+      <div class="about-card-title">Modern Design</div>
+      <div class="about-card-desc">Desain mengikuti tren 2026 — bukan template generik. Setiap project unik.</div>
+    </div>
+    <div class="about-card">
+      <span class="about-card-icon">🔧</span>
+      <div class="about-card-title">Revisi Included</div>
+      <div class="about-card-desc">Gratis revisi hingga Anda puas. Kepuasan klien adalah prioritas utama.</div>
+    </div>
+    <div class="about-card">
+      <span class="about-card-icon">💬</span>
+      <div class="about-card-title">WhatsApp Ready</div>
+      <div class="about-card-desc">Semua tombol CTA terhubung langsung ke WhatsApp bisnis Anda.</div>
+    </div>
+    <div class="about-card">
+      <span class="about-card-icon">🌐</span>
+      <div class="about-card-title">GitHub Hosting</div>
+      <div class="about-card-desc">Website dapat dihosting gratis di GitHub Pages atau domain sendiri.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="proj-eyebrow reveal">// Portfolio</div>
+      <h2 class="section-title reveal reveal-d1">Project <em>terbaru</em><br>yang sudah dibuat</h2>
+    </div>
+    <p class="reveal reveal-d2" style="font-size:.85rem;color:var(--white-dim);max-width:320px;font-weight:400;line-height:1.7">Setiap project dibuat dengan tema, desain, dan identitas visual yang unik dan berbeda.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- 1. HOTEL -->
+    <a class="project-card reveal" href="projects/arunika-resort/index.html" target="_blank">
+      <div class="project-card-img">
+        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80" alt="Arunika Resort">
+        <div class="project-card-overlay"></div>
+        <div class="project-card-num">01</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-type">// Hotel · Multi-page Website</div>
+        <div class="project-card-name">Arunika Resort & Spa</div>
+        <div class="project-card-desc">Website hotel mewah Ubud Bali — 5 halaman lengkap. Dark luxury editorial.</div>
+        <div class="project-card-footer">
+          <div class="project-card-tech">
+            <span class="tech-badge">Dark Luxury</span>
+            <span class="tech-badge">5 Pages</span>
+          </div>
+          <span class="project-card-link">Lihat</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 2. RESTORAN -->
+    <a class="project-card reveal reveal-d1" href="projects/nusantara-kitchen/index.html" target="_blank">
+      <div class="project-card-img">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80" alt="Nusantara Kitchen">
+        <div class="project-card-overlay"></div>
+        <div class="project-card-num">02</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-type">// Restoran · Multi-page Website</div>
+        <div class="project-card-name">Nusantara Kitchen</div>
+        <div class="project-card-desc">Website fine dining Indonesia — 4 halaman. Warm Indonesian editorial.</div>
+        <div class="project-card-footer">
+          <div class="project-card-tech">
+            <span class="tech-badge">Warm Editorial</span>
+            <span class="tech-badge">4 Pages</span>
+          </div>
+          <span class="project-card-link">Lihat</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 3. CAFE -->
+    <a class="project-card reveal reveal-d2" href="projects/cafe-folio/index.html" target="_blank">
+      <div class="project-card-img">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80" alt="Folio Coffee">
+        <div class="project-card-overlay"></div>
+        <div class="project-card-num">03</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-type">// Cafe · Landing Page</div>
+        <div class="project-card-name">Folio Coffee</div>
+        <div class="project-card-desc">Landing page cafe modern — monochrome brutalist, typography oversized.</div>
+        <div class="project-card-footer">
+          <div class="project-card-tech">
+            <span class="tech-badge">Brutalist</span>
+            <span class="tech-badge">Landing Page</span>
+          </div>
+          <span class="project-card-link">Lihat</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 4. SALON -->
+    <a class="project-card reveal reveal-d1" href="projects/lumina-beauty/index.html" target="_blank">
+      <div class="project-card-img">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80" alt="Lumina Beauty">
+        <div class="project-card-overlay"></div>
+        <div class="project-card-num">04</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-type">// Salon · Landing Page</div>
+        <div class="project-card-name">Lumina Beauty Studio</div>
+        <div class="project-card-desc">Landing page salon premium — soft luxury feminine, rose gold elegan.</div>
+        <div class="project-card-footer">
+          <div class="project-card-tech">
+            <span class="tech-badge">Soft Luxury</span>
+            <span class="tech-badge">Landing Page</span>
+          </div>
+          <span class="project-card-link">Lihat</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 5. BARBERSHOP -->
+    <a class="project-card reveal reveal-d2" href="projects/the-blade-co/index.html" target="_blank">
+      <div class="project-card-img">
+        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80" alt="The Blade Co">
+        <div class="project-card-overlay"></div>
+        <div class="project-card-num">05</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-type">// Barbershop · Landing Page</div>
+        <div class="project-card-name">The Blade Co.</div>
+        <div class="project-card-desc">Landing page barbershop premium — dark industrial masculine, bold typography.</div>
+        <div class="project-card-footer">
+          <div class="project-card-tech">
+            <span class="tech-badge">Dark Industrial</span>
+            <span class="tech-badge">Landing Page</span>
+          </div>
+          <span class="project-card-link">Lihat</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 6. KULINER -->
+    <a class="project-card reveal reveal-d3" href="projects/dapur-rempah/index.html" target="_blank">
+      <div class="project-card-img">
+        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=80" alt="Dapur Rempah">
+        <div class="project-card-overlay"></div>
+        <div class="project-card-num">06</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-type">// Toko Kuliner · Landing Page</div>
+        <div class="project-card-name">Dapur Rempah</div>
+        <div class="project-card-desc">Landing page toko kuliner — earthy organic, coklat tanah dan oranye vibrant.</div>
+        <div class="project-card-footer">
+          <div class="project-card-tech">
+            <span class="tech-badge">Earthy Organic</span>
+            <span class="tech-badge">Landing Page</span>
+          </div>
+          <span class="project-card-link">Lihat</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="proj-eyebrow reveal">// How It Works</div>
+  <h2 class="section-title reveal reveal-d1">Cara kerja <em>sederhana</em>,<br>hasil yang maksimal</h2>
+  <div class="process-grid">
+    <div class="process-item reveal">
+      <div class="process-num">01</div>
+      <span class="process-icon">💬</span>
+      <div class="process-title">Konsultasi</div>
+      <p class="process-desc">Hubungi saya via WhatsApp, ceritakan kebutuhan bisnis Anda. Saya akan mendengarkan dan memberikan rekomendasi terbaik secara gratis.</p>
+    </div>
+    <div class="process-item reveal reveal-d1">
+      <div class="process-num">02</div>
+      <span class="process-icon">🎨</span>
+      <div class="process-title">Desain & Coding</div>
+      <p class="process-desc">Saya mulai mengerjakan website Anda dengan desain yang sesuai karakter bisnis — modern, menarik, dan profesional.</p>
+    </div>
+    <div class="process-item reveal reveal-d2">
+      <div class="process-num">03</div>
+      <span class="process-icon">🔍</span>
+      <div class="process-title">Review & Revisi</div>
+      <p class="process-desc">Anda mereview hasilnya dan memberikan feedback. Saya revisi hingga Anda benar-benar puas dengan hasilnya.</p>
+    </div>
+    <div class="process-item reveal reveal-d3">
+      <div class="process-num">04</div>
+      <span class="process-icon">🚀</span>
+      <div class="process-title">Launch!</div>
+      <p class="process-desc">Website live dan siap digunakan! Saya bantu upload ke GitHub Pages atau domain pilihan Anda. Bisnis Anda siap online!</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="proj-eyebrow reveal">// Pricing</div>
+  <h2 class="section-title reveal reveal-d1">Harga <em>transparan</em>,<br>kualitas premium</h2>
+  <div class="pricing-grid">
+
+    <div class="price-card reveal">
+      <div class="price-label">// Starter</div>
+      <div class="price-name">Landing Page</div>
+      <p class="price-desc">Cocok untuk UMKM, cafe, salon, barbershop, dan toko yang butuh kehadiran online yang menarik.</p>
+      <div class="price-amount">Rp 800rb</div>
+      <p class="price-note">// Selesai dalam 3-5 hari kerja</p>
+      <ul class="price-includes">
+        <li>1 halaman landing page lengkap</li>
+        <li>Desain modern & responsive mobile</li>
+        <li>Tombol WhatsApp & form order</li>
+        <li>Animasi scroll reveal</li>
+        <li>Upload ke GitHub Pages</li>
+        <li>2x revisi gratis</li>
+      </ul>
+      <a class="btn-price" href="https://wa.me/6281338693093?text=Halo%20RiusDev!%20Saya%20tertarik%20paket%20Landing%20Page%20Rp%20800rb" target="_blank">Pesan Sekarang →</a>
+    </div>
+
+    <div class="price-card featured reveal reveal-d1">
+      <div class="price-glow"></div>
+      <div class="price-badge">★ Terpopuler</div>
+      <div class="price-label">// Professional</div>
+      <div class="price-name">Website Bisnis</div>
+      <p class="price-desc">Untuk hotel, restoran, dan bisnis yang butuh website multi-halaman yang lengkap dan premium.</p>
+      <div class="price-amount">Rp 2.5jt</div>
+      <p class="price-note">// Selesai dalam 7-10 hari kerja</p>
+      <ul class="price-includes">
+        <li>3-5 halaman website lengkap</li>
+        <li>Desain premium & unik per bisnis</li>
+        <li>Navbar, gallery, booking form</li>
+        <li>SEO friendly & fast loading</li>
+        <li>Custom domain (opsional)</li>
+        <li>Revisi tidak terbatas</li>
+        <li>Support 30 hari setelah launch</li>
+      </ul>
+      <a class="btn-price" href="https://wa.me/6281338693093?text=Halo%20RiusDev!%20Saya%20tertarik%20paket%20Website%20Bisnis%20Rp%202.5jt" target="_blank">Pesan Sekarang →</a>
+    </div>
+
+    <div class="price-card reveal reveal-d2">
+      <div class="price-label">// Enterprise</div>
+      <div class="price-name">Custom Project</div>
+      <p class="price-desc">Untuk kebutuhan khusus — toko online, company profile besar, atau project dengan fitur custom.</p>
+      <div class="price-amount">Custom</div>
+      <p class="price-note">// Harga sesuai kebutuhan</p>
+      <ul class="price-includes">
+        <li>Konsultasi & analisis kebutuhan</li>
+        <li>Halaman tidak terbatas</li>
+        <li>Fitur custom sesuai request</li>
+        <li>Toko online dengan katalog produk</li>
+        <li>Integrasi payment & WhatsApp</li>
+        <li>Maintenance & update berkala</li>
+        <li>Priority support</li>
+      </ul>
+      <a class="btn-price" href="https://wa.me/6281338693093?text=Halo%20RiusDev!%20Saya%20mau%20diskusi%20Custom%20Project" target="_blank">Diskusi Dulu →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="proj-eyebrow reveal">// Testimonials</div>
+  <h2 class="section-title reveal reveal-d1">Yang mereka <em>katakan</em><br>tentang saya</h2>
+  <div class="testi-grid">
+    <div class="testi-card reveal reveal-d1">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Website cafe kami jadi jauh lebih profesional dan banyak pelanggan baru yang bilang temukan kami dari website. RiusDev benar-benar memahami kebutuhan bisnis kami!"</p>
+      <div class="testi-line"></div>
+      <div class="testi-name">Budi Santoso</div>
+      <div class="testi-info">Owner Cafe · Surabaya</div>
+    </div>
+    <div class="testi-card reveal reveal-d2">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Hasilnya melampaui ekspektasi! Desainnya sangat modern dan berbeda dari developer lain yang pernah saya coba. Proses pengerjaannya cepat dan komunikasinya sangat responsif."</p>
+      <div class="testi-line"></div>
+      <div class="testi-name">Sari Dewi</div>
+      <div class="testi-info">Owner Salon · Jakarta</div>
+    </div>
+    <div class="testi-card reveal reveal-d3">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Website hotel kami sekarang terlihat sekelas resort internasional. Banyak tamu yang compliment soal website-nya sebelum menginap. Worth every rupiah!"</p>
+      <div class="testi-line"></div>
+      <div class="testi-name">Hendra Wijaya</div>
+      <div class="testi-info">Manager Hotel · Bali</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <h2 class="reveal">
+    <span class="grad">Siap punya</span><br>
+    <em>website impian</em><br>
+    <span class="grad">Anda?</span>
+  </h2>
+  <p class="cta-desc reveal reveal-d1">Konsultasi gratis, tidak ada kewajiban apapun. Ceritakan bisnis Anda dan saya akan buatkan website yang benar-benar bekerja untuk Anda.</p>
+  <div class="cta-btns reveal reveal-d2">
+    <a class="btn-cyan" href="https://wa.me/6281338693093?text=Halo%20RiusDev!%20Saya%20mau%20konsultasi%20pembuatan%20website." target="_blank"><span>💬 Chat WhatsApp Sekarang →</span></a>
+    <a class="btn-ghost-cyan" href="#projects">Lihat Portfolio Dulu</a>
+  </div>
+  <div class="cta-contact reveal reveal-d3">
+    <div class="cta-contact-item">
+      <a href="https://wa.me/6281338693093" target="_blank">+62 813-3869-3093</a>
+    </div>
+    <div class="cta-contact-item">
+      <a href="mailto:rius@riusdev.github.io">riusdev@gmail.com</a>
+    </div>
+    <div class="cta-contact-item">
+      <span>Kupang, NTT — Indonesia</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-wrap">
+        <div class="footer-mark">R</div>
+        <div class="footer-brand">Rius<span>Dev</span></div>
+      </div>
+      <p class="footer-tagline">Jasa pembuatan website & landing page profesional untuk bisnis Anda. Berbasis di Kupang NTT, melayani seluruh Indonesia.</p>
+      <div class="footer-social">
+        <a href="https://github.com/riusdev" target="_blank">gh</a>
+        <a href="#">ig</a>
+        <a href="https://wa.me/6281338693093" target="_blank">wa</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>// Portfolio</h4>
+      <ul>
+        <li><a href="projects/arunika-resort/index.html" target="_blank">Arunika Resort</a></li>
+        <li><a href="projects/nusantara-kitchen/index.html" target="_blank">Nusantara Kitchen</a></li>
+        <li><a href="projects/cafe-folio/index.html" target="_blank">Folio Coffee</a></li>
+        <li><a href="projects/lumina-beauty/index.html" target="_blank">Lumina Beauty</a></li>
+        <li><a href="projects/the-blade-co/index.html" target="_blank">The Blade Co.</a></li>
+        <li><a href="projects/dapur-rempah/index.html" target="_blank">Dapur Rempah</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>// Layanan</h4>
+      <ul>
+        <li><a href="#pricing">Landing Page</a></li>
+        <li><a href="#pricing">Website Bisnis</a></li>
+        <li><a href="#pricing">Company Profile</a></li>
+        <li><a href="#pricing">Custom Project</a></li>
+        <li><a href="https://wa.me/6281338693093" target="_blank">Konsultasi Gratis</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 <span>RiusDev</span> · Kupang, NTT</p>
+    <p class="footer-made">Built with <span>❤</span> by Rius</p>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='58px';ring.style.height='58px'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='38px';ring.style.height='38px'});
+});
+
+// Nav
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>80));
+
+// Mobile menu
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+
+// Reveal
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
+reveals.forEach(el=>obs.observe(el));
+
+// Typing effect on hero tag
+const tagText=document.querySelector('.hero-tag-text');
+const texts=['Available for projects · Kupang, NTT','Web Developer · Indonesia','Landing Page Specialist','Let\'s build something great!'];
+let ti=0,ci=0,typing=true;
+function typeEffect(){
+  if(typing){
+    tagText.textContent=texts[ti].slice(0,ci+1);
+    ci++;
+    if(ci===texts[ti].length){typing=false;setTimeout(typeEffect,2000);return}
+  } else {
+    tagText.textContent=texts[ti].slice(0,ci-1);
+    ci--;
+    if(ci===0){typing=true;ti=(ti+1)%texts.length}
+  }
+  setTimeout(typeEffect,typing?75:35);
+}
+setTimeout(typeEffect,1500);
+</script>
+</body>
+</html>
