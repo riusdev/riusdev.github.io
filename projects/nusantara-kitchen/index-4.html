@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Nusantara Kitchen — Fine Dining Indonesia, Jakarta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#f7f3ec;
+  --ivory-dark:#ede7dc;
+  --terracotta:#c4622d;
+  --terra-light:#e8845a;
+  --terra-dim:rgba(196,98,45,0.12);
+  --forest:#2c4a3e;
+  --forest-light:#3d6b5a;
+  --charcoal:#1e1e1a;
+  --warm-gray:#6b6560;
+  --warm-gray-light:rgba(107,101,96,0.45);
+  --border:rgba(196,98,45,0.18);
+  --border-dark:rgba(44,74,62,0.15);
+  --white:#ffffff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ivory);color:var(--charcoal);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor{position:fixed;width:10px;height:10px;background:var(--terracotta);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(196,98,45,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+
+/* NOISE TEXTURE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.9}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:28px 60px;transition:all .5s;border-bottom:1px solid transparent}
+nav.scrolled{padding:16px 60px;background:rgba(247,243,236,0.97);backdrop-filter:blur(16px);border-color:var(--border)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-main{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--charcoal);letter-spacing:.5px;line-height:1}
+.nav-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--warm-gray);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--terracotta);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--terracotta)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-reserve{padding:12px 26px;background:var(--terracotta);color:var(--white);font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;font-weight:500}
+.nav-reserve:hover{background:var(--forest)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--charcoal);transition:all .3s}
+.mobile-menu{position:fixed;inset:0;background:var(--ivory);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--charcoal);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--terracotta)}
+.mobile-close{position:absolute;top:28px;right:28px;background:none;border:none;font-size:1.5rem;cursor:none;color:var(--charcoal)}
+
+/* HERO */
+.hero{height:100vh;min-height:700px;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 80px;position:relative;z-index:2;background:var(--ivory)}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--terracotta)}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(3.2rem,5.5vw,5.5rem);line-height:1.05;color:var(--charcoal);margin-bottom:24px;opacity:0;animation:fadeUp .9s .5s forwards}
+.hero h1 em{display:block;font-style:italic;color:var(--terracotta)}
+.hero-desc{font-size:.9rem;line-height:1.8;color:var(--warm-gray);max-width:380px;margin-bottom:40px;font-weight:300;opacity:0;animation:fadeUp .9s .7s forwards}
+.hero-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;opacity:0;animation:fadeUp .9s .9s forwards}
+.btn-terra{display:inline-block;padding:16px 36px;background:var(--terracotta);color:var(--white);font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.btn-terra::before{content:'';position:absolute;inset:0;background:var(--forest);transform:translateX(-101%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.btn-terra:hover::before{transform:translateX(0)}
+.btn-terra span{position:relative;z-index:1}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--charcoal);text-decoration:none;border-bottom:1px solid var(--charcoal);padding-bottom:2px;transition:all .3s}
+.btn-outline:hover{color:var(--terracotta);border-color:var(--terracotta)}
+.hero-right{position:relative;overflow:hidden}
+.hero-right img{width:100%;height:100%;object-fit:cover;display:block;animation:heroZoom 16s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1.05)}to{transform:scale(1.1)}}
+.hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--ivory) 0%,transparent 15%)}
+.hero-badge{position:absolute;bottom:50px;left:-20px;background:var(--terracotta);color:var(--white);padding:20px 28px;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;line-height:1.9;z-index:3}
+
+/* MARQUEE */
+.marquee-wrap{background:var(--forest);overflow:hidden;padding:16px 0}
+.marquee-track{display:flex;gap:60px;animation:marquee 25s linear infinite;white-space:nowrap}
+.marquee-track span{font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:rgba(247,243,236,0.7);display:flex;align-items:center;gap:16px}
+.marquee-track span::after{content:'✦';opacity:.4}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* FEATURED DISHES */
+.featured{padding:120px 60px;background:var(--ivory)}
+.featured-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:70px}
+.section-eyebrow{display:flex;align-items:center;gap:12px;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px}
+.section-eyebrow::before{content:'';width:22px;height:1px;background:var(--terracotta)}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.5rem);color:var(--charcoal);line-height:1.15}
+.section-title em{font-style:italic;color:var(--terracotta)}
+.section-desc{font-size:.87rem;line-height:1.85;color:var(--warm-gray);font-weight:300;max-width:400px}
+.dishes-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2px}
+.dish-card{position:relative;overflow:hidden;cursor:none}
+.dish-card:first-child{grid-row:span 2}
+.dish-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.25,.46,.45,.94);min-height:280px}
+.dish-card:first-child img{min-height:580px}
+.dish-card:hover img{transform:scale(1.07)}
+.dish-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(30,30,26,.88) 0%,transparent 55%);transition:opacity .4s}
+.dish-info{position:absolute;bottom:0;left:0;right:0;padding:24px;transform:translateY(6px);transition:transform .4s}
+.dish-card:hover .dish-info{transform:translateY(0)}
+.dish-cat{font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--terra-light);margin-bottom:6px}
+.dish-name{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--white);margin-bottom:4px}
+.dish-card:first-child .dish-name{font-size:2rem}
+.dish-price{font-size:.78rem;color:rgba(255,255,255,0.65)}
+.dish-price strong{color:var(--terra-light);font-weight:400}
+
+/* STORY TEASER */
+.story-teaser{display:grid;grid-template-columns:1fr 1fr;background:var(--forest);min-height:560px}
+.story-img{position:relative;overflow:hidden}
+.story-img img{width:100%;height:100%;object-fit:cover;display:block;min-height:560px;transition:transform .8s}
+.story-img:hover img{transform:scale(1.04)}
+.story-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent,var(--forest))}
+.story-content{padding:80px 70px;display:flex;flex-direction:column;justify-content:center}
+.story-eyebrow{font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:rgba(247,243,236,0.5);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.story-eyebrow::before{content:'';width:22px;height:1px;background:rgba(247,243,236,0.3)}
+.story-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,3.5vw,3rem);color:var(--ivory);margin-bottom:20px;line-height:1.2}
+.story-title em{font-style:italic;color:var(--terra-light)}
+.story-text{font-size:.85rem;line-height:1.9;color:rgba(247,243,236,0.65);font-weight:300;margin-bottom:36px}
+.btn-ivory{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1.5px solid rgba(247,243,236,0.3);color:var(--ivory);font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-ivory:hover{background:var(--ivory);color:var(--forest)}
+
+/* MENU PREVIEW */
+.menu-preview{padding:120px 60px;background:var(--ivory-dark)}
+.menu-tabs{display:flex;gap:0;margin-bottom:56px;border-bottom:1px solid var(--border)}
+.menu-tab{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;padding:14px 28px;background:none;border:none;cursor:none;color:var(--warm-gray);transition:all .3s;position:relative}
+.menu-tab::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:2px;background:var(--terracotta);transition:width .3s}
+.menu-tab.active{color:var(--terracotta)}
+.menu-tab.active::after{width:100%}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.menu-item{background:var(--ivory-dark);padding:32px 28px;transition:background .3s;position:relative;overflow:hidden}
+.menu-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--terracotta);transition:width .3s}
+.menu-item:hover{background:var(--ivory)}
+.menu-item:hover::before{width:3px}
+.menu-item-img{width:100%;height:160px;object-fit:cover;margin-bottom:20px;display:block}
+.menu-item-cat{font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px}
+.menu-item-name{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--charcoal);margin-bottom:8px;line-height:1.3}
+.menu-item-desc{font-size:.78rem;line-height:1.7;color:var(--warm-gray);font-weight:300;margin-bottom:16px}
+.menu-item-footer{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border-dark)}
+.menu-item-price{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--terracotta)}
+.menu-item-badge{font-size:.52rem;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;background:var(--terra-dim);color:var(--terracotta)}
+
+/* RESERVATION STRIP */
+.reservation-strip{
+  background:var(--terracotta);
+  padding:80px 60px;
+  display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;
+}
+.res-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,3rem);color:var(--white);line-height:1.2}
+.res-title em{font-style:italic}
+.res-form{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.res-field{display:flex;flex-direction:column;gap:6px}
+.res-field label{font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+.res-field input,.res-field select{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);padding:12px 16px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .3s;cursor:none;min-width:140px}
+.res-field input::placeholder{color:rgba(255,255,255,0.5)}
+.res-field input:focus,.res-field select:focus{border-color:rgba(255,255,255,0.7)}
+.res-field select option{background:var(--terracotta);color:var(--white)}
+.res-btn{padding:13px 28px;background:var(--white);color:var(--terracotta);font-size:.62rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;border:none;cursor:none;transition:all .3s;white-space:nowrap}
+.res-btn:hover{background:var(--charcoal);color:var(--white)}
+
+/* TESTIMONIAL */
+.testimonials{padding:120px 60px;background:var(--ivory)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:60px}
+.testi-card{background:var(--ivory);padding:44px 36px;transition:background .3s}
+.testi-card:hover{background:var(--ivory-dark)}
+.testi-stars{color:var(--terracotta);font-size:.75rem;letter-spacing:3px;margin-bottom:20px}
+.testi-text{font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;line-height:1.7;color:var(--charcoal);margin-bottom:24px}
+.testi-divider{width:32px;height:1px;background:var(--terracotta);margin-bottom:16px}
+.testi-author{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray)}
+.testi-occasion{font-size:.65rem;color:var(--terracotta);margin-top:4px}
+
+/* INSTAGRAM STRIP */
+.insta-strip{padding:80px 0;background:var(--ivory-dark)}
+.insta-header{padding:0 60px;margin-bottom:36px;display:flex;justify-content:space-between;align-items:center}
+.insta-handle{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--warm-gray);text-decoration:none;transition:color .3s}
+.insta-handle:hover{color:var(--terracotta)}
+.insta-grid{display:flex;gap:2px;overflow-x:auto;padding:0 60px;scrollbar-width:none}
+.insta-grid::-webkit-scrollbar{display:none}
+.insta-item{flex-shrink:0;width:260px;height:260px;overflow:hidden;position:relative;cursor:none}
+.insta-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.insta-item:hover img{transform:scale(1.08)}
+.insta-item-overlay{position:absolute;inset:0;background:rgba(196,98,45,0.7);opacity:0;transition:opacity .4s;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--white)}
+.insta-item:hover .insta-item-overlay{opacity:1}
+
+/* FOOTER */
+footer{background:var(--charcoal);padding:80px 60px 40px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:60px}
+.footer-logo-main{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ivory);margin-bottom:4px}
+.footer-logo-sub{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-bottom:20px}
+.footer-tagline{font-size:.8rem;line-height:1.8;color:rgba(247,243,236,0.45);font-weight:300;max-width:260px;margin-bottom:28px}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:38px;height:38px;border:1px solid rgba(247,243,236,0.1);display:flex;align-items:center;justify-content:center;color:rgba(247,243,236,0.4);font-size:.7rem;text-decoration:none;transition:all .3s}
+.footer-social a:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.footer-col h4{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--terracotta);margin-bottom:22px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-col a{font-size:.8rem;color:rgba(247,243,236,0.45);text-decoration:none;transition:color .3s;font-weight:300}
+.footer-col a:hover{color:var(--ivory)}
+.footer-bottom{border-top:1px solid rgba(247,243,236,0.08);padding-top:28px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:.7rem;color:rgba(247,243,236,0.2);font-weight:300}
+.footer-credit{font-size:.7rem;color:rgba(247,243,236,0.35)}
+.footer-credit a{color:var(--terracotta);text-decoration:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}
+
+@media(max-width:1024px){
+  nav{padding:20px 32px}nav.scrolled{padding:14px 32px}
+  section,.featured,.menu-preview,.testimonials{padding:80px 32px}
+  .hero{grid-template-columns:1fr;height:auto;min-height:100vh}
+  .hero-left{padding:120px 32px 60px}
+  .hero-right{height:50vw;min-height:320px}
+  .hero-right::after{background:linear-gradient(to top,var(--ivory) 0%,transparent 25%)}
+  .featured-header{grid-template-columns:1fr;gap:20px}
+  .dishes-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .dish-card:first-child{grid-row:span 1}
+  .dish-card:first-child img{min-height:280px}
+  .story-teaser{grid-template-columns:1fr}
+  .story-img{height:360px}
+  .story-img img{min-height:360px}
+  .story-content{padding:60px 40px}
+  .menu-grid{grid-template-columns:1fr 1fr}
+  .reservation-strip{grid-template-columns:1fr;gap:36px;padding:70px 40px}
+  .testi-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+  .insta-header{padding:0 32px}.insta-grid{padding:0 32px}
+}
+@media(max-width:768px){
+  nav{padding:16px 24px}nav.scrolled{padding:12px 24px}
+  .nav-links,.nav-reserve{display:none}.nav-hamburger{display:flex}
+  .hero-left{padding:100px 24px 50px}
+  .featured,.menu-preview,.testimonials{padding:60px 24px}
+  .dishes-grid{grid-template-columns:1fr}
+  .menu-grid{grid-template-columns:1fr}
+  .reservation-strip{padding:50px 24px}
+  .res-form{flex-direction:column}
+  .res-field input,.res-field select{min-width:100%;width:100%}
+  .res-btn{width:100%}
+  footer{padding:60px 24px 36px}
+  .footer-top{grid-template-columns:1fr;gap:36px}
+  .footer-bottom{flex-direction:column}
+  .insta-header{padding:0 24px}.insta-grid{padding:0 24px}
+  .insta-item{width:200px;height:200px}
+  .story-content{padding:50px 24px}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="story.html">Our Story</a>
+  <a href="contact.html">Reservasi</a>
+</div>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">
+    <span class="nav-logo-main">Nusantara Kitchen</span>
+    <span class="nav-logo-sub">Fine Dining · Jakarta</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="story.html">Our Story</a></li>
+    <li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <a class="nav-reserve" href="contact.html">Reservasi</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Fine Dining · Jakarta Selatan</div>
+    <h1>Cita Rasa<em>Nusantara</em></h1>
+    <p class="hero-desc">Perjalanan kuliner otentik ke jantung masakan Indonesia. Diracik dari rempah pilihan Nusantara oleh Chef berpengalaman internasional.</p>
+    <div class="hero-actions">
+      <a class="btn-terra" href="menu.html"><span>Lihat Menu</span></a>
+      <a class="btn-outline" href="contact.html">Buat Reservasi →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1000&q=85" alt="Nusantara Cuisine">
+    <div class="hero-badge">✦ Fine Dining<br>Terbaik Jakarta<br>2025</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Rendang Premium</span><span>Soto Betawi</span><span>Gado-Gado Refined</span><span>Nasi Tumpeng</span><span>Gulai Kambing</span><span>Rawon Hitam</span><span>Bebek Betutu</span><span>Sate Madura</span>
+    <span>Rendang Premium</span><span>Soto Betawi</span><span>Gado-Gado Refined</span><span>Nasi Tumpeng</span><span>Gulai Kambing</span><span>Rawon Hitam</span><span>Bebek Betutu</span><span>Sate Madura</span>
+  </div>
+</div>
+
+<!-- FEATURED DISHES -->
+<section class="featured">
+  <div class="featured-header">
+    <div>
+      <p class="section-eyebrow reveal">Hidangan Unggulan</p>
+      <h2 class="section-title reveal reveal-d1">Memasak dengan <em>jiwa</em>,<br>menyajikan dengan <em>cinta</em></h2>
+    </div>
+    <div>
+      <p class="section-desc reveal reveal-d2">Setiap hidangan adalah karya seni kuliner yang mengangkat kekayaan cita rasa dari 17.000 pulau Nusantara ke meja makan Anda.</p>
+      <a class="btn-outline reveal reveal-d3" href="menu.html" style="margin-top:24px;display:inline-flex">Lihat Semua Menu →</a>
+    </div>
+  </div>
+  <div class="dishes-grid">
+    <div class="dish-card reveal">
+      <img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=900&q=85" alt="Rendang Premium">
+      <div class="dish-overlay"></div>
+      <div class="dish-info">
+        <div class="dish-cat">Signature Dish</div>
+        <div class="dish-name">Rendang<br>Premium</div>
+        <div class="dish-price">Mulai <strong>Rp 185.000</strong></div>
+      </div>
+    </div>
+    <div class="dish-card reveal reveal-d1">
+      <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=700&q=85" alt="Soto Betawi">
+      <div class="dish-overlay"></div>
+      <div class="dish-info">
+        <div class="dish-cat">Soup</div>
+        <div class="dish-name">Soto Betawi Royal</div>
+        <div class="dish-price">Mulai <strong>Rp 145.000</strong></div>
+      </div>
+    </div>
+    <div class="dish-card reveal reveal-d2">
+      <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=700&q=85" alt="Nasi Goreng">
+      <div class="dish-overlay"></div>
+      <div class="dish-info">
+        <div class="dish-cat">Main Course</div>
+        <div class="dish-name">Nasi Goreng Chef</div>
+        <div class="dish-price">Mulai <strong>Rp 165.000</strong></div>
+      </div>
+    </div>
+    <div class="dish-card reveal reveal-d1">
+      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=700&q=85" alt="Gado Gado">
+      <div class="dish-overlay"></div>
+      <div class="dish-info">
+        <div class="dish-cat">Vegetarian</div>
+        <div class="dish-name">Gado-Gado Refined</div>
+        <div class="dish-price">Mulai <strong>Rp 125.000</strong></div>
+      </div>
+    </div>
+    <div class="dish-card reveal reveal-d2">
+      <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=700&q=85" alt="Dessert">
+      <div class="dish-overlay"></div>
+      <div class="dish-info">
+        <div class="dish-cat">Dessert</div>
+        <div class="dish-name">Es Campur Artisan</div>
+        <div class="dish-price">Mulai <strong>Rp 95.000</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY TEASER -->
+<div class="story-teaser">
+  <div class="story-img reveal">
+    <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=800&q=85" alt="Chef">
+  </div>
+  <div class="story-content">
+    <div class="story-eyebrow reveal">Our Story</div>
+    <h2 class="story-title reveal reveal-d1">Warisan rasa yang <em>diwariskan</em> generasi ke generasi</h2>
+    <p class="story-text reveal reveal-d2">Nusantara Kitchen lahir dari kecintaan mendalam pada kekayaan kuliner Indonesia. Chef kami, dengan pengalaman di dapur-dapur terbaik dunia, hadir untuk membuktikan bahwa masakan Indonesia layak berdiri sejajar di panggung fine dining global.</p>
+    <a class="btn-ivory reveal reveal-d3" href="story.html">Baca Cerita Kami →</a>
+  </div>
+</div>
+
+<!-- MENU PREVIEW -->
+<section class="menu-preview">
+  <p class="section-eyebrow reveal">Menu Pilihan</p>
+  <h2 class="section-title reveal reveal-d1">Eksplorasi <em>cita rasa</em> Nusantara</h2>
+  <div class="menu-tabs reveal reveal-d2">
+    <button class="menu-tab active" data-cat="appetizer">Pembuka</button>
+    <button class="menu-tab" data-cat="main">Utama</button>
+    <button class="menu-tab" data-cat="dessert">Penutup</button>
+    <button class="menu-tab" data-cat="drink">Minuman</button>
+  </div>
+  <div class="menu-grid" id="menuGrid">
+    <!-- Pembuka -->
+    <div class="menu-item" data-cat="appetizer">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1607877742574-a7d9a7449af3?w=500&q=80" alt="Kerupuk Artisan">
+      <div class="menu-item-cat">Pembuka</div>
+      <div class="menu-item-name">Kerupuk Artisan Nusantara</div>
+      <div class="menu-item-desc">Kerupuk khas daerah disajikan dengan trio sambal pilihan chef.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 75.000</span><span class="menu-item-badge">Chef's Pick</span></div>
+    </div>
+    <div class="menu-item" data-cat="appetizer">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500&q=80" alt="Siomay">
+      <div class="menu-item-cat">Pembuka</div>
+      <div class="menu-item-name">Siomay Refined</div>
+      <div class="menu-item-desc">Siomay ikan tenggiri premium dengan saus kacang homemade.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 85.000</span></div>
+    </div>
+    <div class="menu-item" data-cat="appetizer">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80" alt="Lumpia">
+      <div class="menu-item-cat">Pembuka</div>
+      <div class="menu-item-name">Lumpia Semarang</div>
+      <div class="menu-item-desc">Lumpia basah dan goreng khas Semarang dengan isian rebung segar.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 90.000</span></div>
+    </div>
+    <!-- Main -->
+    <div class="menu-item" data-cat="main" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&q=80" alt="Rendang">
+      <div class="menu-item-cat">Utama</div>
+      <div class="menu-item-name">Rendang Wagyu Premium</div>
+      <div class="menu-item-desc">Daging wagyu dimasak 8 jam dengan 42 rempah pilihan Minang.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 285.000</span><span class="menu-item-badge">Signature</span></div>
+    </div>
+    <div class="menu-item" data-cat="main" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=500&q=80" alt="Soto">
+      <div class="menu-item-cat">Utama</div>
+      <div class="menu-item-name">Soto Betawi Royal</div>
+      <div class="menu-item-desc">Soto betawi dengan kuah santan kental dan jeroan premium pilihan.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 145.000</span></div>
+    </div>
+    <div class="menu-item" data-cat="main" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&q=80" alt="Nasi Goreng">
+      <div class="menu-item-cat">Utama</div>
+      <div class="menu-item-name">Nasi Goreng Istimewa</div>
+      <div class="menu-item-desc">Nasi goreng dengan udang jumbo, foie gras, dan truffle oil.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 195.000</span><span class="menu-item-badge">Best Seller</span></div>
+    </div>
+    <!-- Dessert -->
+    <div class="menu-item" data-cat="dessert" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80" alt="Dessert">
+      <div class="menu-item-cat">Penutup</div>
+      <div class="menu-item-name">Klepon Truffle</div>
+      <div class="menu-item-desc">Klepon pandan dengan isian gula jawa dan taburan truffle parut.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 95.000</span><span class="menu-item-badge">Chef's Pick</span></div>
+    </div>
+    <div class="menu-item" data-cat="dessert" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500&q=80" alt="Es Campur">
+      <div class="menu-item-cat">Penutup</div>
+      <div class="menu-item-name">Es Campur Artisan</div>
+      <div class="menu-item-desc">Es campur tradisional dengan es serut rasa pandan dan santan segar.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 85.000</span></div>
+    </div>
+    <div class="menu-item" data-cat="dessert" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&q=80" alt="Kue">
+      <div class="menu-item-cat">Penutup</div>
+      <div class="menu-item-name">Kue Lapis Refined</div>
+      <div class="menu-item-desc">Kue lapis tradisional dengan sentuhan modern dan bahan premium.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 75.000</span></div>
+    </div>
+    <!-- Drinks -->
+    <div class="menu-item" data-cat="drink" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&q=80" alt="Jamu">
+      <div class="menu-item-cat">Minuman</div>
+      <div class="menu-item-name">Jamu Signature</div>
+      <div class="menu-item-desc">Jamu tradisional dengan sentuhan modern — kunyit asam, beras kencur, atau jahe.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 65.000</span></div>
+    </div>
+    <div class="menu-item" data-cat="drink" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1497534446932-c925b458314e?w=500&q=80" alt="Es Teh">
+      <div class="menu-item-cat">Minuman</div>
+      <div class="menu-item-name">Es Teh Nusantara</div>
+      <div class="menu-item-desc">Teh lokal premium dari Jawa, Sumatra, dan Flores disajikan dingin segar.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 55.000</span></div>
+    </div>
+    <div class="menu-item" data-cat="drink" style="display:none">
+      <img class="menu-item-img" src="https://images.unsplash.com/photo-1470158499416-75be9aa0c4db?w=500&q=80" alt="Mocktail">
+      <div class="menu-item-cat">Minuman</div>
+      <div class="menu-item-name">Mocktail Rempah</div>
+      <div class="menu-item-desc">Mocktail segar dengan perpaduan jahe, pandan, serai, dan buah tropis.</div>
+      <div class="menu-item-footer"><span class="menu-item-price">Rp 75.000</span></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:48px" class="reveal">
+    <a class="btn-terra" href="menu.html"><span>Lihat Menu Lengkap →</span></a>
+  </div>
+</section>
+
+<!-- RESERVATION STRIP -->
+<div class="reservation-strip">
+  <div>
+    <p style="font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:12px">Reservasi Meja</p>
+    <h2 class="res-title reveal">Pesan meja Anda<br><em>malam ini</em></h2>
+  </div>
+  <form class="res-form" onsubmit="submitRes(event)">
+    <div class="res-field">
+      <label>Tanggal</label>
+      <input type="date" id="resDate">
+    </div>
+    <div class="res-field">
+      <label>Jam</label>
+      <select id="resTime">
+        <option>11:00</option><option>12:00</option><option>13:00</option>
+        <option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option>
+      </select>
+    </div>
+    <div class="res-field">
+      <label>Tamu</label>
+      <select id="resGuests">
+        <option>1 Orang</option><option>2 Orang</option><option>3-4 Orang</option>
+        <option>5-6 Orang</option><option>7+ Orang</option>
+      </select>
+    </div>
+    <button type="submit" class="res-btn">Reservasi via WA →</button>
+  </form>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <p class="section-eyebrow reveal">Ulasan Tamu</p>
+  <h2 class="section-title reveal reveal-d1">Apa kata mereka<br>tentang <em>Nusantara</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card reveal reveal-d1">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Rendang wagyu mereka adalah yang terbaik yang pernah saya makan. Teksturnya sempurna, rempahnya dalam, dan presentasinya seperti karya seni. Fine dining Indonesia yang sesungguhnya."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author">Budi Hartanto</div>
+      <div class="testi-occasion">Business Dinner · April 2025</div>
+    </div>
+    <div class="testi-card reveal reveal-d2">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Kami merayakan anniversary di sini dan pengalamannya luar biasa. Suasananya romantis, pelayanannya sangat personal, dan setiap hidangan adalah kejutan yang menyenangkan."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author">Rina & Denny</div>
+      <div class="testi-occasion">Anniversary Dinner · Maret 2025</div>
+    </div>
+    <div class="testi-card reveal reveal-d3">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Sebagai orang asing yang tinggal di Jakarta, Nusantara Kitchen adalah tempat pertama yang membuat saya benar-benar jatuh cinta dengan masakan Indonesia. Highly recommended!"</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author">James Wellington</div>
+      <div class="testi-occasion">Regular Guest · Expat Jakarta</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<div class="insta-strip">
+  <div class="insta-header reveal">
+    <div>
+      <p class="section-eyebrow">Instagram</p>
+      <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--charcoal)">@nusantarakitchen</h3>
+    </div>
+    <a class="insta-handle" href="#">Ikuti Kami →</a>
+  </div>
+  <div class="insta-grid">
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80" alt=""><div class="insta-item-overlay">♡</div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&q=80" alt=""><div class="insta-item-overlay">♡</div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80" alt=""><div class="insta-item-overlay">♡</div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80" alt=""><div class="insta-item-overlay">♡</div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=400&q=80" alt=""><div class="insta-item-overlay">♡</div></div>
+    <div class="insta-item"><img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80" alt=""><div class="insta-item-overlay">♡</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo-main">Nusantara Kitchen</div>
+      <div class="footer-logo-sub">Fine Dining · Jakarta</div>
+      <p class="footer-tagline">Mengangkat kekayaan cita rasa Nusantara ke panggung fine dining yang sesungguhnya.</p>
+      <div class="footer-social">
+        <a href="#">ig</a><a href="#">fb</a><a href="https://wa.me/6281338693093">wa</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="menu.html">Pembuka</a></li>
+        <li><a href="menu.html">Hidangan Utama</a></li>
+        <li><a href="menu.html">Penutup</a></li>
+        <li><a href="menu.html">Minuman</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informasi</h4>
+      <ul>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="contact.html">Reservasi</a></li>
+        <li><a href="#">Private Dining</a></li>
+        <li><a href="#">Gift Voucher</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontak</h4>
+      <ul>
+        <li><a href="tel:+6281338693093">+62 813-3869-3093</a></li>
+        <li><a href="https://wa.me/6281338693093">WhatsApp</a></li>
+        <li><a href="#">Jl. Sudirman, Jakarta Selatan</a></li>
+        <li><a href="#">Buka: 11:00 – 22:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Nusantara Kitchen. All rights reserved.</p>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='16px';cursor.style.height='16px';ring.style.width='54px';ring.style.height='54px'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='38px';ring.style.height='38px'});
+});
+// Nav
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>80));
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+// Reveal
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.12});
+reveals.forEach(el=>obs.observe(el));
+// Menu Tabs
+document.querySelectorAll('.menu-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.menu-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const cat=tab.dataset.cat;
+    document.querySelectorAll('.menu-item').forEach(item=>{
+      item.style.display=item.dataset.cat===cat?'block':'none';
+    });
+  });
+});
+// Reservation WA
+function submitRes(e){
+  e.preventDefault();
+  const date=document.getElementById('resDate').value;
+  const time=document.getElementById('resTime').value;
+  const guests=document.getElementById('resGuests').value;
+  const msg=`Halo Nusantara Kitchen! 🍽️\n\nSaya ingin reservasi meja:\n📅 Tanggal: ${date||'-'}\n🕐 Jam: ${time}\n👥 Tamu: ${guests}\n\nMohon konfirmasinya. Terima kasih!`;
+  window.open('https://wa.me/6281338693093?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body>
+</html>
