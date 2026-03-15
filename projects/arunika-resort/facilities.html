@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Fasilitas — Arunika Resort & Spa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a08;--charcoal:#111110;--gold:#c9a84c;--gold-light:#e8c97a;--cream:#f5f0e8;--cream-dim:rgba(245,240,232,0.55);--border:rgba(201,168,76,0.2)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',sans-serif;background:var(--black);color:var(--cream);overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform .12s ease,width .3s,height .3s}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.8}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;background:rgba(10,10,8,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:4px;color:var(--gold-light);text-decoration:none;text-transform:uppercase}
+.nav-logo span{font-style:italic;color:var(--cream)}
+.nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--cream-dim);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-book{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;padding:12px 28px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;transition:all .3s}
+.nav-book:hover{background:var(--gold);color:var(--black)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1px;background:var(--cream)}
+.mobile-menu{position:fixed;inset:0;background:rgba(10,10,8,0.98);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--cream);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--gold)}
+.mobile-close{position:absolute;top:28px;right:28px;background:none;border:none;color:var(--cream);font-size:1.5rem;cursor:none}
+
+.page-hero{height:55vh;min-height:420px;position:relative;display:flex;align-items:flex-end;padding:0 60px 70px;overflow:hidden}
+.page-hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1600&q=85') center/cover;animation:heroZoom 18s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1.04)}to{transform:scale(1.1)}}
+.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,8,.95) 0%,rgba(10,10,8,.35) 100%)}
+.page-hero-content{position:relative;z-index:2}
+.page-breadcrumb{font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.page-breadcrumb a{color:var(--cream-dim);text-decoration:none;transition:color .3s}
+.page-breadcrumb a:hover{color:var(--gold)}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;color:var(--cream)}
+.page-title em{font-style:italic;color:var(--gold-light)}
+
+/* FACILITIES DETAIL */
+.facilities-section{padding:120px 60px;background:var(--black)}
+.section-eyebrow{display:flex;align-items:center;gap:14px;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.section-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold)}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;color:var(--cream);margin-bottom:60px;line-height:1.2}
+.section-title em{font-style:italic;color:var(--gold-light)}
+
+.facility-block{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;margin-bottom:2px;min-height:480px;
+}
+.facility-block:nth-child(even){direction:rtl}
+.facility-block:nth-child(even) .facility-block-content{direction:ltr}
+.facility-block-img{position:relative;overflow:hidden}
+.facility-block-img img{width:100%;height:100%;object-fit:cover;display:block;min-height:480px;transition:transform .8s cubic-bezier(.25,.46,.45,.94)}
+.facility-block:hover .facility-block-img img{transform:scale(1.05)}
+.facility-block-content{
+  background:var(--charcoal);padding:70px 60px;
+  display:flex;flex-direction:column;justify-content:center;direction:ltr;
+}
+.facility-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:5rem;font-weight:300;
+  color:rgba(201,168,76,0.1);line-height:1;
+  margin-bottom:-20px;
+}
+.facility-icon-lg{font-size:2.4rem;margin-bottom:16px}
+.facility-name-lg{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:300;color:var(--cream);margin-bottom:16px;line-height:1.2}
+.facility-name-lg em{font-style:italic;color:var(--gold-light)}
+.facility-desc-lg{font-size:.83rem;line-height:1.9;color:var(--cream-dim);font-weight:300;margin-bottom:28px}
+.facility-features{display:flex;flex-direction:column;gap:10px}
+.facility-feature{
+  display:flex;align-items:center;gap:12px;
+  font-size:.75rem;color:var(--cream-dim);letter-spacing:.5px;
+}
+.facility-feature::before{content:'✦';color:var(--gold);font-size:.5rem}
+
+/* WELLNESS STRIP */
+.wellness-strip{
+  background:var(--gold);padding:80px 60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.wellness-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;font-style:italic;
+  color:var(--black);line-height:1.4;
+}
+.wellness-text{font-size:.82rem;line-height:1.8;color:rgba(10,10,8,0.7);font-weight:300}
+.wellness-cta{
+  display:inline-block;margin-top:24px;padding:14px 32px;
+  background:var(--black);color:var(--gold);
+  font-size:.62rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;
+  text-decoration:none;transition:all .3s;
+}
+.wellness-cta:hover{background:var(--charcoal)}
+
+footer{background:var(--charcoal);border-top:1px solid var(--border);padding:60px 60px 36px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--gold-light);letter-spacing:3px;margin-bottom:8px}
+.footer-copy{font-size:.7rem;color:rgba(245,240,232,0.25);font-weight:300}
+.footer-credit{font-size:.7rem;color:var(--cream-dim)}
+.footer-credit a{color:var(--gold);text-decoration:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}
+
+@media(max-width:1024px){nav{padding:18px 32px}.facilities-section{padding:80px 32px}.page-hero{padding:0 32px 50px}.facility-block{grid-template-columns:1fr}.facility-block:nth-child(even){direction:ltr}.facility-block-img img{min-height:320px}.facility-block-content{padding:50px 40px}.wellness-strip{grid-template-columns:1fr;gap:32px;padding:60px 40px}}
+@media(max-width:768px){nav{padding:16px 24px}.nav-links,.nav-book{display:none}.nav-hamburger{display:flex}.page-hero{padding:0 24px 40px}.facilities-section{padding:60px 24px}.facility-block-content{padding:40px 24px}.wellness-strip{padding:50px 24px}.footer-bottom{flex-direction:column;text-align:center}footer{padding:50px 24px 32px}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="rooms.html">Kamar</a>
+  <a href="facilities.html">Fasilitas</a>
+  <a href="gallery.html">Galeri</a>
+  <a href="contact.html">Kontak</a>
+</div>
+<nav>
+  <a class="nav-logo" href="index.html">Arunika <span>Resort</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="rooms.html">Kamar</a></li>
+    <li><a href="facilities.html" class="active">Fasilitas</a></li>
+    <li><a href="gallery.html">Galeri</a></li>
+    <li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <a class="nav-book" href="contact.html">Reservasi</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="page-breadcrumb"><a href="index.html">Home</a> → Fasilitas</div>
+    <h1 class="page-title">Fasilitas & <em>Layanan</em></h1>
+  </div>
+</div>
+
+<section class="facilities-section">
+  <p class="section-eyebrow reveal">World-Class Facilities</p>
+  <h2 class="section-title reveal reveal-d1">Semua yang Anda impikan,<br><em>hadir di sini</em></h2>
+
+  <div class="facility-block reveal">
+    <div class="facility-block-img">
+      <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=85" alt="Jungle Spa">
+    </div>
+    <div class="facility-block-content">
+      <div class="facility-num">01</div>
+      <div class="facility-icon-lg">♨️</div>
+      <h3 class="facility-name-lg">Jungle <em>Spa</em></h3>
+      <p class="facility-desc-lg">Nikmati pengalaman spa yang tak tertandingi di tengah kerimbunan hutan tropis Ubud. Setiap treatment menggunakan bahan-bahan alami Bali yang dipilih dengan cermat oleh terapis berpengalaman kami.</p>
+      <div class="facility-features">
+        <div class="facility-feature">Balinese Traditional Massage</div>
+        <div class="facility-feature">Aromatherapy & Herbal Body Scrub</div>
+        <div class="facility-feature">Flower Bath Ritual</div>
+        <div class="facility-feature">Couples Spa Package</div>
+        <div class="facility-feature">Buka 08:00 – 21:00 WITA</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="facility-block reveal">
+    <div class="facility-block-img">
+      <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900&q=85" alt="Infinity Pool">
+    </div>
+    <div class="facility-block-content">
+      <div class="facility-num">02</div>
+      <div class="facility-icon-lg">🏊</div>
+      <h3 class="facility-name-lg">Infinity <em>Pool</em></h3>
+      <p class="facility-desc-lg">Kolam renang tak berbatas kami dirancang untuk menyatu sempurna dengan cakrawala sawah Ubud yang menakjubkan. Rasakan sensasi berenang di atas awan saat matahari terbenam.</p>
+      <div class="facility-features">
+        <div class="facility-feature">Pemandangan Sawah 180°</div>
+        <div class="facility-feature">Pool Bar dengan Cocktail Signature</div>
+        <div class="facility-feature">Tersedia Sun Lounger & Cabana</div>
+        <div class="facility-feature">Buka 07:00 – 22:00 WITA</div>
+        <div class="facility-feature">Private Pool Villa tersedia</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="facility-block reveal">
+    <div class="facility-block-img">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=85" alt="Fine Dining">
+    </div>
+    <div class="facility-block-content">
+      <div class="facility-num">03</div>
+      <div class="facility-icon-lg">🍽️</div>
+      <h3 class="facility-name-lg">Warung <em>Arunika</em></h3>
+      <p class="facility-desc-lg">Restoran fine dining kami menyajikan perpaduan masakan Bali autentik dan masakan internasional. Chef kami menggunakan bahan-bahan segar lokal yang dipilih langsung dari pasar Ubud setiap pagi.</p>
+      <div class="facility-features">
+        <div class="facility-feature">Masakan Bali & Internasional</div>
+        <div class="facility-feature">Breakfast, Lunch & Dinner</div>
+        <div class="facility-feature">Cooking Class tersedia</div>
+        <div class="facility-feature">Romantic Dinner Setup</div>
+        <div class="facility-feature">Vegetarian & Vegan Menu</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="facility-block reveal">
+    <div class="facility-block-img">
+      <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&q=85" alt="Yoga & Wellness">
+    </div>
+    <div class="facility-block-content">
+      <div class="facility-num">04</div>
+      <div class="facility-icon-lg">🧘</div>
+      <h3 class="facility-name-lg">Yoga & <em>Wellness</em></h3>
+      <p class="facility-desc-lg">Mulai pagi Anda dengan sesi yoga di pavilion terbuka kami yang dikelilingi alam Ubud. Instruktur bersertifikat internasional kami siap membimbing dari level pemula hingga mahir.</p>
+      <div class="facility-features">
+        <div class="facility-feature">Morning Yoga Sunrise Session</div>
+        <div class="facility-feature">Meditation & Breathwork</div>
+        <div class="facility-feature">Private Yoga tersedia</div>
+        <div class="facility-feature">Sound Healing Ceremony</div>
+        <div class="facility-feature">Buka 06:00 – 09:00 WITA</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="facility-block reveal">
+    <div class="facility-block-img">
+      <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=900&q=85" alt="Cultural Tour">
+    </div>
+    <div class="facility-block-content">
+      <div class="facility-num">05</div>
+      <div class="facility-icon-lg">🌿</div>
+      <h3 class="facility-name-lg">Cultural <em>Experience</em></h3>
+      <p class="facility-desc-lg">Jelajahi kekayaan budaya dan alam Bali bersama pemandu lokal kami yang berpengetahuan luas. Dari sawah Tegallalang hingga upacara adat, setiap perjalanan adalah kenangan tak terlupakan.</p>
+      <div class="facility-features">
+        <div class="facility-feature">Rice Terrace Tegallalang Tour</div>
+        <div class="facility-feature">Ubud Art Market Visit</div>
+        <div class="facility-feature">Temple Ceremony Experience</div>
+        <div class="facility-feature">Cycling Through Village</div>
+        <div class="facility-feature">Cooking Class Bali</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="facility-block reveal">
+    <div class="facility-block-img">
+      <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=900&q=85" alt="Butler Service">
+    </div>
+    <div class="facility-block-content">
+      <div class="facility-num">06</div>
+      <div class="facility-icon-lg">🛎️</div>
+      <h3 class="facility-name-lg">Butler <em>Service</em></h3>
+      <p class="facility-desc-lg">Layanan butler personal 24 jam kami memastikan setiap kebutuhan Anda terpenuhi tanpa harus diminta dua kali. Dari airport transfer hingga kejutan anniversary, kami siap mewujudkan setiap keinginan Anda.</p>
+      <div class="facility-features">
+        <div class="facility-feature">Personal Butler 24 Jam</div>
+        <div class="facility-feature">Airport Transfer Mewah</div>
+        <div class="facility-feature">In-Villa Dining Setup</div>
+        <div class="facility-feature">Anniversary & Special Occasion</div>
+        <div class="facility-feature">Laundry & Concierge</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wellness-strip reveal">
+  <div>
+    <p class="wellness-quote">"Kemewahan sejati adalah ketika jiwa dan raga menemukan kedamaiannya."</p>
+  </div>
+  <div>
+    <p class="wellness-text">Di Arunika Resort & Spa, setiap fasilitas dirancang bukan sekadar untuk memanjakan — melainkan untuk memulihkan, meremajakan, dan menginspirasi. Kami percaya bahwa liburan terbaik adalah yang membawa Anda pulang dengan jiwa yang lebih ringan.</p>
+    <a class="wellness-cta" href="contact.html">Reservasi Sekarang →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <div>
+      <div class="footer-brand">Arunika Resort</div>
+      <p class="footer-copy">© 2026 Arunika Resort & Spa. All rights reserved.</p>
+    </div>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='14px';cursor.style.height='14px';ring.style.width='52px';ring.style.height='52px'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='8px';cursor.style.height='8px';ring.style.width='36px';ring.style.height='36px'});
+});
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
+reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
