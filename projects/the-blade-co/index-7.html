@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Blade Co. — Premium Barbershop, Surabaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0c0c0c;
+  --dark:#141414;
+  --dark2:#1a1a1a;
+  --dark3:#222222;
+  --red:#c0392b;
+  --red-light:#e74c3c;
+  --red-dim:rgba(192,57,43,0.12);
+  --white:#f0f0ec;
+  --white-dim:rgba(240,240,236,0.55);
+  --white-faint:rgba(240,240,236,0.07);
+  --border:rgba(240,240,236,0.08);
+  --border-red:rgba(192,57,43,0.3);
+  --steel:#8a8a82;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor{position:fixed;width:10px;height:10px;background:var(--red);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .25s,height .25s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:1px solid rgba(192,57,43,0.6);border-radius:0;pointer-events:none;z-index:99998;transform:translate(-50%,-50%) rotate(45deg);transition:width .3s,height .3s,border-radius .3s}
+
+/* CONCRETE TEXTURE */
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9998;opacity:.8}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:24px 56px;transition:all .4s}
+nav.scrolled{background:rgba(12,12,12,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:16px 56px}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none;gap:1px}
+.nav-logo-main{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--white);line-height:1}
+.nav-logo-sub{font-size:.48rem;letter-spacing:5px;text-transform:uppercase;color:var(--red);font-weight:500}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--white-dim);text-decoration:none;transition:color .3s;font-weight:500}
+.nav-links a:hover{color:var(--red)}
+.nav-book{padding:12px 26px;background:var(--red);color:var(--white);font-size:.6rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;text-decoration:none;transition:all .3s;border:1px solid var(--red)}
+.nav-book:hover{background:transparent;color:var(--red)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:24px;height:1.5px;background:var(--white);transition:all .3s}
+.mobile-menu{position:fixed;inset:0;background:var(--black);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;opacity:0;pointer-events:none;transition:opacity .4s;border:6px solid var(--red)}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif;font-size:3.5rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--white);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--red)}
+.mobile-close{position:absolute;top:24px;right:28px;background:none;border:none;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:2px;cursor:none}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=85') center/cover no-repeat;filter:grayscale(30%);animation:heroZoom 18s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1.04)}to{transform:scale(1.09)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,1) 0%,rgba(12,12,12,.65) 50%,rgba(12,12,12,.2) 100%)}
+.hero-diagonal{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom right,transparent 49%,var(--black) 50%)}
+.hero-content{position:relative;z-index:2;padding:0 56px 100px;width:100%}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:16px;opacity:0;animation:fadeUp .7s .2s forwards}
+.hero-eyebrow::before{content:'';width:28px;height:2px;background:var(--red)}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(5rem,15vw,18rem);font-weight:900;line-height:.88;letter-spacing:2px;text-transform:uppercase;opacity:0;animation:fadeUp .8s .4s forwards}
+.hero h1 .outline{-webkit-text-stroke:2px var(--white);color:transparent}
+.hero h1 .red{color:var(--red)}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:28px;gap:24px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .7s forwards}
+.hero-desc{font-size:.9rem;line-height:1.8;color:var(--white-dim);max-width:420px;font-weight:300}
+.hero-actions{display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap}
+.btn-red{display:inline-block;padding:16px 36px;background:var(--red);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;border:2px solid var(--red)}
+.btn-red::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.btn-red:hover{color:var(--black)}
+.btn-red:hover::before{transform:translateX(0)}
+.btn-red span{position:relative;z-index:1}
+.btn-outline-white{display:inline-flex;align-items:center;gap:8px;padding:16px 28px;border:2px solid rgba(240,240,236,0.25);color:var(--white-dim);font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-outline-white:hover{border-color:var(--red);color:var(--red)}
+
+/* TICKER */
+.ticker{background:var(--red);overflow:hidden;padding:13px 0}
+.ticker-track{display:flex;gap:48px;animation:ticker 16s linear infinite;white-space:nowrap}
+.ticker-track span{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:16px}
+.ticker-track span::after{content:'✦';opacity:.5}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1fr 1fr;background:var(--dark)}
+.about-content{padding:100px 70px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border)}
+.section-label{font-size:.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'//';color:var(--steel);font-size:.7rem}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3rem,5vw,5.5rem);font-weight:900;text-transform:uppercase;line-height:.92;color:var(--white);margin-bottom:24px;letter-spacing:1px}
+.section-title .red{color:var(--red)}
+.section-title .outline{-webkit-text-stroke:1px var(--white);color:transparent}
+.about-text{font-size:.88rem;line-height:1.9;color:var(--white-dim);font-weight:300;margin-bottom:36px;max-width:440px}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);margin-bottom:40px}
+.about-stat{padding:20px 16px;border-right:1px solid var(--border);text-align:center}
+.about-stat:last-child{border-right:none}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:2.8rem;font-weight:900;color:var(--red);line-height:1}
+.stat-lbl{font-size:.52rem;letter-spacing:3px;text-transform:uppercase;color:var(--steel);margin-top:4px}
+.about-img{position:relative;overflow:hidden}
+.about-img img{width:100%;height:100%;object-fit:cover;display:block;min-height:600px;filter:grayscale(20%);transition:filter .5s,transform .7s}
+.about-img:hover img{filter:grayscale(0%);transform:scale(1.04)}
+.about-img-badge{position:absolute;top:0;right:0;background:var(--red);padding:24px 28px;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--white);line-height:1.8}
+
+/* SERVICES */
+.services{padding:100px 56px;background:var(--black);border-top:1px solid var(--border)}
+.services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.svc-card{background:var(--black);padding:36px 28px;position:relative;overflow:hidden;cursor:none;transition:background .3s}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.svc-card:hover{background:var(--dark2)}
+.svc-card:hover::before{transform:scaleX(1)}
+.svc-num{font-family:'Barlow Condensed',sans-serif;font-size:4rem;font-weight:900;color:rgba(192,57,43,0.06);line-height:1;margin-bottom:-8px}
+.svc-icon{font-size:1.8rem;margin-bottom:16px;display:block}
+.svc-name{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:10px}
+.svc-desc{font-size:.78rem;line-height:1.8;color:var(--white-dim);font-weight:300;margin-bottom:20px}
+.svc-price{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;color:var(--red);display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
+.svc-badge{font-size:.48rem;letter-spacing:2px;text-transform:uppercase;padding:4px 8px;background:var(--red-dim);border:1px solid var(--border-red);color:var(--red)}
+
+/* BARBERS */
+.barbers{padding:100px 56px;background:var(--dark);border-top:1px solid var(--border)}
+.barbers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px}
+.barber-card{background:var(--dark);overflow:hidden;cursor:none;position:relative}
+.barber-img{position:relative;overflow:hidden;aspect-ratio:4/5}
+.barber-img img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(40%);transition:filter .6s,transform .7s}
+.barber-card:hover .barber-img img{filter:grayscale(0%);transform:scale(1.05)}
+.barber-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.9) 0%,transparent 55%);transition:opacity .4s}
+.barber-body{padding:24px 22px;background:var(--dark2);border-top:2px solid var(--red)}
+.barber-name{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:4px}
+.barber-role{font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--red)}
+.barber-exp{font-size:.75rem;color:var(--steel);margin-top:8px;font-weight:300}
+.barber-skills{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.skill-tag{font-size:.5rem;letter-spacing:2px;text-transform:uppercase;padding:4px 8px;border:1px solid var(--border);color:var(--steel)}
+
+/* GALLERY GRID */
+.gallery{display:grid;grid-template-columns:repeat(6,1fr);height:440px;border-top:1px solid var(--border)}
+.gallery-item{overflow:hidden;position:relative;cursor:none}
+.gallery-item:first-child{grid-column:span 2}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(50%);transition:filter .5s,transform .7s}
+.gallery-item:hover img{filter:grayscale(0%);transform:scale(1.08)}
+.gallery-label{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(12,12,12,.85),transparent);font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--white);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.gallery-item:hover .gallery-label{opacity:1;transform:translateY(0)}
+
+/* PRICING */
+.pricing{padding:100px 56px;background:var(--black);border-top:1px solid var(--border)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px}
+.price-card{background:var(--black);padding:48px 36px;position:relative;overflow:hidden;transition:background .3s;cursor:none}
+.price-card.featured{background:var(--red)}
+.price-card.featured .price-name,.price-card.featured .price-amount,.price-card.featured .price-includes li{color:var(--white)}
+.price-card.featured .price-desc,.price-card.featured .price-note{color:rgba(240,240,236,0.7)}
+.price-card.featured .price-includes{border-color:rgba(240,240,236,0.2)}
+.price-card:not(.featured):hover{background:var(--dark2)}
+.price-label{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+.price-card.featured .price-label{color:rgba(240,240,236,0.6)}
+.price-badge{position:absolute;top:20px;right:20px;background:var(--black);color:var(--red);font-size:.48rem;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;font-weight:700}
+.price-name{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:10px}
+.price-desc{font-size:.78rem;line-height:1.7;color:var(--white-dim);font-weight:300;margin-bottom:24px}
+.price-amount{font-family:'Barlow Condensed',sans-serif;font-size:3rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:6px}
+.price-card.featured .price-amount{color:var(--white)}
+.price-note{font-size:.65rem;color:var(--steel);margin-bottom:24px;font-weight:300}
+.price-includes{list-style:none;display:flex;flex-direction:column;gap:10px;padding:20px 0;border-top:1px solid var(--border);margin-bottom:28px}
+.price-includes li{font-size:.78rem;color:var(--white-dim);display:flex;gap:10px;align-items:flex-start;font-weight:300}
+.price-includes li::before{content:'→';color:var(--red);flex-shrink:0;font-size:.7rem;margin-top:1px}
+.price-card.featured .price-includes li::before{color:var(--white)}
+.btn-book-price{display:block;text-align:center;padding:14px;background:transparent;color:var(--red);font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border:2px solid var(--red);transition:all .3s}
+.btn-book-price:hover{background:var(--red);color:var(--white)}
+.price-card.featured .btn-book-price{background:var(--white);color:var(--red);border-color:var(--white)}
+.price-card.featured .btn-book-price:hover{background:var(--black);color:var(--white);border-color:var(--black)}
+
+/* TESTIMONIALS */
+.testimonials{padding:100px 56px;background:var(--dark);border-top:1px solid var(--border)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px}
+.testi-card{background:var(--dark);padding:36px 28px;border-left:3px solid transparent;transition:border-color .3s,background .3s}
+.testi-card:hover{border-left-color:var(--red);background:var(--dark2)}
+.testi-stars{color:var(--red);font-size:.72rem;letter-spacing:3px;margin-bottom:16px}
+.testi-text{font-size:.84rem;line-height:1.8;color:var(--white-dim);font-style:italic;font-weight:300;margin-bottom:20px}
+.testi-line{width:24px;height:2px;background:var(--red);margin-bottom:14px}
+.testi-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white)}
+.testi-info{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--steel);margin-top:4px}
+
+/* BOOKING CTA */
+.booking{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border)}
+.booking-img{position:relative;overflow:hidden}
+.booking-img img{width:100%;height:100%;object-fit:cover;display:block;min-height:580px;filter:grayscale(30%)}
+.booking-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--dark))}
+.booking-content{padding:80px 70px;background:var(--dark);display:flex;flex-direction:column;justify-content:center}
+.booking-eyebrow{font-size:.55rem;letter-spacing:5px;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.booking-eyebrow::before{content:'//';color:var(--steel)}
+.booking-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.5rem,4vw,4.5rem);font-weight:900;text-transform:uppercase;line-height:.92;color:var(--white);margin-bottom:28px;letter-spacing:1px}
+.booking-title .red{color:var(--red)}
+.booking-title .outline{-webkit-text-stroke:1px var(--white);color:transparent}
+.bf{display:flex;flex-direction:column;gap:16px}
+.bf-group{display:flex;flex-direction:column;gap:6px}
+.bf-label{font-size:.52rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);font-weight:500}
+.bf-input,.bf-select{background:var(--white-faint);border:1px solid var(--border);padding:13px 16px;color:var(--white);font-family:'Barlow',sans-serif;font-size:.85rem;font-weight:300;outline:none;transition:border-color .3s;cursor:none}
+.bf-input::placeholder{color:rgba(240,240,236,0.25)}
+.bf-input:focus,.bf-select:focus{border-color:var(--red)}
+.bf-select option{background:var(--dark2);color:var(--white)}
+.bf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.btn-book-form{padding:16px;background:var(--red);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:2px solid var(--red);cursor:none;position:relative;overflow:hidden;transition:color .3s;margin-top:8px}
+.btn-book-form::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.btn-book-form:hover{color:var(--red)}
+.btn-book-form:hover::before{transform:translateX(0)}
+.btn-book-form span{position:relative;z-index:1}
+.bf-note{font-size:.62rem;color:var(--steel);display:flex;align-items:center;gap:6px;font-weight:300}
+.bf-note::before{content:'→';color:var(--red)}
+
+/* INFO */
+.info-bar{background:var(--dark2);border-top:1px solid var(--border);padding:60px 56px;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.info-col{padding:0 32px;border-right:1px solid var(--border)}
+.info-col:first-child{padding-left:0}
+.info-col:last-child{border-right:none}
+.info-label{font-size:.52rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.info-label::before{content:'//';color:var(--steel);font-size:.65rem}
+.info-value{font-size:.82rem;color:var(--white-dim);line-height:1.7;font-weight:300}
+.info-value a{color:var(--white-dim);text-decoration:none;transition:color .3s}
+.info-value a:hover{color:var(--red)}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:2px solid var(--red);padding:70px 56px 36px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:50px}
+.footer-brand{font-family:'Barlow Condensed',sans-serif;font-size:3.5rem;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--white);line-height:.9;margin-bottom:4px}
+.footer-brand .red{color:var(--red)}
+.footer-brand-sub{font-size:.5rem;letter-spacing:5px;text-transform:uppercase;color:var(--steel);margin-bottom:18px}
+.footer-tagline{font-size:.78rem;line-height:1.8;color:rgba(240,240,236,0.35);font-weight:300;max-width:260px;margin-bottom:24px}
+.footer-social{display:flex;gap:8px}
+.footer-social a{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--steel);font-size:.65rem;text-decoration:none;transition:all .3s;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px}
+.footer-social a:hover{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.footer-col h4{font-size:.52rem;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.footer-col h4::before{content:'//';color:var(--steel)}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col a{font-size:.78rem;color:rgba(240,240,236,0.35);text-decoration:none;transition:color .3s;font-weight:300}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+.footer-copy{font-size:.65rem;color:rgba(240,240,236,0.2);font-weight:300;letter-spacing:2px;text-transform:uppercase}
+.footer-credit{font-size:.65rem;color:rgba(240,240,236,0.3);letter-spacing:2px;text-transform:uppercase}
+.footer-credit a{color:var(--red);text-decoration:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}
+
+@media(max-width:1100px){
+  nav{padding:20px 32px}nav.scrolled{padding:14px 32px}
+  .hero-content{padding:0 32px 80px}
+  .about{grid-template-columns:1fr}.about-img{height:420px}.about-img img{min-height:420px}.about-content{padding:70px 48px;border-right:none;border-bottom:1px solid var(--border)}
+  .services{padding:80px 32px}.services-grid{grid-template-columns:1fr 1fr}.services-header{flex-direction:column;align-items:flex-start;gap:16px}
+  .barbers{padding:80px 32px}.barbers-grid{grid-template-columns:1fr 1fr}
+  .gallery{grid-template-columns:repeat(3,1fr);height:auto}.gallery-item{height:220px}.gallery-item:first-child{grid-column:span 1}
+  .pricing{padding:80px 32px}.pricing-grid{grid-template-columns:1fr}
+  .testimonials{padding:80px 32px}.testi-grid{grid-template-columns:1fr}
+  .booking{grid-template-columns:1fr}.booking-img{height:360px}.booking-img img{min-height:360px}.booking-img::after{background:linear-gradient(to top,transparent 60%,var(--dark))}.booking-content{padding:60px 48px}
+  .info-bar{grid-template-columns:1fr 1fr;gap:32px;padding:60px 32px}.info-col{padding:0 0 32px;border-right:none;border-bottom:1px solid var(--border)}
+  footer{padding:60px 32px 32px}.footer-top{grid-template-columns:1fr 1fr;gap:40px}
+}
+@media(max-width:768px){
+  nav{padding:16px 24px}nav.scrolled{padding:12px 24px}
+  .nav-links,.nav-book{display:none}.nav-hamburger{display:flex}
+  .hero-content{padding:0 24px 60px}.hero-bottom{flex-direction:column;align-items:flex-start;gap:20px}
+  .services{padding:60px 24px}.services-grid{grid-template-columns:1fr}
+  .barbers{padding:60px 24px}.barbers-grid{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr 1fr}.gallery-item{height:180px}
+  .pricing{padding:60px 24px}
+  .testimonials{padding:60px 24px}
+  .booking-content{padding:50px 24px}.bf-row{grid-template-columns:1fr}
+  .info-bar{grid-template-columns:1fr;padding:50px 24px}
+  footer{padding:50px 24px 32px}.footer-top{grid-template-columns:1fr;gap:36px}
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕ CLOSE</button>
+  <a href="#services">Services</a>
+  <a href="#barbers">Barbers</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#booking">Book Now</a>
+</div>
+
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-main">The Blade Co.</span>
+    <span class="nav-logo-sub">Premium Barbershop · Surabaya</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#barbers">Barbers</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#booking">Kontak</a></li>
+  </ul>
+  <a class="nav-book" href="#booking">Book Now</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Premium Barbershop · Surabaya</div>
+    <h1>THE<br><span class="outline">BLADE</span><br><span class="red">CO.</span></h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">Bukan sekadar potong rambut. Sebuah ritual — presisi, karakter, dan kepercayaan diri dalam setiap goresan pisau cukur kami.</p>
+      <div class="hero-actions">
+        <a class="btn-red" href="#booking"><span>Book Appointment</span></a>
+        <a class="btn-outline-white" href="#services">Our Services →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Haircut</span><span>Fade & Taper</span><span>Beard Trim</span><span>Hot Towel Shave</span><span>Hair Color</span><span>Scalp Treatment</span><span>Kids Cut</span><span>Walk-In Welcome</span>
+    <span>Haircut</span><span>Fade & Taper</span><span>Beard Trim</span><span>Hot Towel Shave</span><span>Hair Color</span><span>Scalp Treatment</span><span>Kids Cut</span><span>Walk-In Welcome</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="about-content">
+    <div class="section-label reveal">Our Story</div>
+    <h2 class="section-title reveal reveal-d1">
+      WHERE<br>
+      <span class="red">MEN</span><br>
+      <span class="outline">GET SHARP</span>
+    </h2>
+    <p class="about-text reveal reveal-d2">The Blade Co. berdiri dari satu keyakinan sederhana: setiap pria berhak mendapatkan penampilan terbaik versinya sendiri. Dengan tangan terlatih dan teknik presisi, kami bukan hanya memotong rambut — kami membentuk karakter.</p>
+    <div class="about-stats reveal reveal-d3">
+      <div class="about-stat">
+        <div class="stat-num">5+</div>
+        <div class="stat-lbl">Tahun</div>
+      </div>
+      <div class="about-stat">
+        <div class="stat-num">3K+</div>
+        <div class="stat-lbl">Klien</div>
+      </div>
+      <div class="about-stat">
+        <div class="stat-num">4.9★</div>
+        <div class="stat-lbl">Rating</div>
+      </div>
+    </div>
+    <a class="btn-red reveal reveal-d4" href="#booking"><span>Book Your Session →</span></a>
+  </div>
+  <div class="about-img reveal">
+    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=900&q=85" alt="The Blade Co.">
+    <div class="about-img-badge">EST. 2020<br>SURABAYA</div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label reveal">// Services</div>
+      <h2 class="section-title reveal reveal-d1">OUR<br><span class="red">CRAFT</span></h2>
+    </div>
+    <a class="btn-outline-white reveal reveal-d2" href="#pricing">Lihat Harga →</a>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal">
+      <div class="svc-num">01</div>
+      <span class="svc-icon">✂️</span>
+      <div class="svc-name">Haircut</div>
+      <p class="svc-desc">Potong rambut presisi sesuai bentuk wajah dan gaya hidup. Konsultasi gratis setiap sesi.</p>
+      <div class="svc-price">Rp 65.000 <span class="svc-badge">Walk-In</span></div>
+    </div>
+    <div class="svc-card reveal reveal-d1">
+      <div class="svc-num">02</div>
+      <span class="svc-icon">⚡</span>
+      <div class="svc-name">Fade & Taper</div>
+      <p class="svc-desc">Teknik fade mulai dari skin fade, low fade, hingga high fade yang dieksekusi dengan sempurna.</p>
+      <div class="svc-price">Rp 85.000 <span class="svc-badge">Signature</span></div>
+    </div>
+    <div class="svc-card reveal reveal-d2">
+      <div class="svc-num">03</div>
+      <span class="svc-icon">🪒</span>
+      <div class="svc-name">Beard Styling</div>
+      <p class="svc-desc">Shaping, trimming, dan styling jenggot untuk tampilan maskulin yang tegas dan rapi.</p>
+      <div class="svc-price">Rp 55.000</div>
+    </div>
+    <div class="svc-card reveal reveal-d3">
+      <div class="svc-num">04</div>
+      <span class="svc-icon">🔥</span>
+      <div class="svc-name">Hot Towel Shave</div>
+      <p class="svc-desc">Pengalaman cukur klasik dengan hot towel, pre-shave oil, dan straight razor oleh master barber.</p>
+      <div class="svc-price">Rp 95.000 <span class="svc-badge">Premium</span></div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-num">05</div>
+      <span class="svc-icon">🎨</span>
+      <div class="svc-name">Hair Color</div>
+      <p class="svc-desc">Full color, highlight, dan bleach menggunakan produk premium Wella dan Schwarzkopf Professional.</p>
+      <div class="svc-price">Rp 150.000+</div>
+    </div>
+    <div class="svc-card reveal reveal-d1">
+      <div class="svc-num">06</div>
+      <span class="svc-icon">💆</span>
+      <div class="svc-name">Scalp Treatment</div>
+      <p class="svc-desc">Perawatan kulit kepala intensif untuk mengatasi ketombe, rambut rontok, dan scalp kering.</p>
+      <div class="svc-price">Rp 120.000</div>
+    </div>
+    <div class="svc-card reveal reveal-d2">
+      <div class="svc-num">07</div>
+      <span class="svc-icon">👦</span>
+      <div class="svc-name">Kids Cut</div>
+      <p class="svc-desc">Potong rambut anak dengan pendekatan yang sabar dan menyenangkan. Usia 3-12 tahun.</p>
+      <div class="svc-price">Rp 45.000</div>
+    </div>
+    <div class="svc-card reveal reveal-d3">
+      <div class="svc-num">08</div>
+      <span class="svc-icon">👑</span>
+      <div class="svc-name">VIP Package</div>
+      <p class="svc-desc">Haircut + Beard + Hot Towel + Scalp Massage + Hair Wax Styling. Pengalaman premium lengkap.</p>
+      <div class="svc-price">Rp 250.000 <span class="svc-badge">VIP</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BARBERS -->
+<section class="barbers" id="barbers">
+  <div class="section-label reveal">// Our Team</div>
+  <h2 class="section-title reveal reveal-d1">MEET THE<br><span class="red">BARBERS</span></h2>
+  <div class="barbers-grid">
+    <div class="barber-card reveal">
+      <div class="barber-img">
+        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&q=85" alt="Reza">
+        <div class="barber-overlay"></div>
+      </div>
+      <div class="barber-body">
+        <div class="barber-name">Reza "The Razor" Mahendra</div>
+        <div class="barber-role">Master Barber · Founder</div>
+        <div class="barber-exp">12 tahun pengalaman · Jakarta & Surabaya</div>
+        <div class="barber-skills">
+          <span class="skill-tag">Skin Fade</span>
+          <span class="skill-tag">Classic Cut</span>
+          <span class="skill-tag">Straight Shave</span>
+        </div>
+      </div>
+    </div>
+    <div class="barber-card reveal reveal-d1">
+      <div class="barber-img">
+        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&q=85" alt="Dimas">
+        <div class="barber-overlay"></div>
+      </div>
+      <div class="barber-body">
+        <div class="barber-name">Dimas "Dim" Pratama</div>
+        <div class="barber-role">Senior Barber</div>
+        <div class="barber-exp">8 tahun pengalaman · Spesialis Fade</div>
+        <div class="barber-skills">
+          <span class="skill-tag">High Fade</span>
+          <span class="skill-tag">Textured Cut</span>
+          <span class="skill-tag">Beard Art</span>
+        </div>
+      </div>
+    </div>
+    <div class="barber-card reveal reveal-d2">
+      <div class="barber-img">
+        <img src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=600&q=85" alt="Andi">
+        <div class="barber-overlay"></div>
+      </div>
+      <div class="barber-body">
+        <div class="barber-name">Andi "A-Cut" Surya</div>
+        <div class="barber-role">Barber & Color Specialist</div>
+        <div class="barber-exp">6 tahun pengalaman · Wella Certified</div>
+        <div class="barber-skills">
+          <span class="skill-tag">Hair Color</span>
+          <span class="skill-tag">Bleaching</span>
+          <span class="skill-tag">Highlight</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="gallery">
+  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=700&q=85" alt="Barbershop"><div class="gallery-label">The Shop</div></div>
+  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=500&q=85" alt="Barber"><div class="gallery-label">At Work</div></div>
+  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=500&q=85" alt="Cut"><div class="gallery-label">Precision Cut</div></div>
+  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=500&q=85" alt="Fade"><div class="gallery-label">Clean Fade</div></div>
+  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500&q=85" alt="Shave"><div class="gallery-label">Hot Shave</div></div>
+  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=500&q=85" alt="Tools"><div class="gallery-label">The Tools</div></div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label reveal">// Pricing</div>
+  <h2 class="section-title reveal reveal-d1">CHOOSE YOUR<br><span class="red">SESSION</span></h2>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-label">// Basic</div>
+      <div class="price-name">The Classic</div>
+      <p class="price-desc">Untuk yang ingin tampil rapi dan segar dengan layanan dasar terbaik.</p>
+      <div class="price-amount">Rp 65.000</div>
+      <p class="price-note">Per sesi · ±30 menit</p>
+      <ul class="price-includes">
+        <li>Haircut Presisi</li>
+        <li>Hair Wash</li>
+        <li>Hair Styling</li>
+        <li>Neck Shave</li>
+      </ul>
+      <a class="btn-book-price" href="https://wa.me/6281338693093?text=Halo%20The%20Blade%20Co!%20Saya%20mau%20book%20The%20Classic" target="_blank">Book Now →</a>
+    </div>
+    <div class="price-card featured reveal reveal-d1">
+      <div class="price-badge">★ Best Value</div>
+      <div class="price-label">// Popular</div>
+      <div class="price-name">The Sharp</div>
+      <p class="price-desc">Paket paling populer — lengkap untuk tampilan maksimal setiap hari.</p>
+      <div class="price-amount">Rp 150.000</div>
+      <p class="price-note">Per sesi · ±60 menit</p>
+      <ul class="price-includes">
+        <li>Haircut + Fade Presisi</li>
+        <li>Beard Trim & Shape</li>
+        <li>Hair Wash & Blow Dry</li>
+        <li>Hot Towel Treatment</li>
+        <li>Hair Wax Styling</li>
+      </ul>
+      <a class="btn-book-price" href="https://wa.me/6281338693093?text=Halo%20The%20Blade%20Co!%20Saya%20mau%20book%20The%20Sharp" target="_blank">Book Now →</a>
+    </div>
+    <div class="price-card reveal reveal-d2">
+      <div class="price-label">// Premium</div>
+      <div class="price-name">The VIP</div>
+      <p class="price-desc">Pengalaman barbershop premium all-in-one untuk pria yang menghargai kualitas.</p>
+      <div class="price-amount">Rp 250.000</div>
+      <p class="price-note">Per sesi · ±90 menit</p>
+      <ul class="price-includes">
+        <li>Haircut + Fade + Beard Full</li>
+        <li>Hot Towel Straight Shave</li>
+        <li>Scalp Massage Treatment</li>
+        <li>Hair Mask Premium</li>
+        <li>Neck & Shoulder Massage</li>
+        <li>Premium Styling Finish</li>
+      </ul>
+      <a class="btn-book-price" href="https://wa.me/6281338693093?text=Halo%20The%20Blade%20Co!%20Saya%20mau%20book%20The%20VIP" target="_blank">Book Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label reveal">// Client Reviews</div>
+  <h2 class="section-title reveal reveal-d1">WHAT THEY<br><span class="red">SAY</span></h2>
+  <div class="testi-grid">
+    <div class="testi-card reveal reveal-d1">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Fade terbaik yang pernah saya dapatkan di Surabaya. Reza benar-benar tahu cara membaca bentuk kepala dan memberikan hasil yang sempurna. The Sharp package worth it banget!"</p>
+      <div class="testi-line"></div>
+      <div class="testi-name">Fajar Nugroho</div>
+      <div class="testi-info">Regular Client · The Sharp Package</div>
+    </div>
+    <div class="testi-card reveal reveal-d2">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Nyoba VIP Package dan tidak menyesal sama sekali. Hot towel shave-nya luar biasa — pengalaman yang benar-benar berbeda dari barbershop biasa. Tempat-nya juga sangat keren."</p>
+      <div class="testi-line"></div>
+      <div class="testi-name">Budi Santoso</div>
+      <div class="testi-info">VIP Package · Surabaya</div>
+    </div>
+    <div class="testi-card reveal reveal-d3">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Andi sangat jago soal hair color. Minta bleach + highlight dan hasilnya persis seperti referensi yang saya tunjukkan. Tidak perlu revisi, langsung jadi. Highly recommended!"</p>
+      <div class="testi-line"></div>
+      <div class="testi-name">Kevin Hartono</div>
+      <div class="testi-info">Hair Color · Surabaya</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<div class="booking" id="booking">
+  <div class="booking-img">
+    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=85" alt="Book now">
+  </div>
+  <div class="booking-content">
+    <div class="booking-eyebrow">// Book Your Session</div>
+    <h2 class="booking-title">
+      GET<br>
+      <span class="red">SHARP</span><br>
+      <span class="outline">TODAY</span>
+    </h2>
+    <form class="bf" onsubmit="submitBooking(event)">
+      <div class="bf-row">
+        <div class="bf-group"><label class="bf-label">Nama</label><input class="bf-input" type="text" id="bName" placeholder="Nama kamu" required></div>
+        <div class="bf-group"><label class="bf-label">No. WA</label><input class="bf-input" type="tel" id="bPhone" placeholder="08xx" required></div>
+      </div>
+      <div class="bf-group"><label class="bf-label">Barber</label>
+        <select class="bf-select" id="bBarber">
+          <option>Reza – Master Barber</option>
+          <option>Dimas – Senior Barber</option>
+          <option>Andi – Color Specialist</option>
+          <option>Siapapun yang tersedia</option>
+        </select>
+      </div>
+      <div class="bf-group"><label class="bf-label">Layanan</label>
+        <select class="bf-select" id="bService">
+          <option>The Classic (Rp 65.000)</option>
+          <option>The Sharp Package (Rp 150.000)</option>
+          <option>The VIP Package (Rp 250.000)</option>
+          <option>Haircut Only (Rp 65.000)</option>
+          <option>Fade & Taper (Rp 85.000)</option>
+          <option>Hot Towel Shave (Rp 95.000)</option>
+          <option>Hair Color (Rp 150.000+)</option>
+          <option>Beard Styling (Rp 55.000)</option>
+        </select>
+      </div>
+      <div class="bf-row">
+        <div class="bf-group"><label class="bf-label">Tanggal</label><input class="bf-input" type="date" id="bDate" required></div>
+        <div class="bf-group"><label class="bf-label">Jam</label>
+          <select class="bf-select" id="bTime">
+            <option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option>
+            <option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option>
+            <option>17:00</option><option>18:00</option><option>19:00</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn-book-form"><span>BOOK via WhatsApp →</span></button>
+      <p class="bf-note">Konfirmasi dalam 15 menit</p>
+    </form>
+  </div>
+</div>
+
+<!-- INFO BAR -->
+<div class="info-bar">
+  <div class="info-col reveal">
+    <div class="info-label">Alamat</div>
+    <div class="info-value">Jl. Darmo Permai No. 8<br>Surabaya, Jawa Timur 60226</div>
+  </div>
+  <div class="info-col reveal reveal-d1">
+    <div class="info-label">Jam Buka</div>
+    <div class="info-value">Senin – Sabtu: 09:00 – 21:00<br>Minggu: 10:00 – 18:00</div>
+  </div>
+  <div class="info-col reveal reveal-d2">
+    <div class="info-label">Kontak</div>
+    <div class="info-value"><a href="tel:+6281338693093">+62 813-3869-3093</a><br><a href="https://wa.me/6281338693093">WhatsApp</a></div>
+  </div>
+  <div class="info-col reveal reveal-d3">
+    <div class="info-label">Fasilitas</div>
+    <div class="info-value">WiFi · Parking · AC<br>Walk-In Welcome · Kids Friendly</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">THE<br><span class="red">BLADE</span><br>CO.</div>
+      <div class="footer-brand-sub">Premium Barbershop · Surabaya</div>
+      <p class="footer-tagline">Where men get sharp. Karena penampilan terbaik dimulai dari kepercayaan diri yang sesungguhnya.</p>
+      <div class="footer-social">
+        <a href="#">IG</a><a href="#">TT</a><a href="https://wa.me/6281338693093">WA</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Haircut & Fade</a></li>
+        <li><a href="#services">Beard Styling</a></li>
+        <li><a href="#services">Hot Towel Shave</a></li>
+        <li><a href="#services">Hair Color</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#barbers">Our Barbers</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="https://wa.me/6281338693093">WhatsApp</a></li>
+        <li><a href="#booking">09:00 – 21:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 The Blade Co. · All rights reserved</p>
+    <p class="footer-credit">Website by <a href="https://riusdev.github.io">RiusDev</a></p>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='56px';ring.style.height='56px';ring.style.borderRadius='0'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='38px';ring.style.height='38px';ring.style.borderRadius='0'});
+});
+
+// Nav
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>80));
+
+// Mobile menu
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+
+// Reveal
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
+reveals.forEach(el=>obs.observe(el));
+
+// Booking WA
+function submitBooking(e){
+  e.preventDefault();
+  const name=document.getElementById('bName').value;
+  const phone=document.getElementById('bPhone').value;
+  const barber=document.getElementById('bBarber').value;
+  const service=document.getElementById('bService').value;
+  const date=document.getElementById('bDate').value;
+  const time=document.getElementById('bTime').value;
+  const msg=`Halo The Blade Co! ✂️\n\nSaya mau booking:\n\n👤 Nama: ${name}\n📱 WA: ${phone}\n💈 Barber: ${barber}\n✂️ Layanan: ${service}\n📅 Tanggal: ${date||'-'}\n🕐 Jam: ${time}\n\nMohon konfirmasinya. Thanks!`;
+  window.open('https://wa.me/6281338693093?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body>
+</html>
